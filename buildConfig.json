@@ -1,0 +1,21 @@
+{
+    "ts": {
+        "src" : ["app.ts"],
+        "dest" : "package/"
+    },
+    
+    "images" : {
+        "src" : "assets/images/**/*",
+        "dest" : "package/assets/images/"
+    },
+    
+    "fonts" : {
+        "src" : "assets/fonts/**/*",
+        "dest" : "package/assets/fonts/"
+    },
+    
+    "bower_components" : {
+        "src" : ["bower_components/jquery/dist/jquery.js", "bower_components/angular/angular.js", "bower_components/bootstrap/dist/js/bootstrap.js", "bower_components/bootstrap/dist/fonts/*", "bower_components/bootstrap/dist/css/bootstrap.css"],
+        "dest" : "package/"
+    }
+}
