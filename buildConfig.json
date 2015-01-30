@@ -1,21 +1,30 @@
 {
-    "ts": {
-        "src" : ["app.ts"],
-        "dest" : "package/"
-    },
-    
-    "images" : {
-        "src" : "assets/images/**/*",
-        "dest" : "package/assets/images/"
-    },
-    
-    "fonts" : {
-        "src" : "assets/fonts/**/*",
-        "dest" : "package/assets/fonts/"
-    },
-    
-    "bower_components" : {
-        "src" : ["bower_components/jquery/dist/jquery.js", "bower_components/angular/angular.js", "bower_components/bootstrap/dist/js/bootstrap.js", "bower_components/bootstrap/dist/fonts/*", "bower_components/bootstrap/dist/css/bootstrap.css"],
-        "dest" : "package/"
-    }
+  "styles": {
+    "src": "styles/app.css",
+    "dest": "package/"
+  },
+  "ts": {
+    "src" : ["src/**/*.ts", "Typings/**/*"],
+    "dest" : "package/src/"
+  },
+
+  "images" : {
+    "src" : "assets/images/**/*",
+    "dest" : "package/"
+  },
+
+  "fonts" : {
+    "src" : "assets/fonts/**/*",
+    "dest" : "package/"
+  },
+
+  "bower_components" : {
+    "src" : ["bower_components/jquery/dist/jquery.js",
+      "bower_components/angular/angular.js",
+      "bower_components/bootstrap/dist/js/bootstrap.js",
+      "bower_components/bootstrap/dist/fonts/*",
+      "bower_components/bootstrap/dist/css/bootstrap.css*",
+      "bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"],
+    "dest" : "package/"
+  }
 }
