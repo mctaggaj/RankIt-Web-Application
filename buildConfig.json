@@ -3,10 +3,16 @@
     "src": "styles/app.css",
     "dest": "package/"
   },
+
   "ts": {
     "src" : ["src/**/*.ts", "Typings/**/*"],
     "dest" : "package/src/"
   },
+  "partials": {
+    "src" : "src/**/*.html",
+    "dest" : "package/src/"
+  },
+
 
   "images" : {
     "src" : "assets/images/**/*",
@@ -21,6 +27,7 @@
   "bower_components" : {
     "src" : ["bower_components/jquery/dist/jquery.js",
       "bower_components/angular/angular.js",
+      "bower_components/angular-route/angular-route.js",
       "bower_components/bootstrap/dist/js/bootstrap.js",
       "bower_components/bootstrap/dist/fonts/*",
       "bower_components/bootstrap/dist/css/bootstrap.css*",

@@ -3,6 +3,8 @@ var config = require('./buildConfig.json');
 var concat = require('gulp-concat');
 var ts = require('gulp-typescript');
 var sourcemaps = require('gulp-sourcemaps');
+var ngHtml2Js = require("gulp-ng-html2js");
+var watch = require('gulp-watch');
 
 
 var complileTs = function (source, dest) {
@@ -22,6 +24,16 @@ gulp.task('copy-index-html', function() {
     gulp.src('./index.html')
         .pipe(gulp.dest('./package'));
 });
+
+gulp.task('html2js', function () {
+    gulp.src(config.partials.src)
+        .pipe(ngHtml2Js({
+            moduleName: "app-partials",
+            prefix: "/src/"
+        }))
+        .pipe(concat("partials.js"))
+        .pipe(gulp.dest("package/src"));
+})
 
 gulp.task('copy-styles', function() {
     gulp.src(config.styles.src,{ base: './' })
@@ -49,5 +61,12 @@ gulp.task('build-ts', function() {
     }
 );
 
-gulp.task('default', ["build-ts", "copy-index-html", "copy-images", "copy-fonts","copy-bower-components", "copy-styles"]
+gulp.task('watch', function () {
+    gulp.watch(config.ts.src, ['build-ts']);
+    gulp.watch(config.styles.src, ['copy-styles']);
+    gulp.watch('./index.html', ['copy-index-html']);
+    gulp.watch(config.partials.src, ['html2js']);
+});
+
+gulp.task('default', ["build-ts", "copy-index-html", "html2js", "copy-images", "copy-fonts","copy-bower-components", "copy-styles"]
 );
