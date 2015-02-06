@@ -14,6 +14,7 @@ module App.Shell {
             $scope.message="Hello World!!";
         }
     }
+
     angular.module(ShellController.moduleId, []).
         controller(ShellController.controllerName, ShellController);
 }

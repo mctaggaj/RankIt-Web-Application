@@ -17,6 +17,7 @@
     <!-- In production use:
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>-->
     <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 </head>
 <body ng-app="App" ng-controller="ShellController">
@@ -55,19 +56,13 @@
     </div><!-- /.container-fluid -->
 </nav>
 
-<!--[if lt IE 7]>
-<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-<![endif]-->
-<div class="col-12 container">
-    <div class="jumbotron">
-        <h1>{{message}}</h1>
-        <p>...</p>
-        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
-    </div>
+<div class="main-view container" ng-view="main">
+    loading...
 </div>
 
 <!--  <script src="bower_components/angular-route/angular-route.js"></script>-->
 <script src="src/app.js"></script>
+<script src="src/partials.js"></script>
 
 </body>
 </html>
