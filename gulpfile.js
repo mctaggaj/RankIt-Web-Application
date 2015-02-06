@@ -68,5 +68,6 @@ gulp.task('watch', function () {
     gulp.watch(config.partials.src, ['html2js']);
 });
 
-gulp.task('default', ["build-ts", "copy-index-html", "html2js", "copy-images", "copy-fonts","copy-bower-components", "copy-styles"]
-);
+gulp.task("build", ["build-ts", "copy-index-html", "html2js", "copy-images", "copy-fonts","copy-bower-components", "copy-styles"]);
+
+gulp.task('default', ["build", "watch"]);
