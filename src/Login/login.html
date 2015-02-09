@@ -1,1 +1,43 @@
-Login view
+<style>
+.login-container {
+	position:relative;
+	margin-left:auto;
+	margin-right:auto;
+	margin-top:10%;
+	max-width:500px;
+	box-shadow: 0 0 2px black;
+}
+
+.input {
+	font-size:6em;
+}
+
+.input {
+	height:4em;
+}
+
+.form-horizontal {
+	margin-left:auto;
+	margin-right:auto;
+	max-width: 450px;
+	padding: 3em;
+
+}
+
+</style>
+
+
+<div class="login-container">
+<form class="form-horizontal">
+  <div class="form-group form-group-lg">
+      <input type="email" class="form-control input-lg" id="inputEmail3" placeholder="Email" ng-model="credentials.email">
+  </div>
+  <div class="form-group form-group-lg">
+      <input type="password" class="form-control input-lg" id="inputPassword3" placeholder="Password" ng-model="credentials.password">
+  </div>
+  <div class="form-group form-group-lg">
+      <button type="submit" class="btn-lg btn-primary btn-block" ng-click="login()">Log in</button>
+      <a href="#/register" type="submit" ng-click="register()" class="btn btn-default btn-block">Register</a>
+  </div>
+</form>
+</div>
