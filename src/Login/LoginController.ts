@@ -22,10 +22,8 @@ module App.Login {
         public static controllerId = "LoginController";
         public static moduleId = Login.moduleId + "." + LoginController.controllerId;
 
-        public static $inject = ["$scope", Nav.NavService.serviceId];
-        constructor ($scope: ILoginControllerShell, navService: Nav.NavService) {
-            this.navService = navService;
-            this.navService.addItem({route:"#/login", name: "Login", order: 2});
+        public static $inject = ["$scope"];
+        constructor ($scope: ILoginControllerShell) {
 
             $scope.credentials = {email:"", password:""};
             $scope.message="Hello Login Page!!";
@@ -34,24 +32,22 @@ module App.Login {
                 console.log(data);
             };
         }
-
-
-
-        public navService: Nav.NavService;
     }
 
     angular.module(LoginController.moduleId, [Nav.NavService.moduleId]).
         controller(LoginController.controllerId, LoginController)
-        .config(["$routeProvider", ($routeProvider: ng.route.IRouteProvider) => {
-            $routeProvider.when("/login", {
+        .config(["$stateProvider", ($routeProvider: ng.ui.IStateProvider) => {
+            $routeProvider.state("login", {
                 templateUrl: Login.baseUrl+'login.html',
-                controller: LoginController.controllerId
-            }).when("/register", {
+                controller: LoginController.controllerId,
+                url: "/login"
+            }).state("register", {
                 templateUrl: Login.baseUrl+'register.html',
-                controller: LoginController.controllerId
+                controller: LoginController.controllerId,
+                url: "/register"
             })
-            .otherwise({
-                redirectTo: '/home'
-            })
+        }])
+        .run([Nav.NavService.serviceId, (navService: Nav.NavService) => {
+            navService.addItem({state:"login", name: "Login", order: 2});
         }]);
 }
