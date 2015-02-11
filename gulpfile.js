@@ -5,6 +5,7 @@ var ts = require('gulp-typescript');
 var sourcemaps = require('gulp-sourcemaps');
 var ngHtml2Js = require("gulp-ng-html2js");
 var watch = require('gulp-watch');
+var less = require('gulp-less');
 
 
 var complileTs = function (source, dest) {
@@ -37,6 +38,7 @@ gulp.task('html2js', function () {
 
 gulp.task('copy-styles', function() {
     gulp.src(config.styles.src,{ base: './' })
+        .pipe(less())
         .pipe(gulp.dest(config.styles.dest));
 });
 
