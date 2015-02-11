@@ -3,7 +3,7 @@ module App.Nav {
 
     interface INavItem {
         name: string;
-        route: string;
+        state: string;
         order: number;
         icon?: string;
 

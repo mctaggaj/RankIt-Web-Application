@@ -9,26 +9,26 @@ module App.Home {
         public static controllerId = "HomeController";
         public static moduleId = Home.moduleId + "." + HomeController.controllerId;
 
-        public static $inject = ["$scope", Nav.NavService.serviceId];
-        constructor ($scope: IHomeControllerShell, navService: Nav.NavService) {
-            this.navService = navService;
-            this.navService.addItem({route:"/home", name: "Home", order: 0});
-            this.navService.addItem({route:"/home", name: "Other", order: 1000});
+        public static $inject = ["$scope"];
+        constructor ($scope: IHomeControllerShell) {
             $scope.message="Hello World!!";
         }
-
-        public navService: Nav.NavService;
     }
 
     angular.module(HomeController.moduleId, [Nav.NavService.moduleId]).
         controller(HomeController.controllerId, HomeController)
-        .config(["$routeProvider", ($routeProvider: ng.route.IRouteProvider) => {
-            $routeProvider.when("/home", {
+        .config(["$stateProvider", ($routeProvider: ng.ui.IStateProvider) => {
+            $routeProvider.state("home", {
                 templateUrl: Home.baseUrl+'home.html',
-                controller: HomeController.controllerId
+                controller: HomeController.controllerId,
+                url: "/home"
             })
-            .otherwise({
-                redirectTo: '/home'
-            })
+        }])
+        .config(["$urlRouterProvider", ($urlRouterProvider: ng.ui.IUrlRouterProvider) => {
+            $urlRouterProvider.otherwise("/home")
+        }])
+        .run([Nav.NavService.serviceId, function (navService: Nav.NavService) {
+            navService.addItem({state:"home", name: "Home", order: 0});
+
         }]);
 }
