@@ -1,5 +1,6 @@
 /// <reference path="AppGlobals.ts"/>
 /// <reference path="Nav/NavModule.ts"/>
+/// <reference path="Auth/AuthModule.ts"/>
 /// <reference path="Shell/ShellModule.ts"/>
 /// <reference path="Home/HomeModule.ts"/>
 /// <reference path="Login/LoginModule.ts"/>
