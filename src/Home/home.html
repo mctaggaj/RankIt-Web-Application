@@ -1,51 +1,15 @@
-<div class="row top-push">
+<div class="row top-push" ng-repeat="comp in competitions">
     <div class="col-xs-12">
         <accordion>
             <accordion-group>
                 <accordion-heading>
-                    Sample Competition Name
-                    <h1>In Progress</h1>
+                    <h2>{{comp.name}} - {{comp.description}}</h2>
+                    <p>In Progress</p>
                 </accordion-heading>
-                This would also come from angular
-            </accordion-group>
-        </accordion>
-    </div>
-</div>
-<div class="row top-push">
-    <div class="col-xs-12">
-        <accordion>
-            <accordion-group>
-                <accordion-heading>
-                    Sample Competition Name
-                    <h1>In Progress</h1>
-                </accordion-heading>
-                This would also come from angular
-            </accordion-group>
-        </accordion>
-    </div>
-</div>
-<div class="row top-push">
-    <div class="col-xs-12">
-        <accordion>
-            <accordion-group>
-                <accordion-heading>
-                    Sample Competition Name
-                    <h1>In Progress</h1>
-                </accordion-heading>
-                This would also come from angular
-            </accordion-group>
-        </accordion>
-    </div>
-</div>
-<div class="row top-push">
-    <div class="col-xs-12">
-        <accordion>
-            <accordion-group>
-                <accordion-heading>
-                    Sample Competition Name
-                    <h1>In Progress</h1>
-                </accordion-heading>
-                This would also come from angular
+                <h4>Taking place at {{comp.location}}</h4>
+                <p>Competing in: {{comp.subject}}</p>
+                <h2>Stream</h2>
+                <iframe src="{{comp.streamURL}}" ng-if="comp.streamURL" frameborder="0" scrolling="no" height="378" width="620"></iframe>
             </accordion-group>
         </accordion>
     </div>
