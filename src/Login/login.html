@@ -1,35 +1,12 @@
-<style>
-.login-container {
-	position:relative;
-	margin-left:auto;
-	margin-right:auto;
-	margin-top:10%;
-	max-width:500px;
-}
-
-.login-container>.jumbotron {
-    box-shadow: 2px 2px 2px 1px #333;
-    padding: 3em;
-    background: rgba(238,238,238,0.95);
-}
-
-input {
-	font-size:6em;
-    height:4em;
-}
-
-</style>
-
-
-<div class="login-container">
-<form class="jumbotron" ng-submit="login()">
-  <div class="form-group form-group-lg">
-      <input type="email" class="form-control input-lg" id="inputEmail3" placeholder="Email" ng-model="credentials.email" ng-required="true">
-  </div>
-  <div class="form-group form-group-lg">
-      <input type="password" class="form-control input-lg" id="inputPassword3" placeholder="Password" ng-model="credentials.password" ng-required="true">
-  </div>
-      <button type="submit" class="btn-lg btn-primary btn-block">Log in</button>
-      <a href="#/register" type="submit" ng-click="register()" class="btn btn-default btn-block">Register</a>
-</form>
+<div class="login-container" id="login">
+    <form class="jumbotron panel" ng-submit="login()">
+        <div class="form-group form-group-lg">
+            <input type="email" class="form-control input-lg" id="inputEmail3" placeholder="Email" ng-model="credentials.email" ng-required="true">
+        </div>
+        <div class="form-group form-group-lg">
+            <input type="password" class="form-control input-lg" id="inputPassword3" placeholder="Password" ng-model="credentials.password" ng-required="true">
+        </div>
+        <button type="submit" class="btn-lg btn-primary btn-block">Log in</button>
+        <a href="#/register" type="submit" ng-click="register()" class="btn btn-default btn-block">Register</a>
+    </form>
 </div>
