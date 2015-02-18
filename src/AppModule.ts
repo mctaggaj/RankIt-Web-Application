@@ -1,15 +1,11 @@
 /// <reference path="AppGlobals.ts"/>
 /// <reference path="Nav/NavModule.ts"/>
 /// <reference path="Auth/AuthModule.ts"/>
+/// <reference path="Data/DataModule.ts"/>
 /// <reference path="Shell/ShellModule.ts"/>
 /// <reference path="Home/HomeModule.ts"/>
 /// <reference path="Login/LoginModule.ts"/>
 module App {
-    var subMod = App.getChildModuleIds(App);
-    var dep = ["ui.bootstrap", "ui.router", "app-partials"]
-    for (var i = 0; i < subMod.length; i++)
-    {
-        dep.push(subMod[i]);
-    }
+    var dep = App.getChildModuleIds(App,["ui.bootstrap", "ui.router", "app-partials"]);
     angular.module(App.moduleId, dep);
 }

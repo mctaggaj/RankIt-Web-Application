@@ -25,8 +25,8 @@ module App {
      * @param object the parent modules
      * @returns module ids of child modules
      */
-    export function getChildModuleIds(object: IModule):string[] {
-        var dep: string[] = [];
+    export function getChildModuleIds(object: IModule, dep?: string[]):string[] {
+        var dep: string[] = dep||[];
         for (var property in object) {
             if (object.hasOwnProperty(property)&&object[property].hasOwnProperty("moduleId")) {
                 dep.push((<IModule>object[property]).moduleId)

@@ -3,52 +3,29 @@ module App.Home {
 
     interface IHomeControllerShell extends ng.IScope{
         message: string;
-        competitions:any[];
+        competitions:RankIt.ICompetition[];
     }
 
     export class HomeController {
         public static controllerId = "HomeController";
         public static moduleId = Home.moduleId + "." + HomeController.controllerId;
 
-        public static $inject = ["$scope","$sce"];
-        constructor ($scope: IHomeControllerShell, $sce:any) {
+        public static $inject = ["$scope",Data.DataService.serviceId];
+        constructor ($scope: IHomeControllerShell, dataService:Data.DataService) {
             $scope.message="Hello World!!";
-            $scope.competitions=[{
-                "competitionId": "c1",
-                "name": "Mario Cup",
-                "subject": "Mario Cart",
-                "description": "May the best nerd win",
-                "location": "Jason's House",
-                "public": true,
-                "results": "[]",
-                "state": "In Progress",
-            },{
-                "competitionId": "c2",
-                "name": "3760 Meeting Event",
-                "subject": "Class!",
-                "description": "I hope Denis likes it!",
-                "location": "Denis' Office",
-                "public": true,
-                "results": "[]",
-                "state": "In Progress",
-            },{
-                "competitionId": "c3",
-                "name": "Test",
-                "subject": "Test",
-                "description": "Twitch Stream Test",
-                "location": "Test",
-                "public": true,
-                "results": "[]",
-                "state": "In Progress",
-                "streamURL": $sce.trustAsResourceUrl("http://www.twitch.tv/fragbitelive/embed")
-            }];
+            $scope.competitions=[];
+            dataService.getAllComps().then((data: RankIt.ICompetition[]) => {
+                $scope.competitions = data;
+            }, (failure: any) => {
+
+            });
         }
     }
 
     angular.module(HomeController.moduleId, [Nav.NavService.moduleId]).
         controller(HomeController.controllerId, HomeController)
         .config(["$stateProvider", ($routeProvider: ng.ui.IStateProvider) => {
-            $routeProvider.state("home", {
+            $routeProvider.state(Home.state, {
                 templateUrl: Home.baseUrl+'home.html',
                 controller: HomeController.controllerId,
                 url: "/home"
@@ -58,7 +35,7 @@ module App.Home {
             $urlRouterProvider.otherwise("/home")
         }])
         .run([Nav.NavService.serviceId, function (navService: Nav.NavService) {
-            navService.addItem({state:"home", name: "Home", order: 0});
+            navService.addItem({state:Home.state, name: "Home", order: 0});
 
         }]);
 }
