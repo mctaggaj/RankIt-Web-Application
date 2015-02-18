@@ -1,5 +1,6 @@
-/// <reference path="AuthGlobals.ts" />
-/// <reference path="AuthService.ts" />
+/// <reference path="AuthGlobals.ts"/>
+/// <reference path="AuthService.ts"/>
+
 module App.Auth {
     /**
      * The list of child modules
@@ -7,6 +8,6 @@ module App.Auth {
      */
     var dep = App.getChildModuleIds(Auth);
 
-    // Makes App.Nav module
+    // Makes App.Auth module
     angular.module(Auth.moduleId, dep);
 }

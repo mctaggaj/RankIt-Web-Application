@@ -14,32 +14,42 @@ module App.Auth {
      */
     interface IHttpLoginResolve {
         /**
-         * The username
+         * The auth object
          */
-        userName: string;
+        auth : {
 
-        /**
-         * The user Id
-         */
-        userId: string;
+            /**
+             * The username
+             */
+            userName: string;
 
-        /**
-         * The authentication token
-         */
-        userToken: string;
-    }
+            /**
+             * The user Id
+             */
+            userId: string;
 
-    interface IHttpLoginError {
-        reason: string;
+            /**
+             * The authentication token
+             */
+            token: string;
+        }
     }
 
     /**
-     * Handles user authentication and current user
+     * The shape of the promise resolution object.
+     */
+    interface IHttpLoginError {
+        description: string;
+    }
+
+    /**
+     * Handles user authentication and current user state
      */
     export class AuthService {
-        public static serviceId = "AuthService"
+        public static serviceId = "AuthenticationService";
         public static moduleId = App.moduleId + "." + AuthService.serviceId;
-        public static $inject: string[] = ["$http", "$q", "localStorageService"];
+        public static $inject: string[] = ["$http", "$q", "localStorageService", "authService"];
+
 
         /**
          * The http service
@@ -57,12 +67,22 @@ module App.Auth {
         private localStorageService: ng.localStorage.ILocalStorageService;
 
         /**
-         * Creates a new =AuthService
+         * The service that handles 401 and 403 errors
          */
-        constructor ($http: ng.IHttpService, $q: ng.IQService, localStorageService: ng.localStorage.ILocalStorageService) {
+        private httpAuthService : ng.httpAuth.IAuthService;
+
+        /**
+         * Creates a new AuthService
+         */
+        constructor ($http: ng.IHttpService, $q: ng.IQService, localStorageService: ng.localStorage.ILocalStorageService, httpAuthService: ng.httpAuth.IAuthService) {
             this.$http = $http;
             this.$q = $q;
             this.localStorageService = localStorageService;
+            this.httpAuthService = httpAuthService;
+
+            if (this.isLoggedIn()) {
+                this.setToken(this.getToken());
+            }
         }
 
         /**
@@ -70,33 +90,36 @@ module App.Auth {
          * @param userName
          * @param password
          */
-        public login = (userName: string, password: string): ng.IDeferred<ILoginResponse> => {
+        public login = (userName: string, password: string): ng.IPromise<ILoginResponse> => {
             this.clearAuthData();
             var defered = this.$q.defer();
-            this.$http.post("/api/authenticate", {userName: userName, password: password})
+            this.$http.post("/api/authentication", {userName: userName, password: password})
                 .then(
                 (response: ng.IHttpPromiseCallbackArg<IHttpLoginResolve>) => {
-                    this.setAuthData(response.data.userName,response.data.userId,response.data.userToken)
+                    this.setAuthData(response.data.auth.userName,response.data.auth.userId,response.data.auth.token)
                     defered.resolve({
                         reason: null
                     });
+                    this.$http.get("api/competitions");
                 },
                 (response: ng.IHttpPromiseCallbackArg<IHttpLoginError>) => {
                     defered.reject({
-                        reason: response.data.reason
+                        reason: response.data.description
                     });
                 });
-            return defered;
+            return defered.promise;
         }
 
         /**
          * Logs the current user out
          */
-        private logout = (): void => {
+        public logout = (): void => {
             this.clearAuthData();
         }
 
-
+        /**
+         * @returns {boolean} true if currently logged in false if logged out
+         */
         public isLoggedIn = (): any => {
             return (this.getUserName()
             && this.getUserId()
@@ -118,25 +141,47 @@ module App.Auth {
         }
 
         /**
+         * Sets the token, and reties failed requests
+         * @param token
+         */
+        private setToken = (token : String) => {
+            this.localStorageService.set(Auth.LS_UserToken, token);
+            if (token) {
+                this.$http.defaults.headers.common.token = token;
+                this.httpAuthService.loginConfirmed();
+            }
+            else {
+                this.$http.defaults.headers.common.token = undefined;
+                this.httpAuthService.loginCancelled();
+            }
+        }
+
+        /**
          * @returns {string} the auth token
          */
         public getToken = (): string => {
             return this.localStorageService.get(Auth.LS_UserToken);
         }
 
-
+        /**
+         * Clears the authentication data
+         */
         private clearAuthData = () => {
             this.localStorageService.remove(Auth.LS_UserName);
             this.localStorageService.remove(Auth.LS_UserId);
             this.localStorageService.remove(Auth.LS_UserToken);
         }
 
-
+        /**
+         * Sets the authentication data
+         * @param userName The user name of the user
+         * @param userId the user id of the user
+         * @param userToken the session token
+         */
         private setAuthData = (userName: string, userId: string, userToken: string) => {
-
             this.localStorageService.set(Auth.LS_UserName, userName);
             this.localStorageService.set(Auth.LS_UserId, userId);
-            this.localStorageService.set(Auth.LS_UserToken, userToken);
+            this.setToken(userToken);
         }
 
     }
@@ -144,6 +189,9 @@ module App.Auth {
     /**
      * Angular and service registration
      */
-    angular.module(AuthService.moduleId, ["LocalStorageModule"])
+    angular.module(AuthService.moduleId, ["LocalStorageModule", "http-auth-interceptor"])
         .service(AuthService.serviceId, AuthService)
+
+
+
 }

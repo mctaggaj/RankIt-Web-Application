@@ -3,7 +3,7 @@ module App.Login {
 
     interface ILoginControllerShell extends ng.IScope{
         message: string;
-        login: any;
+        login: (username: string, password: string) => void;
         changeView: any;
         credentials: {
             email: string
@@ -21,16 +21,31 @@ module App.Login {
     export class LoginController {
         public static controllerId = "LoginController";
         public static moduleId = Login.moduleId + "." + LoginController.controllerId;
+        public static $inject = ["$scope", "$state", Auth.AuthService.serviceId];
 
-        public static $inject = ["$scope"];
-        constructor ($scope: ILoginControllerShell) {
+        private authService: Auth.AuthService;
+        private $state: ng.ui.IStateService;
+        private credentials = {
+            email: "",
+            password: ""
+        }
+        constructor ($scope: ILoginControllerShell, $state: ng.ui.IStateService, authService: Auth.AuthService) {
+            this.authService = authService;
+            this.$state = $state;
 
-            $scope.credentials = {email:"", password:""};
-            $scope.message="Hello Login Page!!";
+            $scope.credentials = this.credentials;
 
-            $scope.login =  function(data){
-                console.log(data);
-            };
+            $scope.login =  this.login;
+        }
+        private login = () => {
+            this.authService.login(this.credentials.email,this.credentials.password)
+                .then((response : Auth.ILoginResponse) => {
+                    // Sucess
+                    this.$state.go(Home.state);
+                }, (response : Auth.ILoginResponse) => {
+                    // Failure
+
+                });
         }
     }
 
@@ -46,8 +61,5 @@ module App.Login {
                 controller: LoginController.controllerId,
                 url: "/register"
             })
-        }])
-        .run([Nav.NavService.serviceId, (navService: Nav.NavService) => {
-            navService.addItem({state:"login", name: "Login", order: 2});
         }]);
 }
