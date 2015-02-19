@@ -64,7 +64,7 @@ module App.Login {
                     this.$state.go(Home.state);
                 }, (response : Auth.ILoginResponse) => {
                     // Failure
-                    console.log(this.info.email)
+                    console.log(response)
                 });
         };
 
@@ -73,6 +73,15 @@ module App.Login {
                 this.scope.loginMode = false;
                 return
             }
+
+            this.authService.register(this.scope.info.email, this.scope.info.password)
+                .then((response : Auth.ILoginResponse) => {
+                    // Sucess
+                    this.$state.go(Home.state);
+                }, (response : Auth.ILoginResponse) => {
+                    // Failure
+                    console.log(response)
+                });
         }
         
     }

@@ -16,7 +16,7 @@ module App.Auth {
         /**
          * The auth object
          */
-        auth : {
+        // auth : {
 
             /**
              * The username
@@ -32,14 +32,14 @@ module App.Auth {
              * The authentication token
              */
             token: string;
-        }
+        // }
     }
 
     /**
      * The shape of the promise resolution object.
      */
     interface IHttpLoginError {
-        description: string;
+        msg: string;
     }
 
     /**
@@ -96,7 +96,7 @@ module App.Auth {
             this.$http.post("/api/authentication", {userName: userName, password: password})
                 .then(
                 (response: ng.IHttpPromiseCallbackArg<IHttpLoginResolve>) => {
-                    this.setAuthData(response.data.auth.userName,response.data.auth.userId,response.data.auth.token)
+                    this.setAuthData(response.data.userName, response.data.userId,response.data.token)
                     defered.resolve({
                         reason: null
                     });
@@ -104,7 +104,32 @@ module App.Auth {
                 },
                 (response: ng.IHttpPromiseCallbackArg<IHttpLoginError>) => {
                     defered.reject({
-                        reason: response.data.description
+                        reason: response.data.msg
+                    });
+                });
+            return defered.promise;
+        }
+
+        /**
+         * Registers a new user
+         * @Author Tim
+         * @param userName
+         * @param password
+         */
+        public register = (userName: string, password: string): ng.IPromise<ILoginResponse> => {
+            this.clearAuthData();
+            var defered = this.$q.defer();
+            this.$http.post("/api/users", {userName: userName, password: password})
+                .then(
+                (response: ng.IHttpPromiseCallbackArg<IHttpLoginResolve>) => {
+                    this.setAuthData(response.data.userName,response.data.userId,response.data.token)
+                    defered.resolve({
+                        reason: null
+                    });
+                },
+                (response: ng.IHttpPromiseCallbackArg<IHttpLoginError>) => {
+                    defered.reject({
+                        reason: response.data.msg
                     });
                 });
             return defered.promise;
