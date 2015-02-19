@@ -1,12 +1,29 @@
 <div class="login-container" id="login">
-    <form class="jumbotron panel" ng-submit="login()">
+    <form class="jumbotron panel">
         <div class="form-group form-group-lg">
-            <input type="email" class="form-control input-lg" id="inputEmail3" placeholder="Email" ng-model="credentials.email" ng-required="true">
+            <input type="text" class="form-control input-lg" placeholder="First Name" ng-hide="loginMode" class="ng-hide" ng-model="info.firstName">
         </div>
         <div class="form-group form-group-lg">
-            <input type="password" class="form-control input-lg" id="inputPassword3" placeholder="Password" ng-model="credentials.password" ng-required="true">
+            <input type="text" class="form-control input-lg" placeholder="Last Name" ng-hide="loginMode" ng-model="info.lastName">
         </div>
-        <button type="submit" class="btn-lg btn-primary btn-block">Log in</button>
-        <a href="#/register" type="submit" ng-click="register()" class="btn btn-default btn-block">Register</a>
+        <div class="form-group form-group-lg">
+            <input type="email" class="form-control input-lg" id="email" placeholder="Email" ng-model="info.email">
+        </div>
+        <div class="form-group form-group-lg">
+            <input type="password" class="form-control input-lg" id="password" placeholder="Password" ng-model="info.password">
+        </div>
+        <div class="form-group form-group-lg">
+            <input type="password" class="form-control input-lg" id="password2" ng-hide="loginMode" placeholder="Password Confirm" ng-model="info.password2">
+        </div>
+        
+
+        <button type="submit" class="btn-lg btn-primary btn-block" ng-show="loginMode" ng-click="login(loginMode)">Log in</button>
+        <button class="btn btn-default btn-block" ng-show="loginMode" ng-click="register(loginMode)">Register</button>
+
+        <button type="submit" class="btn-lg btn-primary btn-block" ng-hide="loginMode" ng-click="register(loginMode)">Register</button>
+        <button class="btn btn-default btn-block" ng-hide="loginMode" ng-click="login(loginMode)">Cancel</button>
+
+        <!-- <button type="submit" class="btn-lg btn-primary btn-block">Log in</button>
+        <a href="#/register" type="submit" ng-click="register()" class="btn btn-default btn-block">Register</a> -->
     </form>
 </div>

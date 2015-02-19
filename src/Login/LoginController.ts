@@ -3,13 +3,11 @@ module App.Login {
 
     interface ILoginControllerShell extends ng.IScope{
         message: string;
-        login: (username: string, password: string) => void;
+        login: (data: any) => void;
+        register: (data: any) => void;
+        loginMode: boolean;
         changeView: any;
-        credentials: {
-            email: string
-            password: string
-        };
-        register: {
+        info: {
             firstName: string
             lastName: string
             email: string
@@ -25,28 +23,44 @@ module App.Login {
 
         private authService: Auth.AuthService;
         private $state: ng.ui.IStateService;
-        private credentials = {
+        private info = {
+            firstName: "",
+            lastName: "",
             email: "",
-            password: ""
+            password: "",
+            password2: ""
         }
+        private loginMode = true;
+
         constructor ($scope: ILoginControllerShell, $state: ng.ui.IStateService, authService: Auth.AuthService) {
             this.authService = authService;
             this.$state = $state;
+            $scope.loginMode = true;
 
-            $scope.credentials = this.credentials;
+            $scope.login = () => {
+                if (!$scope.loginMode) {
+                    $scope.loginMode = true;
+                    return
+                }
 
-            $scope.login =  this.login;
+                this.authService.login(this.info.email,this.info.password)
+                    .then((response : Auth.ILoginResponse) => {
+                        // Sucess
+                        this.$state.go(Home.state);
+                    }, (response : Auth.ILoginResponse) => {
+                        // Failure
+
+                    });
+            };
+
+            $scope.register = () => {
+                if ($scope.loginMode) {
+                    $scope.loginMode = false;
+                    return
+                }
+            }
         }
-        private login = () => {
-            this.authService.login(this.credentials.email,this.credentials.password)
-                .then((response : Auth.ILoginResponse) => {
-                    // Sucess
-                    this.$state.go(Home.state);
-                }, (response : Auth.ILoginResponse) => {
-                    // Failure
-
-                });
-        }
+        
     }
 
     angular.module(LoginController.moduleId, [Nav.NavService.moduleId]).
