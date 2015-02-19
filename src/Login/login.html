@@ -29,15 +29,27 @@
 
 <div class="login-container">
 <form class="form-horizontal">
-  <div class="form-group form-group-lg">
-      <input type="email" class="form-control input-lg" id="inputEmail3" placeholder="Email" ng-model="credentials.email">
-  </div>
-  <div class="form-group form-group-lg">
-      <input type="password" class="form-control input-lg" id="inputPassword3" placeholder="Password" ng-model="credentials.password">
-  </div>
-  <div class="form-group form-group-lg">
-      <button type="submit" class="btn-lg btn-primary btn-block" ng-click="login()">Log in</button>
-      <a href="#/register" type="submit" ng-click="register()" class="btn btn-default btn-block">Register</a>
-  </div>
+	<div class="form-group form-group-lg">
+	    <input type="text" class="form-control input-lg" placeholder="First Name" ng-hide="loginMode" class="ng-hide" ng-model="info.email">
+	</div>
+	<div class="form-group form-group-lg">
+	    <input type="text" class="form-control input-lg" placeholder="Last Name" ng-hide="loginMode" ng-model="info.email">
+	</div>
+	<div class="form-group form-group-lg">
+		<input type="email" class="form-control input-lg" id="inputEmail3" placeholder="Email" ng-model="info.email">
+	</div>
+	<div class="form-group form-group-lg">
+		<input type="password" class="form-control input-lg" id="inputPassword" placeholder="Password" ng-model="info.password">
+	</div>
+	<div class="form-group form-group-lg">
+		<input type="password" class="form-control input-lg" id="inputPassword2" ng-hide="loginMode" placeholder="Password Confirm" ng-model="info.password2">
+	</div>
+	<div class="form-group form-group-lg">
+		<button type="submit" class="btn-lg btn-primary btn-block" ng-show="loginMode" ng-click="login()">Log in</button>
+		<button ng-click="register()" class="btn btn-default btn-block" ng-show="loginMode">Register</button>
+
+		<button type="submit" class="btn-lg btn-primary btn-block" ng-hide="loginMode" ng-click="login()">Register</button>
+		<button ng-click="register()" class="btn btn-default btn-block" ng-hide="loginMode">Back</button>
+	</div>
 </form>
 </div>

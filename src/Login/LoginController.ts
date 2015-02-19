@@ -3,16 +3,14 @@ module App.Login {
 
     interface ILoginControllerShell extends ng.IScope{
         message: string;
-        login: any;
+        login: (data:any) => any;
+        register: (data:any) => any;
+        loginMode: boolean;
         changeView: any;
-        credentials: {
+        info: {
             email: string
-            password: string
-        };
-        register: {
             firstName: string
             lastName: string
-            email: string
             password: string
             password2: string
         };
@@ -25,13 +23,26 @@ module App.Login {
         public static $inject = ["$scope"];
         constructor ($scope: ILoginControllerShell) {
 
-            $scope.credentials = {email:"", password:""};
+            //$scope.info = {};
             $scope.message="Hello Login Page!!";
 
-            $scope.login =  function(data){
-                console.log(data);
-            };
+            $scope.login =  this.login;
+            $scope.register = (data: any) => {
+                if ($scope.loginMode)
+                    $scope.loginMode = false;
+                else
+                    $scope.loginMode = true;
+            }
+            $scope.loginMode =  this.loginMode;
         }
+
+        loginMode = true;
+
+        login = (data: any) => {
+            console.log(data);
+        }
+
+        
     }
 
     angular.module(LoginController.moduleId, [Nav.NavService.moduleId]).
