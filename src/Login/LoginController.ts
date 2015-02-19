@@ -31,6 +31,7 @@ module App.Login {
             password2: ""
         }
         private loginMode = true;
+        private scope;
 
         constructor ($scope: ILoginControllerShell, $state: ng.ui.IStateService, authService: Auth.AuthService) {
             this.authService = authService;
@@ -40,28 +41,37 @@ module App.Login {
             if ($state.current.url == '/register')
                 $scope.loginMode = false;
 
-            $scope.login = () => {
-                if (!$scope.loginMode) {
-                    $scope.loginMode = true;
-                    return
-                }
+            this.scope = $scope
 
-                this.authService.login(this.info.email,this.info.password)
-                    .then((response : Auth.ILoginResponse) => {
-                        // Sucess
-                        this.$state.go(Home.state);
-                    }, (response : Auth.ILoginResponse) => {
-                        // Failure
+            $scope.login = this.login
 
-                    });
-            };
+            $scope.info = this.info
 
-            $scope.register = () => {
-                if ($scope.loginMode) {
-                    $scope.loginMode = false;
-                    $state.current.url = '/register'
-                    return
-                }
+            $scope.register = this.register
+
+
+        }
+
+        private login = () => {
+            if (!this.scope.loginMode) {
+                this.scope.loginMode = true;
+                return
+            }
+
+            this.authService.login(this.scope.info.email,this.scope.info.password)
+                .then((response : Auth.ILoginResponse) => {
+                    // Sucess
+                    this.$state.go(Home.state);
+                }, (response : Auth.ILoginResponse) => {
+                    // Failure
+                    console.log(this.info.email)
+                });
+        };
+
+        private register = () => {
+            if (this.scope.loginMode) {
+                this.scope.loginMode = false;
+                return
             }
         }
         
