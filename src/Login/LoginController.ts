@@ -37,6 +37,9 @@ module App.Login {
             this.$state = $state;
             $scope.loginMode = true;
 
+            if ($state.current.url == '/register')
+                $scope.loginMode = false;
+
             $scope.login = () => {
                 if (!$scope.loginMode) {
                     $scope.loginMode = true;
@@ -56,6 +59,7 @@ module App.Login {
             $scope.register = () => {
                 if ($scope.loginMode) {
                     $scope.loginMode = false;
+                    $state.current.url = '/register'
                     return
                 }
             }
@@ -71,7 +75,7 @@ module App.Login {
                 controller: LoginController.controllerId,
                 url: "/login"
             }).state("register", {
-                templateUrl: Login.baseUrl+'register.html',
+                templateUrl: Login.baseUrl+'login.html',
                 controller: LoginController.controllerId,
                 url: "/register"
             })

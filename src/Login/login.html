@@ -17,11 +17,11 @@
         </div>
         
 
-        <button type="submit" class="btn-lg btn-primary btn-block" ng-show="loginMode" ng-click="login(loginMode)">Log in</button>
-        <button class="btn btn-default btn-block" ng-show="loginMode" ng-click="register(loginMode)">Register</button>
+        <button type="submit" class="btn-lg btn-primary btn-block" ng-show="loginMode" ng-click="login()">Log in</button>
+        <button class="btn btn-default btn-block" ng-show="loginMode" ng-click="register()">Register</button>
 
-        <button type="submit" class="btn-lg btn-primary btn-block" ng-hide="loginMode" ng-click="register(loginMode)">Register</button>
-        <button class="btn btn-default btn-block" ng-hide="loginMode" ng-click="login(loginMode)">Cancel</button>
+        <button type="submit" class="btn-lg btn-primary btn-block" ng-hide="loginMode" ng-click="register()">Register</button>
+        <button class="btn btn-default btn-block" ng-hide="loginMode" ng-click="login()">Cancel</button>
 
         <!-- <button type="submit" class="btn-lg btn-primary btn-block">Log in</button>
         <a href="#/register" type="submit" ng-click="register()" class="btn btn-default btn-block">Register</a> -->
