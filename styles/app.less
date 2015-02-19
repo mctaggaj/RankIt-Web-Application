@@ -1,11 +1,11 @@
-// UI Bootstap shit
+@import "../bower_components/bootstrap/less/bootstrap";
+@import "variables";
+
+@import "../src/Login/login";
 
 
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
-@active-primary: #25ff39;
-@panel-bg:rgba(248,248,248,0.95);
-@panel-heading-default-bg:none;
 
 .main-view {
   position: absolute;
@@ -13,12 +13,6 @@
   bottom: 0;
   right: 0;
   left: 0;
-  .panel-heading{
-    background:none;
-  }
-  .panel{
-    background:rgba(248,248,248,0.95);
-  }
   .top-push{
     margin-top:1em;
   }
@@ -28,4 +22,55 @@ body{
   background-size:cover;
   background-attachment: fixed;
   background-position: center center;
+}
+
+comp-struct > div{
+  height:50px;
+  width: 50px;
+  top:0;
+  position: relative;
+
+  canvas {
+    position:absolute;
+  }
+
+  .stage {
+    width:100%;
+    padding: 10px;
+  }
+  .event-container {
+    height:100%;
+    float:left
+  }
+  .event {
+    width: 10px;
+    max-width: 100%;
+    margin: auto;
+    height:100%;
+    max-height: 20px;
+    text-align: center;
+    text-overflow: ellipsis;
+  }
+  &.detail {
+    height:100px;
+    width:200px;
+    .event {
+      height:100%;
+      width:70px;
+      background:skyblue;
+      &.done {
+        background: forestgreen;
+      }
+      p {
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+      }
+    }
+
+    .event-container {
+      padding-left: 5%;
+      padding-right: 5%;
+    }
+  }
 }

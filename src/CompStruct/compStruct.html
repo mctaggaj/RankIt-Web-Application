@@ -1,0 +1,8 @@
+<div ng-class="{detail: detail===true}" ng-show="show">
+    <canvas id="{{id}}"></canvas>
+    <div ng-repeat="stage in comp.stages" class="stage" ng-style="stageStyle">
+        <div ng-repeat="event in stage.event" class="event-container" id="{{event.eventId}}" ng-style="stage.eventStyle">
+            <div class="event"><p ng-show="detail">{{event.name}}</p></div>
+        </div>
+    </div>
+</div>

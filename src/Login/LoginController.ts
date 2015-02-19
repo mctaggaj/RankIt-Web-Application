@@ -3,13 +3,11 @@ module App.Login {
 
     interface ILoginControllerShell extends ng.IScope{
         message: string;
-        login: any;
+        login: (data: any) => void;
+        register: (data: any) => void;
+        loginMode: boolean;
         changeView: any;
-        credentials: {
-            email: string
-            password: string
-        };
-        register: {
+        info: {
             firstName: string
             lastName: string
             email: string
@@ -21,17 +19,52 @@ module App.Login {
     export class LoginController {
         public static controllerId = "LoginController";
         public static moduleId = Login.moduleId + "." + LoginController.controllerId;
+        public static $inject = ["$scope", "$state", Auth.AuthService.serviceId];
 
-        public static $inject = ["$scope"];
-        constructor ($scope: ILoginControllerShell) {
-
-            $scope.credentials = {email:"", password:""};
-            $scope.message="Hello Login Page!!";
-
-            $scope.login =  function(data){
-                console.log(data);
-            };
+        private authService: Auth.AuthService;
+        private $state: ng.ui.IStateService;
+        private info = {
+            firstName: "",
+            lastName: "",
+            email: "",
+            password: "",
+            password2: ""
         }
+        private loginMode = true;
+
+        constructor ($scope: ILoginControllerShell, $state: ng.ui.IStateService, authService: Auth.AuthService) {
+            this.authService = authService;
+            this.$state = $state;
+            $scope.loginMode = true;
+
+            if ($state.current.url == '/register')
+                $scope.loginMode = false;
+
+            $scope.login = () => {
+                if (!$scope.loginMode) {
+                    $scope.loginMode = true;
+                    return
+                }
+
+                this.authService.login(this.info.email,this.info.password)
+                    .then((response : Auth.ILoginResponse) => {
+                        // Sucess
+                        this.$state.go(Home.state);
+                    }, (response : Auth.ILoginResponse) => {
+                        // Failure
+
+                    });
+            };
+
+            $scope.register = () => {
+                if ($scope.loginMode) {
+                    $scope.loginMode = false;
+                    $state.current.url = '/register'
+                    return
+                }
+            }
+        }
+        
     }
 
     angular.module(LoginController.moduleId, [Nav.NavService.moduleId]).
@@ -42,12 +75,9 @@ module App.Login {
                 controller: LoginController.controllerId,
                 url: "/login"
             }).state("register", {
-                templateUrl: Login.baseUrl+'register.html',
+                templateUrl: Login.baseUrl+'login.html',
                 controller: LoginController.controllerId,
                 url: "/register"
             })
-        }])
-        .run([Nav.NavService.serviceId, (navService: Nav.NavService) => {
-            navService.addItem({state:"login", name: "Login", order: 2});
         }]);
 }

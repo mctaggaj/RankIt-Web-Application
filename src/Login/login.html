@@ -1,43 +1,29 @@
-<style>
-.login-container {
-	position:relative;
-	margin-left:auto;
-	margin-right:auto;
-	margin-top:10%;
-	max-width:500px;
-	box-shadow: 0 0 2px black;
-}
+<div class="login-container" id="login">
+    <form class="jumbotron panel">
+        <div class="form-group form-group-lg">
+            <input type="text" class="form-control input-lg" placeholder="First Name" ng-hide="loginMode" class="ng-hide" ng-model="info.firstName">
+        </div>
+        <div class="form-group form-group-lg">
+            <input type="text" class="form-control input-lg" placeholder="Last Name" ng-hide="loginMode" ng-model="info.lastName">
+        </div>
+        <div class="form-group form-group-lg">
+            <input type="email" class="form-control input-lg" id="email" placeholder="Email" ng-model="info.email">
+        </div>
+        <div class="form-group form-group-lg">
+            <input type="password" class="form-control input-lg" id="password" placeholder="Password" ng-model="info.password">
+        </div>
+        <div class="form-group form-group-lg">
+            <input type="password" class="form-control input-lg" id="password2" ng-hide="loginMode" placeholder="Password Confirm" ng-model="info.password2">
+        </div>
+        
 
-.input {
-	font-size:6em;
-}
+        <button type="submit" class="btn-lg btn-primary btn-block" ng-show="loginMode" ng-click="login()">Log in</button>
+        <button class="btn btn-default btn-block" ng-show="loginMode" ng-click="register()">Register</button>
 
-.input {
-	height:4em;
-}
+        <button type="submit" class="btn-lg btn-primary btn-block" ng-hide="loginMode" ng-click="register()">Register</button>
+        <button class="btn btn-default btn-block" ng-hide="loginMode" ng-click="login()">Cancel</button>
 
-.form-horizontal {
-	margin-left:auto;
-	margin-right:auto;
-	max-width: 450px;
-	padding: 3em;
-
-}
-
-</style>
-
-
-<div class="login-container">
-<form class="form-horizontal">
-  <div class="form-group form-group-lg">
-      <input type="email" class="form-control input-lg" id="inputEmail3" placeholder="Email" ng-model="credentials.email">
-  </div>
-  <div class="form-group form-group-lg">
-      <input type="password" class="form-control input-lg" id="inputPassword3" placeholder="Password" ng-model="credentials.password">
-  </div>
-  <div class="form-group form-group-lg">
-      <button type="submit" class="btn-lg btn-primary btn-block" ng-click="login()">Log in</button>
-      <a href="#/register" type="submit" ng-click="register()" class="btn btn-default btn-block">Register</a>
-  </div>
-</form>
+        <!-- <button type="submit" class="btn-lg btn-primary btn-block">Log in</button>
+        <a href="#/register" type="submit" ng-click="register()" class="btn btn-default btn-block">Register</a> -->
+    </form>
 </div>

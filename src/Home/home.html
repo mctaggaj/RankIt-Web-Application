@@ -5,11 +5,15 @@
                 <accordion-heading>
                     <h2>{{comp.name}} - {{comp.description}}</h2>
                     <p>In Progress</p>
+                    <comp-struct competition="comp" detail="true"></comp-struct>
                 </accordion-heading>
                 <h4>Taking place at {{comp.location}}</h4>
                 <p>Competing in: {{comp.subject}}</p>
-                <h2>Stream</h2>
-                <iframe src="{{comp.streamURL}}" ng-if="comp.streamURL" frameborder="0" scrolling="no" height="378" width="620"></iframe>
+                <span ng-if="comp.streamURL">
+
+                    <h2>Stream</h2>
+                    <iframe src="{{comp.streamURL}}" frameborder="0" scrolling="no" height="378" width="620"></iframe>
+                </span>
             </accordion-group>
         </accordion>
     </div>

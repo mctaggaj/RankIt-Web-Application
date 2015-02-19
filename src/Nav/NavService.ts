@@ -20,7 +20,6 @@ module App.Nav {
         }
 
         public addItem = (item: INavItem) => {
-            item.name = item.name.toUpperCase();
             this.navItems.push(item);
             this.navItems.sort((a: INavItem, b: INavItem) => {
                 return a.order - b.order;
