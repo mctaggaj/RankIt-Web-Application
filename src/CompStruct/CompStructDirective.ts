@@ -40,12 +40,12 @@ module App.CompStruct {
                     });
 
                     for (var i = 0; i < scope.comp.stages.length; i++) {
-                        if (!scope.comp.stages[i].event){
+                        if (!scope.comp.stages[i].events){
                             scope.show=false;
                             return;
                         }
                         scope.comp.stages[i].eventStyle = {
-                            width: (100 / scope.comp.stages[i].event.length + "%")
+                            width: (100 / scope.comp.stages[i].events.length + "%")
                         };
                     }
                     var id = Math.floor((1 + Math.random()) * 0x1000000);
@@ -76,12 +76,12 @@ module App.CompStruct {
 
 
                     function findConnections(prevStage, nextStage) {
-                        for (var i = 0; i < nextStage.event.length; i++) {
-                            var event = nextStage.event[i];
+                        for (var i = 0; i < nextStage.events.length; i++) {
+                            var event = nextStage.events[i];
                             for (var j = 0; j < event.seed.length; j++) {
                                 var seed = event.seed[j];
-                                for (var k = 0; k < prevStage.event.length; k++) {
-                                    var fromEvent = prevStage.event[k]
+                                for (var k = 0; k < prevStage.events.length; k++) {
+                                    var fromEvent = prevStage.events[k]
                                     for (var ii = 0; ii < event.seed.length; ii++) {
                                         var fromSeed = event.seed[ii];
                                         if (seed == fromSeed) {
