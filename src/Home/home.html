@@ -1,20 +1,34 @@
-<div class="row top-push" ng-repeat="comp in competitions">
-    <div class="col-xs-12">
-        <accordion>
+<div class="row top-push">
+    <div class="col-xs-8">
+        <accordion  ng-repeat="comp in competitions">
             <accordion-group>
                 <accordion-heading>
                     <h2>{{comp.name}} - {{comp.description}}</h2>
                     <p>In Progress</p>
-                    <comp-struct competition="comp" detail="true"></comp-struct>
                 </accordion-heading>
+                <comp-struct competition="comp" detail="true">
+
+                </comp-struct>
                 <h4>Taking place at {{comp.location}}</h4>
                 <p>Competing in: {{comp.subject}}</p>
                 <span ng-if="comp.streamURL">
-
                     <h2>Stream</h2>
                     <iframe src="{{comp.streamURL}}" frameborder="0" scrolling="no" height="378" width="620"></iframe>
                 </span>
             </accordion-group>
         </accordion>
+    </div>
+    <div class="col-xs-4">
+        <div class="panel" style="padding:0.5em">
+            <label for="competitionSearch">Search for a Competition:</label>
+            <input type="text" id="competitionSearch" class="form-control" placeholder="Search"/>
+            <label>Or</label>
+            <label>Filter By:</label>
+            <div class="checkbox" ng-repeat="subject in subjects">
+                <label>
+                    <input type="checkbox"> {{subject}}
+                </label>
+            </div>
+        </div>
     </div>
 </div>
