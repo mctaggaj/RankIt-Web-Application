@@ -7,6 +7,6 @@
 /// <reference path="Login/LoginModule.ts"/>
 /// <reference path="CompStruct/CompStructModule.ts"/>
 module App {
-    var dep = App.getChildModuleIds(App,["ui.bootstrap", "ui.router", "app-partials"]);
+    var dep = App.getChildModuleIds(App,["ui.bootstrap", "ui.router", "app-partials", "ngSanitize"]);
     angular.module(App.moduleId, dep);
 }
