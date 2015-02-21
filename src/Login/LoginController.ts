@@ -6,7 +6,7 @@ module App.Login {
         login: (data: any) => void;
         register: (data: any) => void;
         loginMode: boolean;
-        changeView: any;
+        sce: any; // strict contextual escaping service
         info: {
             firstName: string
             lastName: string
@@ -14,12 +14,18 @@ module App.Login {
             password: string
             password2: string
         };
+
+        error: {
+            enabled: boolean
+            title: string
+            msg: string
+        }
     }
 
     export class LoginController {
         public static controllerId = "LoginController";
         public static moduleId = Login.moduleId + "." + LoginController.controllerId;
-        public static $inject = ["$scope", "$state", Auth.AuthService.serviceId];
+        public static $inject = ["$scope", "$state", Auth.AuthService.serviceId, "$sce"];
 
         private authService: Auth.AuthService;
         private $state: ng.ui.IStateService;
@@ -30,10 +36,15 @@ module App.Login {
             password: "",
             password2: ""
         }
+        private error = {
+            enabled: false,
+            title: "Error!",
+            msg: ""
+        }
         private loginMode = true;
         private scope;
 
-        constructor ($scope: ILoginControllerShell, $state: ng.ui.IStateService, authService: Auth.AuthService) {
+        constructor ($scope: ILoginControllerShell, $state: ng.ui.IStateService, authService: Auth.AuthService, $sce ) {
             this.authService = authService;
             this.$state = $state;
             $scope.loginMode = true;
@@ -44,17 +55,20 @@ module App.Login {
             this.scope = $scope
 
             $scope.login = this.login
-
-            $scope.info = this.info
-
             $scope.register = this.register
 
+            $scope.info = this.info
+            
+
+            $scope.error = this.error
+            $scope.sce = $sce
 
         }
 
         private login = () => {
             if (!this.scope.loginMode) {
-                this.scope.loginMode = true;
+                this.scope.loginMode = true
+                this.error.enabled = false
                 return
             }
 
@@ -63,14 +77,21 @@ module App.Login {
                     // Sucess
                     this.$state.go(Home.state);
                 }, (response : Auth.ILoginResponse) => {
-                    // Failure
+                    this.error.title = 'Error!'
+
+                    // idk a way to do this, I want to link to register but maintain fields
+                    // doing href="#/register" doesn't keep fields
+                    this.error.msg = 'Invalid username or password. If you do not have an account, \
+                        make sure you <a class="alert-link" ng-click="register()">register</a>'
+                    this.error.enabled = true
                     console.log(response)
                 });
         };
 
         private register = () => {
             if (this.scope.loginMode) {
-                this.scope.loginMode = false;
+                this.scope.loginMode = false
+                this.error.enabled = false
                 return
             }
 
@@ -79,7 +100,9 @@ module App.Login {
                     // Sucess
                     this.$state.go(Home.state);
                 }, (response : Auth.ILoginResponse) => {
-                    // Failure
+                    console.log(response)
+                    this.error.msg = response.reason
+                    this.error.enabled = true
                     console.log(response)
                 });
         }
@@ -96,6 +119,7 @@ module App.Login {
             }).state("register", {
                 templateUrl: Login.baseUrl+'login.html',
                 controller: LoginController.controllerId,
+                logic: console.log(self),
                 url: "/register"
             })
         }]);
