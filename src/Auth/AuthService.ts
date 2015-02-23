@@ -100,7 +100,6 @@ module App.Auth {
                     defered.resolve({
                         reason: null
                     });
-                    this.$http.get("api/competitions");
                 },
                 (response: ng.IHttpPromiseCallbackArg<IHttpLoginError>) => {
                     defered.reject({
