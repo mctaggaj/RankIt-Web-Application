@@ -4,6 +4,7 @@ module App.Home {
     interface IHomeControllerShell extends ng.IScope{
         message: string;
         competitions:RankIt.ICompetition[];
+        subjects:string[];
     }
 
     export class HomeController {
@@ -14,8 +15,15 @@ module App.Home {
         constructor ($scope: IHomeControllerShell, dataService:Data.DataService) {
             $scope.message="Hello World!!";
             $scope.competitions=[];
+            $scope.subjects=[];
             dataService.getAllComps().then((data: RankIt.ICompetition[]) => {
                 $scope.competitions = data;
+                for(var i=0;i<data.length;i++)
+                {
+                    if($scope.subjects.indexOf(data[i].subject)<0){
+                        $scope.subjects.push(data[i].subject);
+                    }
+                }
             }, (failure: any) => {
 
             });
