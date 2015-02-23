@@ -27,9 +27,11 @@ module App.CompStruct {
 
         public compile =  () =>{
             return {
-                "post":  (scope, elem, attrs) => {
-
+                "post":  (scope: any,
+                          elem: any,
+                          attrs: any) => {
                     scope.show=true;
+                    scope.elem = elem;
                     if (!scope.comp || !scope.comp.stages){
                         scope.show=false;
                         return
@@ -71,6 +73,14 @@ module App.CompStruct {
                                 findConnections(scope.comp.stages[i-1], scope.comp.stages[i]);
                             }
                             connect($canvas);
+
+
+                            scope.$watch(() => {
+                                return $canvas.css("visibility");
+                            }, (newVal, oldVal) => {
+                                console.log("HELLO");
+                                connect($canvas);
+                            });
                         },0);
                     },0);
 
