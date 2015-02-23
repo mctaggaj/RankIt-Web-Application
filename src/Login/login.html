@@ -3,8 +3,10 @@
     <div class="alert alert-danger alert-dismissible" ng-show="error.enabled" role="alert">
         <button type="button" class="close" aria-label="Close" ng-click="error.enabled = false"><span aria-hidden="true">&times;</span></button>
 
-        <strong>{{ error.title }}</strong>
-        <div ng-bind-html="error.msg" style="display:inline;"></div>
+        <!-- <strong>{{ error.title }}</strong> -->
+        <!-- <div ng-bind-html="error.msg" style="display:inline;"></div> -->
+        <div dynamic="error" style="display:inline;"></div>
+
 
         <!-- <a class="alert-link" ng-click="register()">register</a> -->
         <!-- <a class="alert-link" ng-click="register()"> {{ message }}</a> -->

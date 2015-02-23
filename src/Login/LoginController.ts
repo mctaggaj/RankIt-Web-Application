@@ -1,6 +1,10 @@
 /// <reference path="LoginGlobals.ts" />
 module App.Login {
 
+    interface ILoginErrorResponse {
+
+    }
+
     interface ILoginControllerShell extends ng.IScope{
         message: string;
         login: (data: any) => void;
@@ -18,7 +22,9 @@ module App.Login {
         error: {
             enabled: boolean
             title: string
-            msg: string
+            state: string
+            handler: (self: any) => void
+            html: string
         }
     }
 
@@ -39,7 +45,18 @@ module App.Login {
         private error = {
             enabled: false,
             title: "Error!",
-            msg: ""
+            state: "",
+            handler: (self) => {
+                console.log(self)
+
+                if (self.state == "BAD_LOGIN"){
+
+
+                    this.scope.loginMode = false
+                    self.enabled = false
+                }
+            },
+            html: ""
         }
         private loginMode = true;
         private scope;
@@ -79,12 +96,10 @@ module App.Login {
                 }, (response : Auth.ILoginResponse) => {
                     this.error.title = 'Error!'
 
-                    // idk a way to do this, I want to link to register but maintain fields
-                    // doing href="#/register" doesn't keep fields
-                    this.error.msg = 'Invalid username or password. If you do not have an account, \
-                        make sure you <a class="alert-link" ng-click="register()">register</a>'
+                    this.error.html = 'Invalid username or password. If you do not have an account, \
+                        make sure you <a class="alert-link" ng-click="msg.handler(msg);">register</a>'
+                    this.error.state = "BAD_LOGIN";
                     this.error.enabled = true
-                    console.log(response)
                 });
         };
 
@@ -100,14 +115,15 @@ module App.Login {
                     // Sucess
                     this.$state.go(Home.state);
                 }, (response : Auth.ILoginResponse) => {
-                    console.log(response)
-                    this.error.msg = response.reason
+                    // console.log(response)
+                    this.error.html = response.reason
                     this.error.enabled = true
-                    console.log(response)
+                    // console.log(response)
                 });
         }
-        
     }
+
+
 
     angular.module(LoginController.moduleId, [Nav.NavService.moduleId]).
         controller(LoginController.controllerId, LoginController)
@@ -119,7 +135,6 @@ module App.Login {
             }).state("register", {
                 templateUrl: Login.baseUrl+'login.html',
                 controller: LoginController.controllerId,
-                logic: console.log(self),
                 url: "/register"
             })
         }]);
