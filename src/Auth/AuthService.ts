@@ -96,11 +96,11 @@ module App.Auth {
             this.$http.post("/api/authentication", {userName: userName, password: password})
                 .then(
                 (response: ng.IHttpPromiseCallbackArg<IHttpLoginResolve>) => {
+                    response.data.userName = userName 
                     this.setAuthData(response.data.userName, response.data.userId,response.data.token)
                     defered.resolve({
                         reason: null
                     });
-                    this.$http.get("api/competitions");
                 },
                 (response: ng.IHttpPromiseCallbackArg<IHttpLoginError>) => {
                     defered.reject({
