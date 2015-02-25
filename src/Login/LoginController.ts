@@ -15,7 +15,6 @@ module App.Login {
         login: (data: any) => void;
         register: (data: any) => void;
         loginMode: boolean;
-        sce: any; // strict contextual escaping service
         info: {
             firstName: string
             lastName: string
@@ -36,7 +35,7 @@ module App.Login {
     export class LoginController {
         public static controllerId = "LoginController";
         public static moduleId = Login.moduleId + "." + LoginController.controllerId;
-        public static $inject = ["$scope", "$state", Auth.AuthService.serviceId, "$sce"];
+        public static $inject = ["$scope", "$state", Auth.AuthService.serviceId];
 
         private authService: Auth.AuthService;
         private $state: ng.ui.IStateService;
@@ -66,7 +65,7 @@ module App.Login {
         private loginMode = true;
         private scope;
 
-        constructor ($scope: ILoginControllerShell, $state: ng.ui.IStateService, authService: Auth.AuthService, $sce ) {
+        constructor ($scope: ILoginControllerShell, $state: ng.ui.IStateService, authService: Auth.AuthService) {
             this.authService = authService;
             this.$state = $state;
             $scope.loginMode = true;
@@ -83,7 +82,6 @@ module App.Login {
             
 
             $scope.error = this.error
-            $scope.sce = $sce
 
         }
 
