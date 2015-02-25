@@ -28,12 +28,12 @@
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
+                <span class="sr-only">Toggle navigation</span> 
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Wanker</a>
+            <a class="navbar-brand" ui-sref="home">Wanker</a>
         </div>
 
         <div class="collapse navbar-collapse">
@@ -41,7 +41,7 @@
                 <li ng-repeat="item in navService.navItems"><a ui-sref="{{item.state}}">{{item.name}}</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li ng-hide="authService.isLoggedIn()"><a ui-sref="login">Login</a></li>
+                <li ng-hide="authService.isLoggedIn()"><a ui-sref="login">Login {{authService.isLoggedIn()}}</a></li>
                 <li ng-show="authService.isLoggedIn()"><a ng-click="authService.logout()" ui-sref="login">Logout</a></li>
             </ul>
         </div><!-- /.navbar-collapse -->
