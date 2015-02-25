@@ -8,7 +8,7 @@
 /// <reference path="CompStruct/CompStructModule.ts"/>
 /// <reference path="Comp/Create/CreateCompModule.ts"/>
 module App {
-    var dep = App.getChildModuleIds(App,["ui.bootstrap", "ui.router", "app-partials", "ngSanitize"]);
+    var dep = App.getChildModuleIds(App,["ui.bootstrap", "ui.router", "app-partials"]);
     var app = angular.module(App.moduleId, dep);
 
 
