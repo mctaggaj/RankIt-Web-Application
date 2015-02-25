@@ -873,7 +873,7 @@ interface JQueryStatic {
     /**
      * Creates DOM elements on the fly from the provided string of raw HTML.
      *
-     * @param html A string of HTML to create on the fly. Note that this parses HTML, not XML.
+     * @param html A string of HTML to Create on the fly. Note that this parses HTML, not XML.
      * @param ownerDocument A document in which the new elements will be created.
      */
     (html: string, ownerDocument?: Document): JQuery;

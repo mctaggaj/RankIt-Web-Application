@@ -80,6 +80,36 @@ module App.Data {
             return defered.promise;
         }
 
+        public getComp = (id):ng.IPromise<RankIt.ICompetition> => {
+            var defered = this.$q.defer();
+
+            this.$http.get("/api/competitions/"+id).success((data: any, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
+                this.treatComp(data.competition);
+
+                defered.resolve(data.competition);
+            }).error((data: any, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
+
+                defered.reject();
+
+            });
+
+
+            return defered.promise;
+        }
+
+        public createCompetition = (comp):ng.IPromise<RankIt.ICompetition> => {
+            var defered = this.$q.defer();
+            console.log("ASDF");
+            this.$http.post("/api/competitions",comp).success((data: RankIt.ICompetition, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
+                defered.resolve(data)
+            }).error((data: any, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
+
+                defered.reject();
+
+            });
+            return defered.promise;
+        }
+
 
     }
 
