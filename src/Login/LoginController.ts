@@ -1,4 +1,9 @@
 /// <reference path="LoginGlobals.ts" />
+
+/*
+	Controls the login and register functionality
+	@author	Timothy Engel
+*/
 module App.Login {
 
     interface ILoginErrorResponse {
