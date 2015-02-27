@@ -1,6 +1,6 @@
 <div class="row top-push">
     <div class="col-xs-8">
-        <accordion  ng-repeat="comp in competitions">
+        <accordion  ng-repeat="comp in competitions | homeFilter:subjects">
             <accordion-group>
                 <accordion-heading>
                     <h2>{{comp.name}} - {{comp.description}}</h2>
@@ -24,9 +24,9 @@
             <input type="text" id="competitionSearch" class="form-control" placeholder="Search"/>
             <label>Or</label>
             <label>Filter By:</label>
-            <div class="checkbox" ng-repeat="subject in subjects">
+            <div class="checkbox" ng-repeat="(subject, item) in subjects">
                 <label>
-                    <input type="checkbox"> {{subject}}
+                    <input type="checkbox" ng-model="item.checked"> {{subject}}
                 </label>
             </div>
         </div>

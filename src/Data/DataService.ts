@@ -84,9 +84,8 @@ module App.Data {
             var defered = this.$q.defer();
 
             this.$http.get("/api/competitions/"+id).success((data: any, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
-                this.treatComp(data.competition);
-
-                defered.resolve(data.competition);
+                this.treatComp(data);
+                defered.resolve(data);
             }).error((data: any, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
 
                 defered.reject();
@@ -99,7 +98,6 @@ module App.Data {
 
         public createCompetition = (comp):ng.IPromise<RankIt.ICompetition> => {
             var defered = this.$q.defer();
-            console.log("ASDF");
             this.$http.post("/api/competitions",comp).success((data: RankIt.ICompetition, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
                 defered.resolve(data)
             }).error((data: any, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
@@ -110,6 +108,27 @@ module App.Data {
             return defered.promise;
         }
 
+        public editCompetition = (comp):ng.IPromise<RankIt.ICompetition> => {
+            var defered = this.$q.defer();
+            this.$http.post("/api/competitions",comp).success((data: RankIt.ICompetition, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
+                defered.resolve(data)
+            }).error((data: any, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
+
+                defered.reject();
+
+            });
+            return defered.promise;
+        }
+
+        public getCompStages = (compId):ng.IPromise<RankIt.IStage[]> => {
+            var defered = this.$q.defer();
+            this.$http.get("api/competitions/"+compId+"stages").success((data:any, status:number, headers:ng.IHttpHeadersGetter, config:ng.IRequestConfig) => {
+                defered.resolve(data);
+            }).error((data:any, status:number, headers:ng.IHttpHeadersGetter, config:ng.IRequestConfig) =>{
+
+            });
+            return defered.promise;
+        }
 
     }
 

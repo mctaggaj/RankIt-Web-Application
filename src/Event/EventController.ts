@@ -1,17 +1,17 @@
-/// <reference path="CompGlobals.ts" />
-module App.Comp {
+/// <reference path="EventGlobals.ts" />
+module App.Event {
 
-    interface ICompControllerShell extends ng.IScope{
+    interface IEventControllerShell extends ng.IScope{
         competition:RankIt.ICompetition;
         edit: (compId) => void;
     }
 
-    export class CompController {
-        public static controllerId = "CompController";
-        public static moduleId = Comp.moduleId + "." + CompController.controllerId;
+    export class EventController {
+        public static controllerId = "EventController";
+        public static moduleId = Comp.moduleId + "." + EventController.controllerId;
 
         public static $inject = ["$scope","$state","$stateParams",Data.DataService.serviceId];
-        constructor (private $scope: ICompControllerShell,private $state:ng.ui.IStateService ,$stateParams:ng.ui.IStateParamsService, private dataService:Data.DataService) {
+        constructor (private $scope: IEventControllerShell,private $state:ng.ui.IStateService ,$stateParams:ng.ui.IStateParamsService, private dataService:Data.DataService) {
             $scope.edit=this.edit;
             if($stateParams['comp']){
                 $scope.competition=$stateParams['comp'];
@@ -30,12 +30,12 @@ module App.Comp {
         }
     }
 
-    angular.module(CompController.moduleId, [Nav.NavService.moduleId]).
-        controller(CompController.controllerId, CompController)
+    angular.module(EventController.moduleId, [Nav.NavService.moduleId]).
+        controller(EventController.controllerId, EventController)
         .config(["$stateProvider", ($routeProvider: ng.ui.IStateProvider) => {
             $routeProvider.state(Comp.state, {
-                templateUrl: Comp.baseUrl+'comp.html',
-                controller: CompController.controllerId,
+                templateUrl: Event.baseUrl+'comp.html',
+                controller: EventController.controllerId,
                 url: "/comp/{compId}"
             })
         }]);

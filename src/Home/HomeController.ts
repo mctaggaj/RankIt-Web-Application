@@ -4,7 +4,7 @@ module App.Home {
     interface IHomeControllerShell extends ng.IScope{
         message: string;
         competitions:RankIt.ICompetition[];
-        subjects:string[];
+        subjects:{ [subject: string]: {name: string; checked: boolean}; };
     }
 
     export class HomeController {
@@ -15,13 +15,13 @@ module App.Home {
         constructor ($scope: IHomeControllerShell, dataService:Data.DataService) {
             $scope.message="Hello World!!";
             $scope.competitions=[];
-            $scope.subjects=[];
+            $scope.subjects={};
             dataService.getAllComps().then((data: RankIt.ICompetition[]) => {
                 $scope.competitions = data;
                 for(var i=0;i<data.length;i++)
                 {
-                    if($scope.subjects.indexOf(data[i].subject)<0){
-                        $scope.subjects.push(data[i].subject);
+                    if($scope.subjects[data[i].subject]=== undefined){
+                        $scope.subjects[data[i].subject] = {name: data[i].subject, checked: true};
                     }
                 }
             }, (failure: any) => {
@@ -45,5 +45,17 @@ module App.Home {
         .run([Nav.NavService.serviceId, function (navService: Nav.NavService) {
             navService.addItem({state:Home.state, name: "Home", order: 0});
 
-        }]);
+        }])
+        .filter('homeFilter', function() {
+            return function(input: RankIt.ICompetition,options: { [subject: string]: {name: string; checked: boolean}; }) {
+                for (var comp in input) {
+                    if(options[input[comp].subject].checked==false){
+                        // SPLICE
+                    }
+                }
+
+
+                return input;
+            };
+        });
 }
