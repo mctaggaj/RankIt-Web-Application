@@ -5,8 +5,7 @@
 /// <reference path="Shell/ShellModule.ts"/>
 /// <reference path="Home/HomeModule.ts"/>
 /// <reference path="Login/LoginModule.ts"/>
-/// <reference path="CompStruct/CompStructModule.ts"/>
-/// <reference path="Comp/Create/CreateCompModule.ts"/>
+/// <reference path="Comp/CompModule.ts"/>
 module App {
     var dep = App.getChildModuleIds(App,["ui.bootstrap", "ui.router", "app-partials"]);
     var app = angular.module(App.moduleId, dep);

@@ -30,47 +30,56 @@ comp-struct > div{
   top:0;
   position: relative;
 
-  canvas {
+  > canvas {
     position:absolute;
-  }
-
-  .stage {
+    height: 100%;
     width:100%;
-    padding: 10px;
   }
-  .event-container {
-    height:100%;
-    float:left
+  > .stage-container {
+    position: absolute;
+    height: 100%;
+    width:100%;
   }
-  .event {
-    width: 10px;
-    max-width: 100%;
-    margin: auto;
-    height:100%;
-    max-height: 20px;
-    text-align: center;
-    text-overflow: ellipsis;
-  }
-  &.detail {
-    height:100px;
-    width:200px;
-    .event {
-      height:100%;
-      width:70px;
-      background:skyblue;
-      &.done {
-        background: forestgreen;
-      }
-      p {
-        height: 100%;
-        width: 100%;
-        overflow: hidden;
-      }
+    .stage {
+      width:100%;
+      padding: 10px;
     }
-
     .event-container {
-      padding-left: 5%;
-      padding-right: 5%;
+      height:100%;
+      float:left
     }
+    .event {
+      width: 10px;
+      max-width: 100%;
+      margin: auto;
+      height:100%;
+      max-height: 20px;
+      text-align: center;
+      text-overflow: ellipsis;
+    }
+    &.detail {
+      height:100px;
+      width:200px;
+      .event {
+        height:100%;
+        width:70px;
+        background:skyblue;
+        &.done {
+          background: forestgreen;
+        }
+        p {
+          height: 100%;
+          width: 100%;
+          overflow: hidden;
+        }
+      }
+
+      .event-container {
+        padding-left: 5%;
+        padding-right: 5%;
+      }
+//    }
   }
+
+
 }
