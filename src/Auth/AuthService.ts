@@ -172,11 +172,11 @@ module App.Auth {
         private setToken = (token : String) => {
             this.localStorageService.set(Auth.LS_UserToken, token);
             if (token) {
-                this.$http.defaults.headers.common.token = token;
+                this.$http.defaults.headers.common["X-Token"] = token;
                 this.httpAuthService.loginConfirmed();
             }
             else {
-                this.$http.defaults.headers.common.token = undefined;
+                this.$http.defaults.headers.common["X-Token"] = undefined;
                 this.httpAuthService.loginCancelled();
             }
         }
