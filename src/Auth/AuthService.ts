@@ -139,7 +139,9 @@ module App.Auth {
          * Logs the current user out
          */
         public logout = (): void => {
-            this.clearAuthData();
+            this.$http.delete("/api/authentication").success(() => {
+                this.clearAuthData();
+            })
         }
 
         /**
