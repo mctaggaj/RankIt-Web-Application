@@ -71,8 +71,12 @@ gulp.task("deploy", function () {
 })
 
 gulp.task("deploy-copy", function () {
-    return gulp.src("./package/**/*")
-        .pipe(gulp.dest("../restful-api/package/"));
+    setTimeout(function () {
+        console.log("Deploying");
+        gulp.src("./package/**/*")
+            .pipe(gulp.dest("../restful-api/package/"))
+        console.log("Deployed");
+    },2000);
 
 })
 

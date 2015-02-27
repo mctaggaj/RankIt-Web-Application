@@ -44,27 +44,27 @@ module App.Data {
             var defered = this.$q.defer();
 
             this.$http.get("/api/competitions").success((data: any, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
-                data.competitions.push({
-                    "competitionId": "c2",
-                    "name": "3760 Meeting Event",
-                    "subject": "Class!",
-                    "description": "I hope Denis likes it!",
-                    "location": "Denis' Office",
-                    "public": true,
-                    "results": "[]",
-                    "state": "In Progress"
-                });
-                data.competitions.push({
-                    "competitionId": "c3",
-                    "name": "Test",
-                    "subject": "Test",
-                    "description": "Twitch Stream Test",
-                    "location": "Test",
-                    "public": true,
-                    "results": "[]",
-                    "state": "In Progress",
-                    "streamURL": "http://www.twitch.tv/fragbitelive/embed"
-                });
+                //data.competitions.push({
+                //    "competitionId": "c2",
+                //    "name": "3760 Meeting Event",
+                //    "subject": "Class!",
+                //    "description": "I hope Denis likes it!",
+                //    "location": "Denis' Office",
+                //    "public": true,
+                //    "results": "[]",
+                //    "state": "In Progress"
+                //});
+                //data.competitions.push({
+                //    "competitionId": "c3",
+                //    "name": "Test",
+                //    "subject": "Test",
+                //    "description": "Twitch Stream Test",
+                //    "location": "Test",
+                //    "public": true,
+                //    "results": "[]",
+                //    "state": "In Progress",
+                //    "streamURL": "http://www.twitch.tv/fragbitelive/embed"
+                //});
                 for(var i = 0 ; i < data.competitions.length ; i ++) {
                     this.treatComp(data.competitions[i]);
                 }
