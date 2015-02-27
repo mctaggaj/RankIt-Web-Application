@@ -1,8 +1,8 @@
 /// <reference path="../EventGlobals.ts" />
 module App.Event.Create {
 
-    export var moduleId = Comp.moduleId + ".CreateEvent";
-    export var baseUrl = Comp.baseUrl + "Event/";
+    export var moduleId = Event.moduleId + ".CreateEvent";
+    export var baseUrl = Event.baseUrl + "Create/";
 
     export var state = "createEvent"
 }

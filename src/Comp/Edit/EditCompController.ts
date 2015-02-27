@@ -5,6 +5,7 @@ module App.Comp.Edit {
         comp: any;
         stages: RankIt.IStage[];
         submit: () => void;
+        addStage: (comp) => void;
     }
 
     export class EditCompController {
@@ -14,15 +15,14 @@ module App.Comp.Edit {
         public static $inject = ["$scope","$state","$stateParams",Data.DataService.serviceId];
         constructor (private $scope: IEditCompControllerShell,private $state:ng.ui.IStateService, $stateParams:ng.ui.IStateParamsService, private dataService:Data.DataService) {
             $scope.submit = this.submit;
-            console.log($state);
-            console.log($stateParams);
+            $scope.addStage = this.addStage;
             dataService.getComp($stateParams['compId']).then((data: RankIt.ICompetition) => {
-                console.log(data);
                 $scope.comp = data;
             }, (failure: any) => {
 
             });
             dataService.getCompStages($stateParams['compId']).then((data: RankIt.IStage[])=>{
+                console.log(data);
                 $scope.stages=data;
             },(failure:any)=>{
 
@@ -35,6 +35,10 @@ module App.Comp.Edit {
             }, () => {
                 // failure
             });
+        }
+
+        public addStage = (comp) => {
+            this.$state.go(Stage.Create.state,{comp:comp});
         }
     }
 

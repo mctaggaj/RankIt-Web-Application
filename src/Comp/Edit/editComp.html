@@ -10,8 +10,8 @@
             <div class="form-group">
                 <label for="compPrivacy">Public Competition</label>
                 <select id="compPrivacy" class="form-control" ng-model="comp.public" ng-init="comp.public='Public'" value="{{comp.public}}">
-                    <option>Public</option>
-                    <option>Private</option>
+                    <option value="1">Public</option>
+                    <option value="0">Private</option>
                 </select>
             </div>
             <div class="form-group">
@@ -36,8 +36,10 @@
             </div>
             <div class="form-group">
                 <p>Stages</p>
-
-                <button class="btn btn-primary">Add Stage</button>
+                <div ng-repeat="stage in stages">
+                    <a ui-sref="Stage({'stage':{{stage}}})">{{stage.name}}</a>
+                </div>
+                <a class="btn btn-primary" ng-click="addStage(comp)">Add Stage</a>
             </div>
             <div class="form-group">
                 <button class="btn btn-primary" type="submit">Save Competition</button>

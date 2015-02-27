@@ -33,10 +33,11 @@ module App.Event {
     angular.module(EventController.moduleId, [Nav.NavService.moduleId]).
         controller(EventController.controllerId, EventController)
         .config(["$stateProvider", ($routeProvider: ng.ui.IStateProvider) => {
-            $routeProvider.state(Comp.state, {
-                templateUrl: Event.baseUrl+'comp.html',
+            $routeProvider.state(Event.state, {
+                templateUrl: Event.baseUrl+'event.html',
                 controller: EventController.controllerId,
-                url: "/comp/{compId}"
+                url: "/event/{eventId}",
+                params:{'event':undefined}
             })
         }]);
         /*.run([Nav.NavService.serviceId, function (navService: Nav.NavService) {

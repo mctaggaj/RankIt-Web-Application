@@ -3,6 +3,7 @@ module App.Stage.Create {
 
     interface ICreateStageControllerShell extends ng.IScope{
         comp: any;
+        stage:any;
         submit: () => void;
     }
 
@@ -10,14 +11,16 @@ module App.Stage.Create {
         public static controllerId = "CreateStageController";
         public static moduleId = Create.moduleId + "." + CreateStageController.controllerId;
 
-        public static $inject = ["$scope","$state",Data.DataService.serviceId];
-        constructor (private $scope: ICreateStageControllerShell,private $state:ng.ui.IStateService, private dataService:Data.DataService) {
+        public static $inject = ["$scope","$state","$stateParams",Data.DataService.serviceId];
+        constructor (private $scope: ICreateStageControllerShell,private $state:ng.ui.IStateService,$stateParams:ng.ui.IStateParamsService, private dataService:Data.DataService) {
+            $scope.comp = $stateParams['comp'];
             $scope.submit = this.submit;
+
         }
 
         public submit = () => {
-            this.dataService.createCompetition(this.$scope.comp).then((data: RankIt.ICompetition) => {
-                this.$state.go(Comp.state,{compId: data.competitionId,comp:data});
+            this.dataService.createStage(this.$scope.comp.competitionId,this.$scope.stage).then((data: RankIt.IStage) => {
+                this.$state.go(Stage.state,{'stageId':data.stageId,'stage':data});
             }, () => {
                 // failure
             });
@@ -28,9 +31,10 @@ module App.Stage.Create {
         controller(CreateStageController.controllerId, CreateStageController)
         .config(["$stateProvider", ($routeProvider: ng.ui.IStateProvider) => {
             $routeProvider.state(Create.state, {
-                templateUrl: Create.baseUrl+'createComp.html',
+                templateUrl: Create.baseUrl+'createStage.html',
                 controller: CreateStageController.controllerId,
-                url: "/stage/create"
+                url: "/stage/create",
+                params:{'comp':undefined}
             })
         }]);
 }

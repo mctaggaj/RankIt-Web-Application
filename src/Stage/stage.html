@@ -1,12 +1,9 @@
 <div class="row panel top-push">
-    <p>View Competition Page</p>
-    <p>{{competition.name}}</p>
-    <p>{{competition.subject}}</p>
-    <p>{{competition.description}}</p>
-    <p>{{competition.location}}</p>
-    <p>{{competition.public}}</p>
-    <p>{{competition.state}}</p>
-    <p>{{competition.streamUrl}}</p>
-
-    <button class="btn btn-primary" ng-click="edit(competition.competitionId)">Edit This Competition</button>
+    <p>View Stage Page</p>
+    <p>{{stage.name}}</p>
+    <p>{{stage.subject}}</p>
+    <p>{{stage.description}}</p>
+    <p>{{stage.location}}</p>
+    <p>{{stage.state}}</p>
+    <button class="btn btn-primary" ui-sref="editStage({'stage':{{stage}}})">Edit This Stage</button>
 </div>
