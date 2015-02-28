@@ -1,3 +1,7 @@
+/**
+ * Edit Competition Page
+ * Andrew Welton
+ */
 /// <reference path="EditCompGlobals.ts" />
 module App.Comp.Edit {
 
@@ -21,6 +25,7 @@ module App.Comp.Edit {
             }, (failure: any) => {
 
             });
+            //Get the stages in the competition to show on the page.
             dataService.getCompStages($stateParams['compId']).then((data: RankIt.IStage[])=>{
                 console.log(data);
                 $scope.stages=data;

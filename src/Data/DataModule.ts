@@ -1,3 +1,6 @@
+/**
+ * Jason McTaggart
+ */
 /// <reference path="DataGlobals.ts"/>
 /// <reference path="DataService.ts"/>
 

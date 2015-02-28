@@ -1,3 +1,6 @@
+/**
+ * Andrew Welton
+ */
 /// <reference path="../CompGlobals.ts" />
 module App.Comp.Edit {
 

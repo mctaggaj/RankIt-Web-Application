@@ -1,3 +1,6 @@
+/**
+ * Andrew Welton
+ */
 /// <reference path="StageGlobals.ts" />
 /// <reference path="StageController.ts" />
 /// <reference path="Create/CreateStageModule.ts" />

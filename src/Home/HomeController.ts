@@ -1,3 +1,7 @@
+/**
+ * Home Page
+ * Andrew Welton
+ */
 /// <reference path="HomeGlobals.ts" />
 module App.Home {
 
@@ -18,6 +22,7 @@ module App.Home {
             $scope.subjects={};
             dataService.getAllComps().then((data: RankIt.ICompetition[]) => {
                 $scope.competitions = data;
+                //Get a list of all subjects for the checkboxes in the sidebar
                 for(var i=0;i<data.length;i++)
                 {
                     if($scope.subjects[data[i].subject]=== undefined){
@@ -45,7 +50,7 @@ module App.Home {
         .run([Nav.NavService.serviceId, function (navService: Nav.NavService) {
             navService.addItem({state:Home.state, name: "Home", order: 0});
 
-        }])
+        }])//Filter out the unchecked boxes for subjects
         .filter('homeFilter', function() {
             return function(input: RankIt.ICompetition,options: { [subject: string]: {name: string; checked: boolean}; }) {
                 for (var comp in input) {

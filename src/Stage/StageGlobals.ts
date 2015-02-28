@@ -1,3 +1,6 @@
+/**
+ * Andrew Welton
+ */
 /// <reference path="../AppGlobals.ts" />
 module App.Stage {
 

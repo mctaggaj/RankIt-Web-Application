@@ -1,3 +1,7 @@
+/**
+ * Edit Event Controller
+ * Andrew Welton
+ */
 /// <reference path="EditEventGlobals.ts" />
 module App.Event.Edit {
 

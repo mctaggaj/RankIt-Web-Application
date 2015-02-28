@@ -1,3 +1,6 @@
+/**
+ * Andrew Welton
+ */
 /// <reference path="CreateStageGlobals.ts" />
 /// <reference path="CreateStageController.ts" />
 module App.Stage.Create {

@@ -1,3 +1,7 @@
+/**
+ * Create Event Controller
+ * Andrew Welton
+ */
 /// <reference path="CreateEventGlobals.ts" />
 module App.Event.Create {
 

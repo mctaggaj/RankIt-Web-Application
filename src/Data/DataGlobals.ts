@@ -1,3 +1,6 @@
+/**
+ * Jason McTaggart
+ */
 /// <reference path="../AppGlobals.ts" />
 module App.Data {
 

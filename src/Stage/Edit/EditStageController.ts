@@ -1,3 +1,7 @@
+/**
+ * Edit Stage Controller
+ * Andrew Welton
+ */
 /// <reference path="EditStageGlobals.ts" />
 module App.Stage.Edit {
 

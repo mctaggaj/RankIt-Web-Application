@@ -1,3 +1,6 @@
+/**
+ * Andrew Welton
+ */
 /// <reference path="EventGlobals.ts" />
 /// <reference path="EventController.ts" />
 /// <reference path="Create/CreateEventModule.ts" />

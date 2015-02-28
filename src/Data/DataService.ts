@@ -1,3 +1,10 @@
+/**
+ * Jason McTaggart
+ *
+ * Sub Author - Andrew Welton
+ *  I copied and pasted Jason's working function and changed parameters as needed.
+ *  All the functions are basically the same, Jason wrote the core one.
+ */
 /// <reference path="DataGlobals.ts" />
 module App.Data {
 
@@ -40,6 +47,10 @@ module App.Data {
             }
         }
 
+        /**
+         * Jason McTaggart
+         * @returns {IPromise<T>}
+         */
         public getAllComps = ():ng.IPromise<RankIt.ICompetition[]> => {
             var defered = this.$q.defer();
 

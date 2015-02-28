@@ -1,3 +1,7 @@
+/**
+ * View Event Controller
+ * Andrew Welton
+ */
 /// <reference path="EventGlobals.ts" />
 module App.Event {
 

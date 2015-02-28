@@ -1,3 +1,6 @@
+/**
+ * Andrew Welton
+ */
 /// <reference path="CompGlobals.ts" />
 /// <reference path="CompController.ts" />
 /// <reference path="Create/CreateCompModule.ts" />

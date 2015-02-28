@@ -1,3 +1,7 @@
+/**
+ * View Competition Page
+ * Andrew Welton
+ */
 /// <reference path="CompGlobals.ts" />
 module App.Comp {
 
@@ -13,6 +17,7 @@ module App.Comp {
         public static $inject = ["$scope","$state","$stateParams",Data.DataService.serviceId];
         constructor (private $scope: ICompControllerShell,private $state:ng.ui.IStateService ,$stateParams:ng.ui.IStateParamsService, private dataService:Data.DataService) {
             $scope.edit=this.edit;
+            //If we have a competition structure, use it. Otherwise get it from the database
             if($stateParams['comp']){
                 $scope.competition=$stateParams['comp'];
             }else{
@@ -39,8 +44,4 @@ module App.Comp {
                 url: "/comp/{compId}"
             })
         }]);
-        /*.run([Nav.NavService.serviceId, function (navService: Nav.NavService) {
-            navService.addItem({state:CreateComp.state, name: "Create Competition", order: 0});
-
-        }]);*/
 }
