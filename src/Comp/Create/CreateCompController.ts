@@ -20,8 +20,6 @@ module App.Comp.Create {
         }
 
         public submit = () => {
-            //If the comp is public change it to a true/false for saving
-            this.$scope.comp.public = (<any>this.$scope.comp.public).toLowerCase()=='public';
             //Create the competition
             this.dataService.createCompetition(this.$scope.comp).then((data: RankIt.ICompetition) => {
                 this.$state.go(Comp.state,{compId: data.competitionId,comp:data});
