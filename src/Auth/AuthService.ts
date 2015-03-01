@@ -1,4 +1,9 @@
 /// <reference path="AuthGlobals.ts" />
+
+/**
+ * @author Jason McTaggart
+ * @subauthor Timothy Engel
+ */
 module App.Auth {
 
     export interface ILoginResponse {
@@ -96,6 +101,7 @@ module App.Auth {
             this.$http.post("/api/authentication", {userName: userName, password: password})
                 .then(
                 (response: ng.IHttpPromiseCallbackArg<IHttpLoginResolve>) => {
+                    // Success
                     response.data.userName = userName 
                     this.setAuthData(response.data.userName, response.data.userId,response.data.token)
                     defered.resolve({
@@ -103,6 +109,7 @@ module App.Auth {
                     });
                 },
                 (response: ng.IHttpPromiseCallbackArg<IHttpLoginError>) => {
+                    // Failure
                     defered.reject({
                         reason: response.data.msg
                     });
@@ -139,7 +146,9 @@ module App.Auth {
          * Logs the current user out
          */
         public logout = (): void => {
-            this.clearAuthData();
+            this.$http.delete("/api/authentication").success(() => {
+                this.clearAuthData();
+            })
         }
 
         /**
@@ -172,11 +181,12 @@ module App.Auth {
         private setToken = (token : String) => {
             this.localStorageService.set(Auth.LS_UserToken, token);
             if (token) {
-                this.$http.defaults.headers.common.token = token;
+                this.$http.defaults.headers.common["X-Token"] = token;
                 this.httpAuthService.loginConfirmed();
             }
             else {
-                this.$http.defaults.headers.common.token = undefined;
+                // Clears the token
+                this.$http.defaults.headers.common["X-Token"] = undefined;
                 this.httpAuthService.loginCancelled();
             }
         }

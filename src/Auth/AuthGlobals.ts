@@ -1,4 +1,8 @@
 /// <reference path="../AppGlobals.ts" />
+
+/**
+ * @author Jason McTaggart
+ */
 module App.Auth {
 
     export var moduleId = App.moduleId + ".Auth";

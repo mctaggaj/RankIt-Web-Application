@@ -1,8 +1,12 @@
+/**
+ * Create Competition Controller
+ * Andrew Welton, Jason McTaggart
+ */
 /// <reference path="CreateCompGlobals.ts" />
 module App.Comp.Create {
 
-    interface ICreateCompControllerShell extends ng.IScope{
-        comp: any;
+    interface ICreateCompControllerScope extends ng.IScope{
+        comp: RankIt.ICompetition;
         submit: () => void;
     }
 
@@ -11,11 +15,12 @@ module App.Comp.Create {
         public static moduleId = Create.moduleId + "." + CreateCompController.controllerId;
 
         public static $inject = ["$scope","$state",Data.DataService.serviceId];
-        constructor (private $scope: ICreateCompControllerShell,private $state:ng.ui.IStateService, private dataService:Data.DataService) {
+        constructor (private $scope: ICreateCompControllerScope,private $state:ng.ui.IStateService, private dataService:Data.DataService) {
             $scope.submit = this.submit;
         }
 
         public submit = () => {
+            //Create the competition
             this.dataService.createCompetition(this.$scope.comp).then((data: RankIt.ICompetition) => {
                 this.$state.go(Comp.state,{compId: data.competitionId,comp:data});
             }, () => {

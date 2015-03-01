@@ -1,0 +1,39 @@
+<!--Andrew Welton-->
+<div class="row panel top-push">
+    <div class="col-xs-12">
+        <form id="editStageForm" ng-submit="submit()">
+            <h1>Edit Stage</h1>
+            <p>* Indicates a required field.</p>
+            <div class="form-group">
+                <label for="stageName">Stage Name *</label>
+                <input id="stageName" class="form-control" type="text" placeholder="Stage Name" ng-model="stage.name" value="{{stage.name}}"/>
+            </div>
+            <div class="form-group">
+                <label for="stageState">Stage State</label>
+                <select id="stageState" class="form-control" ng-model="stage.state" ng-init="stage.state='Upcoming'" value="{{stage.state}}">
+                    <option>Upcoming</option>
+                    <option>In Progress</option>
+                    <option>Finished</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="stageDescription">Stage Description</label>
+                <input id="stageDescription" class="form-control" type="text" placeholder="Describe the Stage" ng-model="stage.description" value="{{stage.description}}"/>
+            </div>
+            <div class="form-group">
+                <label for="stageLocation">Stage Location</label>
+                <input id="stageLocation" class="form-control" type="text" placeholder="Where is it?" ng-model="stage.location" value="{{stage.location}}"/>
+            </div>
+            <div class="form-group">
+                <p>Events</p>
+                <div ng-repeat="event in events">
+                    <a ui-sref="Stage({'stage':{{event}}})">{{event.name}}</a>
+                </div>
+                <a class="btn btn-primary" ui-sref="createEvent({'stage':{{stage}}})">Add Event</a>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary" type="submit">Save Event</button>
+            </div>
+        </form>
+    </div>
+</div>

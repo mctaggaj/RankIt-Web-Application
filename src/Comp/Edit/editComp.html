@@ -1,0 +1,51 @@
+<!--Andrew Welton -->
+<div class="row panel top-push">
+    <div class="col-xs-12">
+        <form id="editCompForm" ng-submit="submit()">
+            <h1>Edit a Competition</h1>
+            <p>* Indicates a required field.</p>
+            <div class="form-group">
+                <label for="compName">Competition Name *</label>
+                <input id="compName" class="form-control" type="text" placeholder="Competition Name" ng-model="comp.name" value="{{comp.name}}"/>
+            </div>
+            <div class="form-group">
+                <label for="compPrivacy">Public Competition</label>
+                <select id="compPrivacy" class="form-control" ng-model="comp.public" value="{{comp.public}}">
+                    <option value="1">Public</option>
+                    <option value="0">Private</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="compState">Competition State</label>
+                <select id="compState" class="form-control" ng-model="comp.state"  value="{{comp.state}}">
+                    <option>Upcoming</option>
+                    <option>In Progress</option>
+                    <option>Finished</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="compSubject">Competing in</label>
+                <input id="compSubject" class="form-control" type="text" placeholder="Subject of Competition" ng-model="comp.subject" value="{{comp.subject}}"/>
+            </div>
+            <div class="form-group">
+                <label for="compDescription">Competition Description</label>
+                <input id="compDescription" class="form-control" type="text" placeholder="Describe the Competition" ng-model="comp.description" value="{{comp.description}}"/>
+            </div>
+            <div class="form-group">
+                <label for="compLocation">Competition Location</label>
+                <input id="compLocation" class="form-control" type="text" placeholder="Where is it?" ng-model="comp.location" value="{{comp.location}}"/>
+            </div>
+            <div class="form-group">
+                <p>Stages</p>
+                <div ng-repeat="stage in stages">
+                    <a ui-sref="Stage({'stage':{{stage}}})">{{stage.name}}</a>
+                </div>
+                <a class="btn btn-primary" ng-click="addStage(comp)">Add Stage</a>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary" type="submit">Save Competition</button>
+            </div>
+
+        </form>
+    </div>
+</div>

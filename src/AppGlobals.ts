@@ -1,6 +1,10 @@
-/// <reference path="../Typings/typings.d.ts" />
+/// <reference path="../Typings/Typings.d.ts"/>
 
-
+/**
+ * @author Jason McTaggart
+ * The App module.
+ * Contains all sub-modules and implementation required for the app
+ */
 module App {
 
     /**
@@ -22,7 +26,9 @@ module App {
     export var baseUrl = "/src/";
 
     /**
+     * Gets the list of child module ids given a module
      * @param object the parent modules
+     * @param <optional> the array of dependencies to add to
      * @returns module ids of child modules
      */
     export function getChildModuleIds(object: IModule, dep?: string[]):string[] {

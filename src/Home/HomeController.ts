@@ -1,10 +1,13 @@
+/**
+ * Home Page
+ * Andrew Welton, Jason McTaggart
+ */
 /// <reference path="HomeGlobals.ts" />
 module App.Home {
 
     interface IHomeControllerShell extends ng.IScope{
-        message: string;
         competitions:RankIt.ICompetition[];
-        subjects:string[];
+        subjects:{ [subject: string]: {name: string; checked: boolean}; };
     }
 
     export class HomeController {
@@ -13,15 +16,15 @@ module App.Home {
 
         public static $inject = ["$scope",Data.DataService.serviceId];
         constructor ($scope: IHomeControllerShell, dataService:Data.DataService) {
-            $scope.message="Hello World!!";
             $scope.competitions=[];
-            $scope.subjects=[];
+            $scope.subjects={};
             dataService.getAllComps().then((data: RankIt.ICompetition[]) => {
                 $scope.competitions = data;
+                //Get a list of all subjects for the checkboxes in the sidebar
                 for(var i=0;i<data.length;i++)
                 {
-                    if($scope.subjects.indexOf(data[i].subject)<0){
-                        $scope.subjects.push(data[i].subject);
+                    if($scope.subjects[data[i].subject]=== undefined){
+                        $scope.subjects[data[i].subject] = {name: data[i].subject, checked: true};
                     }
                 }
             }, (failure: any) => {
@@ -45,5 +48,17 @@ module App.Home {
         .run([Nav.NavService.serviceId, function (navService: Nav.NavService) {
             navService.addItem({state:Home.state, name: "Home", order: 0});
 
-        }]);
+        }])
+        //Filter out the unchecked boxes for subjects
+        .filter('homeFilter', function() {
+            return function(input: RankIt.ICompetition[],options: { [subject: string]: {name: string; checked: boolean}; }) {
+                var output: RankIt.ICompetition[] = []
+                for (var i in input) {
+                    if(options[input[i].subject].checked==true){
+                        output.push(input[i]);
+                    }
+                }
+                return output;
+            };
+        });
 }

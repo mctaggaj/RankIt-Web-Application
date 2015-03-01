@@ -1,16 +1,23 @@
+/**
+ * View Competition Page
+ * Andrew Welton
+ */
 /// <reference path="CompGlobals.ts" />
 module App.Comp {
 
     interface ICompControllerShell extends ng.IScope{
         competition:RankIt.ICompetition;
+        edit: (compId) => void;
     }
 
     export class CompController {
         public static controllerId = "CompController";
         public static moduleId = Comp.moduleId + "." + CompController.controllerId;
 
-        public static $inject = ["$scope","$stateParams",Data.DataService.serviceId];
-        constructor (private $scope: ICompControllerShell, $stateParams:ng.ui.IStateParamsService, private dataService:Data.DataService) {
+        public static $inject = ["$scope","$state","$stateParams",Data.DataService.serviceId];
+        constructor (private $scope: ICompControllerShell,private $state:ng.ui.IStateService ,$stateParams:ng.ui.IStateParamsService, private dataService:Data.DataService) {
+            $scope.edit=this.edit;
+            //If we have a competition structure, use it. Otherwise get it from the database
             if($stateParams['comp']){
                 $scope.competition=$stateParams['comp'];
             }else{
@@ -21,6 +28,10 @@ module App.Comp {
 
                 });
             }
+        }
+
+        public edit = (compId) => {
+            this.$state.go(Comp.Edit.state,{compId: compId});
         }
     }
 
@@ -33,8 +44,4 @@ module App.Comp {
                 url: "/comp/{compId}"
             })
         }]);
-        /*.run([Nav.NavService.serviceId, function (navService: Nav.NavService) {
-            navService.addItem({state:CreateComp.state, name: "Create Competition", order: 0});
-
-        }]);*/
 }

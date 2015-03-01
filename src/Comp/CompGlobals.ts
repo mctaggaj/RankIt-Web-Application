@@ -1,3 +1,6 @@
+/**
+ * Andrew Welton, Jason McTaggart
+ */
 /// <reference path="../AppGlobals.ts" />
 module App.Comp {
 

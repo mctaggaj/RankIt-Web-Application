@@ -1,3 +1,4 @@
+<!-- Andrew Welton-->
 <div class="row panel top-push">
     <div class="col-xs-12">
         <form id="createCompForm" ng-submit="submit()">
@@ -9,9 +10,9 @@
             </div>
             <div class="form-group">
                 <label for="compPrivacy">Public Competition</label>
-                <select id="compPrivacy" class="form-control" ng-model="comp.public" ng-init="comp.public='Public'">
-                    <option>Public</option>
-                    <option>Private</option>
+                <select id="compPrivacy" class="form-control" ng-model="comp.public" ng-init="comp.public='1'">
+                    <option value="1">Public</option>
+                    <option value="0">Private</option>
                 </select>
             </div>
             <div class="form-group">
@@ -23,8 +24,8 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="compSubject">Competing in</label>
-                <input id="compSubject" class="form-control" type="text" placeholder="Subject of Competition" ng-model="comp.subject"/>
+                <label for="compSubject">Competing in *</label>
+                <input id="compSubject" class="form-control" type="text" placeholder="Subject of Competition" ng-required="true" ng-model="comp.subject"/>
             </div>
             <div class="form-group">
                 <label for="compDescription">Competition Description</label>

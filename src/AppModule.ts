@@ -5,10 +5,16 @@
 /// <reference path="Shell/ShellModule.ts"/>
 /// <reference path="Home/HomeModule.ts"/>
 /// <reference path="Login/LoginModule.ts"/>
-/// <reference path="CompStruct/CompStructModule.ts"/>
-/// <reference path="Comp/Create/CreateCompModule.ts"/>
+/// <reference path="Comp/CompModule.ts"/>
+/// <reference path="Stage/StageModule.ts"/>
+/// <reference path="Event/EventModule.ts"/>
+/**
+ * @author Jason McTaggart
+ * The App module.
+ * Contains all sub-modules and implementation required for the app
+ */
 module App {
-    var dep = App.getChildModuleIds(App,["ui.bootstrap", "ui.router", "app-partials"]);
+    var dep = App.getChildModuleIds(App,["ui.bootstrap", "ui.router", "app-partials", "ngAnimate"]);
     var app = angular.module(App.moduleId, dep);
 
 

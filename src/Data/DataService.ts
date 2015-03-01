@@ -1,3 +1,12 @@
+/**
+ * Handles data interactions between the app and the server
+ *
+ * @author Jason McTaggart
+ *
+ * @Sub-Author - Andrew Welton
+ *  I copied and pasted Jason's working function and changed parameters as needed.
+ *  All the functions are basically the same, Jason wrote the core one.
+ */
 /// <reference path="DataGlobals.ts" />
 module App.Data {
 
@@ -34,16 +43,27 @@ module App.Data {
             this.$sce = $sce;
         }
 
+        /**
+         * Treats the given competition data
+         * @param comp to treat
+         */
         private treatComp = (comp: any) => {
+            // Makes Urls trusted
             if (comp.hasOwnProperty("streamURL")){
                 comp.streamURL = this.$sce.trustAsResourceUrl(comp.streamURL);
             }
         }
 
+        /**
+         * Gets the list of competitions for the current user, only public competitions if no user is logged in
+         * @returns {IPromise<RankIt.ICompetition[]>}
+         */
         public getAllComps = ():ng.IPromise<RankIt.ICompetition[]> => {
             var defered = this.$q.defer();
 
             this.$http.get("/api/competitions").success((data: any, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
+                //Success
+
                 data.competitions.push({
                     "competitionId": "c2",
                     "name": "3760 Meeting Event",
@@ -65,12 +85,15 @@ module App.Data {
                     "state": "In Progress",
                     "streamURL": "http://www.twitch.tv/fragbitelive/embed"
                 });
+
+                // Treats all competition data
                 for(var i = 0 ; i < data.competitions.length ; i ++) {
                     this.treatComp(data.competitions[i]);
                 }
 
                 defered.resolve(data.competitions);
             }).error((data: any, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
+                // Failure
 
                 defered.reject();
 
@@ -84,9 +107,8 @@ module App.Data {
             var defered = this.$q.defer();
 
             this.$http.get("/api/competitions/"+id).success((data: any, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
-                this.treatComp(data.competition);
-
-                defered.resolve(data.competition);
+                this.treatComp(data);
+                defered.resolve(data);
             }).error((data: any, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
 
                 defered.reject();
@@ -97,9 +119,18 @@ module App.Data {
             return defered.promise;
         }
 
+        public getStage = (stageId):ng.IPromise<RankIt.IStage> => {
+            var defered = this.$q.defer();
+            this.$http.get("/api/competitions/stages/"+stageId).success((data: any, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
+                defered.resolve(data);
+            }).error((data: any, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
+                defered.reject();
+            });
+            return defered.promise;
+        }
+
         public createCompetition = (comp):ng.IPromise<RankIt.ICompetition> => {
             var defered = this.$q.defer();
-            console.log("ASDF");
             this.$http.post("/api/competitions",comp).success((data: RankIt.ICompetition, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
                 defered.resolve(data)
             }).error((data: any, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
@@ -110,6 +141,57 @@ module App.Data {
             return defered.promise;
         }
 
+        public createStage = (compId,stage):ng.IPromise<RankIt.IStage> => {
+            var defered = this.$q.defer();
+            this.$http.post("/api/competitions/"+compId+"/stages",stage).success((data: RankIt.IStage, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
+                defered.resolve(data)
+            }).error((data: any, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
+                defered.reject();
+            });
+            return defered.promise;
+        }
+
+        public createEvent = (stageId,event):ng.IPromise<RankIt.IEvent> => {
+            var defered = this.$q.defer();
+            this.$http.post("/api/competitions/0/stages/"+stageId+"/events",event).success((data: RankIt.IEvent, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
+                defered.resolve(data)
+            }).error((data: any, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
+                defered.reject();
+            });
+            return defered.promise;
+        }
+
+        public editCompetition = (comp):ng.IPromise<RankIt.ICompetition> => {
+            var defered = this.$q.defer();
+            this.$http.post("/api/competitions",comp).success((data: RankIt.ICompetition, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
+                defered.resolve(data)
+            }).error((data: any, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
+
+                defered.reject();
+
+            });
+            return defered.promise;
+        }
+
+        public getCompStages = (compId):ng.IPromise<RankIt.IStage[]> => {
+            var defered = this.$q.defer();
+            this.$http.get("api/competitions/"+compId+"/stages").success((data:any, status:number, headers:ng.IHttpHeadersGetter, config:ng.IRequestConfig) => {
+                defered.resolve(data.stages);
+            }).error((data:any, status:number, headers:ng.IHttpHeadersGetter, config:ng.IRequestConfig) =>{
+
+            });
+            return defered.promise;
+        }
+
+        public getStageEvents = (stageId):ng.IPromise<RankIt.IEvent[]> => {
+            var defered = this.$q.defer();
+            this.$http.get("api/competitions/0/stages/"+stageId+"/events").success((data:any, status:number, headers:ng.IHttpHeadersGetter, config:ng.IRequestConfig) => {
+                defered.resolve(data.events);
+            }).error((data:any, status:number, headers:ng.IHttpHeadersGetter, config:ng.IRequestConfig) =>{
+
+            });
+            return defered.promise;
+        }
 
     }
 

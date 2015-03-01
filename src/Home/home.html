@@ -1,13 +1,13 @@
+<!--Andrew Welton-->
 <div class="row top-push">
     <div class="col-xs-8">
-        <accordion  ng-repeat="comp in competitions">
+        <accordion ng-repeat="comp in competitions | homeFilter:subjects">
             <accordion-group>
                 <accordion-heading>
                     <h2>{{comp.name}} - {{comp.description}}</h2>
                     <p>In Progress</p>
                 </accordion-heading>
                 <comp-struct competition="comp" detail="true">
-
                 </comp-struct>
                 <h4>Taking place at {{comp.location}}</h4>
                 <p>Competing in: {{comp.subject}}</p>
@@ -15,6 +15,7 @@
                     <h2>Stream</h2>
                     <iframe src="{{comp.streamURL}}" frameborder="0" scrolling="no" height="378" width="620"></iframe>
                 </span>
+                <a ui-sref="Comp({compId:{{comp.competitionId}}})">View Competition Page</a>
             </accordion-group>
         </accordion>
     </div>
@@ -24,9 +25,9 @@
             <input type="text" id="competitionSearch" class="form-control" placeholder="Search"/>
             <label>Or</label>
             <label>Filter By:</label>
-            <div class="checkbox" ng-repeat="subject in subjects">
+            <div class="checkbox" ng-repeat="(subject, item) in subjects">
                 <label>
-                    <input type="checkbox"> {{subject}}
+                    <input type="checkbox" ng-model="item.checked"> {{subject}}
                 </label>
             </div>
         </div>

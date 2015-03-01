@@ -1,13 +1,11 @@
 /// <reference path="DataGlobals.ts"/>
 /// <reference path="DataService.ts"/>
 
+/**
+ * @author Jason McTaggart
+ */
 module App.Data {
-    /**
-     * The list of child modules
-     * @type {string[]}
-     */
-    var dep = App.getChildModuleIds(Data);
 
     // Makes App.Auth module
-    angular.module(Data.moduleId, dep);
+    angular.module(Data.moduleId, App.getChildModuleIds(Data));
 }
