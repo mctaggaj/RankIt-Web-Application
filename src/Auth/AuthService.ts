@@ -1,4 +1,8 @@
 /// <reference path="AuthGlobals.ts" />
+
+/**
+ * @author Jason McTaggart
+ */
 module App.Auth {
 
     export interface ILoginResponse {
@@ -96,6 +100,7 @@ module App.Auth {
             this.$http.post("/api/authentication", {userName: userName, password: password})
                 .then(
                 (response: ng.IHttpPromiseCallbackArg<IHttpLoginResolve>) => {
+                    // Success
                     response.data.userName = userName 
                     this.setAuthData(response.data.userName, response.data.userId,response.data.token)
                     defered.resolve({
@@ -103,6 +108,7 @@ module App.Auth {
                     });
                 },
                 (response: ng.IHttpPromiseCallbackArg<IHttpLoginError>) => {
+                    // Failure
                     defered.reject({
                         reason: response.data.msg
                     });
@@ -178,6 +184,7 @@ module App.Auth {
                 this.httpAuthService.loginConfirmed();
             }
             else {
+                // Clears the token
                 this.$http.defaults.headers.common["X-Token"] = undefined;
                 this.httpAuthService.loginCancelled();
             }

@@ -1,7 +1,9 @@
 /**
- * Jason McTaggart
+ * Handles data interactions between the app and the server
  *
- * Sub Author - Andrew Welton
+ * @author Jason McTaggart
+ *
+ * @Sub-Author - Andrew Welton
  *  I copied and pasted Jason's working function and changed parameters as needed.
  *  All the functions are basically the same, Jason wrote the core one.
  */
@@ -41,47 +43,57 @@ module App.Data {
             this.$sce = $sce;
         }
 
+        /**
+         * Treats the given competition data
+         * @param comp to treat
+         */
         private treatComp = (comp: any) => {
+            // Makes Urls trusted
             if (comp.hasOwnProperty("streamURL")){
                 comp.streamURL = this.$sce.trustAsResourceUrl(comp.streamURL);
             }
         }
 
         /**
-         * Jason McTaggart
-         * @returns {IPromise<T>}
+         * Gets the list of competitions for the current user, only public competitions if no user is logged in
+         * @returns {IPromise<RankIt.ICompetition[]>}
          */
         public getAllComps = ():ng.IPromise<RankIt.ICompetition[]> => {
             var defered = this.$q.defer();
 
             this.$http.get("/api/competitions").success((data: any, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
-                //data.competitions.push({
-                //    "competitionId": "c2",
-                //    "name": "3760 Meeting Event",
-                //    "subject": "Class!",
-                //    "description": "I hope Denis likes it!",
-                //    "location": "Denis' Office",
-                //    "public": true,
-                //    "results": "[]",
-                //    "state": "In Progress"
-                //});
-                //data.competitions.push({
-                //    "competitionId": "c3",
-                //    "name": "Test",
-                //    "subject": "Test",
-                //    "description": "Twitch Stream Test",
-                //    "location": "Test",
-                //    "public": true,
-                //    "results": "[]",
-                //    "state": "In Progress",
-                //    "streamURL": "http://www.twitch.tv/fragbitelive/embed"
-                //});
+                //Success
+
+                data.competitions.push({
+                    "competitionId": "c2",
+                    "name": "3760 Meeting Event",
+                    "subject": "Class!",
+                    "description": "I hope Denis likes it!",
+                    "location": "Denis' Office",
+                    "public": true,
+                    "results": "[]",
+                    "state": "In Progress"
+                });
+                data.competitions.push({
+                    "competitionId": "c3",
+                    "name": "Test",
+                    "subject": "Test",
+                    "description": "Twitch Stream Test",
+                    "location": "Test",
+                    "public": true,
+                    "results": "[]",
+                    "state": "In Progress",
+                    "streamURL": "http://www.twitch.tv/fragbitelive/embed"
+                });
+
+                // Treats all competition data
                 for(var i = 0 ; i < data.competitions.length ; i ++) {
                     this.treatComp(data.competitions[i]);
                 }
 
                 defered.resolve(data.competitions);
             }).error((data: any, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
+                // Failure
 
                 defered.reject();
 

@@ -1,6 +1,6 @@
 /**
  * Create Competition Controller
- * Andrew Welton
+ * Andrew Welton, Jason McTaggart
  */
 /// <reference path="CreateCompGlobals.ts" />
 module App.Comp.Create {

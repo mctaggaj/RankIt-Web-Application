@@ -1,12 +1,11 @@
 /**
  * Home Page
- * Andrew Welton
+ * Andrew Welton, Jason McTaggart
  */
 /// <reference path="HomeGlobals.ts" />
 module App.Home {
 
     interface IHomeControllerShell extends ng.IScope{
-        message: string;
         competitions:RankIt.ICompetition[];
         subjects:{ [subject: string]: {name: string; checked: boolean}; };
     }
@@ -17,7 +16,6 @@ module App.Home {
 
         public static $inject = ["$scope",Data.DataService.serviceId];
         constructor ($scope: IHomeControllerShell, dataService:Data.DataService) {
-            $scope.message="Hello World!!";
             $scope.competitions=[];
             $scope.subjects={};
             dataService.getAllComps().then((data: RankIt.ICompetition[]) => {
@@ -50,17 +48,17 @@ module App.Home {
         .run([Nav.NavService.serviceId, function (navService: Nav.NavService) {
             navService.addItem({state:Home.state, name: "Home", order: 0});
 
-        }])//Filter out the unchecked boxes for subjects
+        }])
+        //Filter out the unchecked boxes for subjects
         .filter('homeFilter', function() {
-            return function(input: RankIt.ICompetition,options: { [subject: string]: {name: string; checked: boolean}; }) {
-                for (var comp in input) {
-                    if(options[input[comp].subject].checked==false){
-                        // SPLICE
+            return function(input: RankIt.ICompetition[],options: { [subject: string]: {name: string; checked: boolean}; }) {
+                var output: RankIt.ICompetition[] = []
+                for (var i in input) {
+                    if(options[input[i].subject].checked==true){
+                        output.push(input[i]);
                     }
                 }
-
-
-                return input;
+                return output;
             };
         });
 }

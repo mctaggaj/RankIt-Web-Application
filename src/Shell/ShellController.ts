@@ -1,4 +1,8 @@
 /// <reference path="ShellGlobals.ts" />
+
+/**
+ * @author Jason McTaggart
+ */
 module App.Shell {
 
     interface IShellControllerShell extends ng.IScope{

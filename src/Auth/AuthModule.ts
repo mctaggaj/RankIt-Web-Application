@@ -1,6 +1,9 @@
 /// <reference path="AuthGlobals.ts"/>
 /// <reference path="AuthService.ts"/>
 
+/**
+ * @author Jason McTaggart
+ */
 module App.Auth {
     /**
      * The list of child modules

@@ -1,3 +1,7 @@
+/**
+ * @author Jason McTaggart
+ */
+
 var gulp = require('gulp');
 var config = require('./buildConfig.json');
 var concat = require('gulp-concat');
@@ -7,7 +11,6 @@ var ngHtml2Js = require("gulp-ng-html2js");
 var watch = require('gulp-watch');
 var less = require('gulp-less');
 var runSequence = require('run-sequence');
-
 
 
 gulp.task('copy-index-html', function() {

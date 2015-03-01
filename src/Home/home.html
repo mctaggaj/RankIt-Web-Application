@@ -1,7 +1,7 @@
 <!--Andrew Welton-->
 <div class="row top-push">
     <div class="col-xs-8">
-        <accordion  ng-repeat="comp in competitions | homeFilter:subjects">
+        <accordion ng-repeat="comp in competitions | homeFilter:subjects">
             <accordion-group>
                 <accordion-heading>
                     <h2>{{comp.name}} - {{comp.description}}</h2>

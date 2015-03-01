@@ -1,5 +1,5 @@
 /**
- * Andrew Welton
+ * Andrew Welton, Jason McTaggart
  */
 /// <reference path="CompGlobals.ts" />
 /// <reference path="CompController.ts" />
