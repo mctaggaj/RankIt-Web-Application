@@ -2,6 +2,7 @@
 
 /**
  * @author Jason McTaggart
+ * @subauthor Timothy Engel
  */
 module App.Auth {
 
