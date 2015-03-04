@@ -6,8 +6,9 @@
 module App.Event.Edit {
 
     interface IEditEventControllerShell extends ng.IScope{
-        comp: any;
+        event: RankIt.IEvent;
         submit: () => void;
+        states:string[];
     }
 
     export class EditEventController {
@@ -17,22 +18,20 @@ module App.Event.Edit {
         public static $inject = ["$scope","$state","$stateParams",Data.DataService.serviceId];
         constructor (private $scope: IEditEventControllerShell,private $state:ng.ui.IStateService, $stateParams:ng.ui.IStateParamsService, private dataService:Data.DataService) {
             $scope.submit = this.submit;
-            console.log($state);
-            console.log($stateParams);
-            dataService.getComp($stateParams['compId']).then((data: RankIt.ICompetition) => {
-                console.log(data);
-                $scope.comp = data;
-            }, (failure: any) => {
+            $scope.states=RankIt.state;
+            if($stateParams['event']){
+                $scope.event=$stateParams['event'];
+            }else{
+                dataService.getEvent($stateParams['eventId']).then((data: RankIt.IEvent) => {
+                    $scope.event = data;
+                }, (failure: any) => {
 
-            });
+                });
+            }
         }
 
         public submit = () => {
-            this.dataService.editCompetition(this.$scope.comp).then((data: RankIt.ICompetition) => {
-                this.$state.go(Comp.state,{compId: data.competitionId,comp:data});
-            }, () => {
-                // failure
-            });
+
         }
     }
 
@@ -42,7 +41,8 @@ module App.Event.Edit {
             $routeProvider.state(Edit.state, {
                 templateUrl: Edit.baseUrl+'editEvent.html',
                 controller: EditEventController.controllerId,
-                url: "/event/edit/{compId}"
+                url: "/event/edit/{eventId}",
+                params:{event:null}
             })
         }]);
 }

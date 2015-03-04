@@ -121,7 +121,17 @@ module App.Data {
 
         public getStage = (stageId):ng.IPromise<RankIt.IStage> => {
             var defered = this.$q.defer();
-            this.$http.get("/api/competitions/stages/"+stageId).success((data: any, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
+            this.$http.get("/api/stages/"+stageId).success((data: any, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
+                defered.resolve(data);
+            }).error((data: any, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
+                defered.reject();
+            });
+            return defered.promise;
+        }
+
+        public getEvent = (eventId):ng.IPromise<RankIt.IEvent> => {
+            var defered = this.$q.defer();
+            this.$http.get("/api/events/"+eventId).success((data: any, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
                 defered.resolve(data);
             }).error((data: any, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
                 defered.reject();

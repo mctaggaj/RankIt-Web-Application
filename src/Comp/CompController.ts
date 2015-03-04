@@ -22,7 +22,6 @@ module App.Comp {
                 $scope.competition=$stateParams['comp'];
             }else{
                 dataService.getComp($stateParams['compId']).then((data: RankIt.ICompetition) => {
-                    console.log(data);
                     $scope.competition = data;
                 }, (failure: any) => {
 

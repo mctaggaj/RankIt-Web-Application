@@ -21,7 +21,6 @@ module App.Stage {
                 $scope.stage=$stateParams['stage'];
             }else{
                 dataService.getStage($stateParams['stageId']).then((data: RankIt.IStage) => {
-                    console.log(data);
                     $scope.stage = data;
                 }, (failure: any) => {
 
@@ -41,7 +40,7 @@ module App.Stage {
                 templateUrl: Stage.baseUrl+'stage.html',
                 controller: StageController.controllerId,
                 url: "/stage/{stageId}",
-                params:{'stage':undefined}
+                params:{stage:null}
             })
         }]);
         /*.run([Nav.NavService.serviceId, function (navService: Nav.NavService) {

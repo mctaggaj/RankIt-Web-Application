@@ -34,3 +34,7 @@ module App {
 
 }
 
+module RankIt{
+    export var state=["Upcoming","In Progress","Completed"];
+}
+
