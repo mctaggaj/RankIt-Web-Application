@@ -47,7 +47,7 @@ module App.Data {
          * Treats the given competition data
          * @param comp to treat
          */
-        private treatComp = (comp: any) => {
+        private treatComp = (comp: RankIt.ICompetition) => {
             // Makes Urls trusted
             if (comp.hasOwnProperty("streamURL")){
                 comp.streamURL = this.$sce.trustAsResourceUrl(comp.streamURL);
@@ -114,8 +114,6 @@ module App.Data {
                 defered.reject();
 
             });
-
-
             return defered.promise;
         }
 
@@ -139,7 +137,7 @@ module App.Data {
             return defered.promise;
         }
 
-        public createCompetition = (comp):ng.IPromise<RankIt.ICompetition> => {
+        public createCompetition = (comp: RankIt.ICompetition):ng.IPromise<RankIt.ICompetition> => {
             var defered = this.$q.defer();
             this.$http.post("/api/competitions",comp).success((data: RankIt.ICompetition, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
                 defered.resolve(data)
@@ -151,7 +149,7 @@ module App.Data {
             return defered.promise;
         }
 
-        public createStage = (compId,stage):ng.IPromise<RankIt.IStage> => {
+        public createStage = (compId,stage: RankIt.IStage):ng.IPromise<RankIt.IStage> => {
             var defered = this.$q.defer();
             this.$http.post("/api/competitions/"+compId+"/stages",stage).success((data: RankIt.IStage, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
                 defered.resolve(data)
@@ -161,7 +159,7 @@ module App.Data {
             return defered.promise;
         }
 
-        public createEvent = (stageId,event):ng.IPromise<RankIt.IEvent> => {
+        public createEvent = (stageId, event: RankIt.IEvent):ng.IPromise<RankIt.IEvent> => {
             var defered = this.$q.defer();
             this.$http.post("/api/competitions/0/stages/"+stageId+"/events",event).success((data: RankIt.IEvent, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
                 defered.resolve(data)
@@ -171,7 +169,7 @@ module App.Data {
             return defered.promise;
         }
 
-        public editCompetition = (comp):ng.IPromise<RankIt.ICompetition> => {
+        public editCompetition = (comp: RankIt.ICompetition):ng.IPromise<RankIt.ICompetition> => {
             var defered = this.$q.defer();
             this.$http.post("/api/competitions",comp).success((data: RankIt.ICompetition, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
                 defered.resolve(data)

@@ -57,25 +57,34 @@ declare module RankIt {
          * The competitions identifier
          */
         competitionId: IId;
+
         /**
          * The subject of the competition
          * I.E Mario Cart
          */
         subject: string;
+
         /**
          * True if the competition can be seen by anyone
          * False if it can only be seen by it's participants
          */
             public: boolean;
+
         /**
          * The list of stages
          * I.E Quarterfinals, Semifinals, Finals (as stage objects)
          */
         stages: IStage[];
+
         /**
          * The list of participant (including competitors, admin and judges)
          */
         participants: ICompetitionParticipant[];
+
+        /**
+         * a URL to a live stream for a competition
+         */
+        streamURL: string;
     }
 
     /**
