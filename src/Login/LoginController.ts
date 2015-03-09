@@ -118,10 +118,8 @@ module App.Login {
                     // Sucess
                     this.$state.go(Home.state);
                 }, (response : Auth.ILoginResponse) => {
-                    // console.log(response)
                     this.error.html = response.reason
                     this.error.enabled = true
-                    // console.log(response)
                 });
         }
     }
