@@ -13,3 +13,67 @@
     }
   }
 }
+
+
+@-webkit-keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+  }
+
+  100% {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+    -ms-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+  }
+
+  100% {
+    opacity: 1;
+    -webkit-transform: none;
+    -ms-transform: none;
+    transform: none;
+  }
+}
+
+.fadeInDown {
+  -webkit-animation: fadeInDown 1s;
+  animation: fadeInDown;
+}
+
+.login-alert {
+	opacity: 1;
+	top: 0;
+	position: relative;
+
+	&.ng-hide {
+		top: -100px;
+		opacity: 0;
+		padding-top: 0;
+		padding-bottom: 0;
+		margin: 0;
+		display:block !important;
+	}
+
+	&.ng-hide-add,
+	&.ng-hide-remove {
+		display: block !important;
+		-webkit-transition: all 0.6s;
+		transition: all 0.6s;
+	}
+}
+
+.login-form {
+	display: block !important;
+	-webkit-transition: all 0.6s;
+}
+
