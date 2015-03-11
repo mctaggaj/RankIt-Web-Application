@@ -6,7 +6,6 @@
 module App.Shell {
 
     interface IShellControllerShell extends ng.IScope{
-        message: string;
         navService: Nav.NavService;
         authService: Auth.AuthService;
     }
@@ -17,7 +16,6 @@ module App.Shell {
         public static $inject = ["$scope", Nav.NavService.serviceId, Auth.AuthService.serviceId];
 
         constructor ($scope: IShellControllerShell, navService: Nav.NavService, authService: Auth.AuthService) {
-            $scope.message="Hello World!!";
             $scope.navService=navService;
             $scope.authService=authService;
         }

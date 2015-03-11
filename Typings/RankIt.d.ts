@@ -68,7 +68,7 @@ declare module RankIt {
          * True if the competition can be seen by anyone
          * False if it can only be seen by it's participants
          */
-            public: boolean;
+        public: boolean;
 
         /**
          * The list of stages
