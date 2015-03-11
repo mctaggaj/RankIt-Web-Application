@@ -8,7 +8,7 @@ module App.Stage.Edit {
     interface IEditStageControllerShell extends ng.IScope{
         stage: any;
         submit: () => void;
-        events: RankIt.IEvent[];
+        events: any;
         states:string[];
     }
 
