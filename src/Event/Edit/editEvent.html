@@ -2,41 +2,24 @@
 <div class="row panel top-push">
     <div class="col-xs-12">
         <form id="editCompForm" ng-submit="submit()">
-            <h1>Edit a Competition</h1>
+            <h1>Edit an Event</h1>
             <p>* Indicates a required field.</p>
             <div class="form-group">
-                <label for="compName">Competition Name *</label>
-                <input id="compName" class="form-control" type="text" placeholder="Competition Name" ng-model="comp.name" value="{{comp.name}}"/>
+                <label for="eventName">Event Name *</label>
+                <input id="eventName" class="form-control" type="text" placeholder="Event Name" ng-model="event.name" value="{{event.name}}"/>
             </div>
             <div class="form-group">
-                <label for="compPrivacy">Public Competition</label>
-                <select id="compPrivacy" class="form-control" ng-model="comp.public" ng-init="comp.public='Public'" value="{{comp.public}}">
-                    <option>Public</option>
-                    <option>Private</option>
+                <label for="eventState">Event State</label>
+                <select id="eventState" class="form-control" ng-model="event.state" value="{{event.state}}">
+                    <option ng-repeat="state in states">{{state}}</option>
                 </select>
             </div>
             <div class="form-group">
-                <label for="compState">Competition State</label>
-                <select id="compState" class="form-control" ng-model="comp.state" ng-init="comp.state='Upcoming'" value="{{comp.state}}">
-                    <option>Upcoming</option>
-                    <option>In Progress</option>
-                    <option>Finished</option>
-                </select>
+                <label for="eventLocation">Event Location</label>
+                <input id="eventLocation" class="form-control" type="text" placeholder="Where is it?" ng-model="event.location" value="{{event.location}}"/>
             </div>
             <div class="form-group">
-                <label for="compSubject">Competing in</label>
-                <input id="compSubject" class="form-control" type="text" placeholder="Subject of Competition" ng-model="comp.subject" value="{{comp.subject}}"/>
-            </div>
-            <div class="form-group">
-                <label for="compDescription">Competition Description</label>
-                <input id="compDescription" class="form-control" type="text" placeholder="Describe the Competition" ng-model="comp.description" value="{{comp.description}}"/>
-            </div>
-            <div class="form-group">
-                <label for="compLocation">Competition Location</label>
-                <input id="compLocation" class="form-control" type="text" placeholder="Where is it?" ng-model="comp.location" value="{{comp.location}}"/>
-            </div>
-            <div class="form-group">
-                <button class="btn btn-primary" type="submit">Save Competition</button>
+                <button class="btn btn-primary" type="submit">Save Event</button>
             </div>
         </form>
     </div>

@@ -10,10 +10,8 @@
             </div>
             <div class="form-group">
                 <label for="stageState">Stage State</label>
-                <select id="stageState" class="form-control" ng-model="stage.state" ng-init="stage.state='Upcoming'" value="{{stage.state}}">
-                    <option>Upcoming</option>
-                    <option>In Progress</option>
-                    <option>Finished</option>
+                <select id="stageState" class="form-control" ng-model="stage.state" value="{{stage.state}}">
+                    <option ng-repeat="state in states">{{state}}</option>
                 </select>
             </div>
             <div class="form-group">
@@ -27,9 +25,9 @@
             <div class="form-group">
                 <p>Events</p>
                 <div ng-repeat="event in events">
-                    <a ui-sref="Stage({'stage':{{event}}})">{{event.name}}</a>
+                    <a ui-sref="Event({'event':{{event}},'eventId':{{event.eventId}}})">{{event.name}}</a>
                 </div>
-                <a class="btn btn-primary" ui-sref="createEvent({'stage':{{stage}}})">Add Event</a>
+                <a class="btn btn-primary" ng-if="stage" ui-sref="createEvent({'stage':{{stage}}})">Add Event</a>
             </div>
             <div class="form-group">
                 <button class="btn btn-primary" type="submit">Save Event</button>

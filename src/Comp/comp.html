@@ -9,5 +9,5 @@
     <p>{{competition.state}}</p>
     <p>{{competition.streamUrl}}</p>
 
-    <button class="btn btn-primary" ng-click="edit(competition.competitionId)">Edit This Competition</button>
+    <button class="btn btn-primary" ng-if="competition.competitionId" ui-sref="editComp({comp:{{competition}},compId:{{competition.competitionId}}})">Edit This Competition</button>
 </div>

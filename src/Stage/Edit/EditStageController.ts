@@ -8,7 +8,8 @@ module App.Stage.Edit {
     interface IEditStageControllerShell extends ng.IScope{
         stage: any;
         submit: () => void;
-        events: RankIt.IEvent[];
+        events: any;
+        states:string[];
     }
 
     export class EditStageController {
@@ -18,13 +19,23 @@ module App.Stage.Edit {
         public static $inject = ["$scope","$state","$stateParams",Data.DataService.serviceId];
         constructor (private $scope: IEditStageControllerShell,private $state:ng.ui.IStateService, $stateParams:ng.ui.IStateParamsService, private dataService:Data.DataService) {
             $scope.submit = this.submit;
-            $scope.stage=$stateParams['stage'];
-
-            dataService.getStageEvents(this.$scope.stage.stageId).then((data:RankIt.IEvent[])=>{
-                this.$scope.events=data;
-            },()=>{
-                //failure
-            });
+            $scope.states=RankIt.state;
+            console.log($stateParams);
+            if($stateParams['stage']){
+                $scope.stage=$stateParams['stage'];
+                dataService.getStageEvents(this.$scope.stage.stageId).then((data:RankIt.IEvent[])=>{
+                    this.$scope.events=data;
+                },()=>{
+                    //failure
+                });
+            }else{
+                dataService.getStage($stateParams['stageId']).then((data:RankIt.IStage)=>{
+                    this.$scope.stage=data;
+                    this.$scope.events=data.events;
+                },()=>{
+                    //failure
+                });
+            }
         }
 
         public submit = () => {
@@ -43,7 +54,7 @@ module App.Stage.Edit {
                 templateUrl: Edit.baseUrl+'editStage.html',
                 controller: EditStageController.controllerId,
                 url: "/stage/edit/{stageId}",
-                params:{'stage':undefined}
+                params:{'stage':null}
             })
         }]);
 }

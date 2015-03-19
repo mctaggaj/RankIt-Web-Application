@@ -6,8 +6,7 @@
 module App.Event {
 
     interface IEventControllerShell extends ng.IScope{
-        competition:RankIt.ICompetition;
-        edit: (compId) => void;
+        event:RankIt.IEvent;
     }
 
     export class EventController {
@@ -16,21 +15,15 @@ module App.Event {
 
         public static $inject = ["$scope","$state","$stateParams",Data.DataService.serviceId];
         constructor (private $scope: IEventControllerShell,private $state:ng.ui.IStateService ,$stateParams:ng.ui.IStateParamsService, private dataService:Data.DataService) {
-            $scope.edit=this.edit;
-            if($stateParams['comp']){
-                $scope.competition=$stateParams['comp'];
+            if($stateParams['event']){
+                $scope.event=$stateParams['event'];
             }else{
-                dataService.getComp($stateParams['compId']).then((data: RankIt.ICompetition) => {
-                    console.log(data);
-                    $scope.competition = data;
+                dataService.getEvent($stateParams['eventId']).then((data: RankIt.IEvent) => {
+                    $scope.event = data;
                 }, (failure: any) => {
 
                 });
             }
-        }
-
-        public edit = (compId) => {
-            this.$state.go(Comp.Edit.state,{compId: compId});
         }
     }
 
@@ -41,7 +34,7 @@ module App.Event {
                 templateUrl: Event.baseUrl+'event.html',
                 controller: EventController.controllerId,
                 url: "/event/{eventId}",
-                params:{'event':undefined}
+                params:{'event':null}
             })
         }]);
         /*.run([Nav.NavService.serviceId, function (navService: Nav.NavService) {

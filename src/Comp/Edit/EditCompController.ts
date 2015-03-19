@@ -20,18 +20,23 @@ module App.Comp.Edit {
         constructor (private $scope: IEditCompControllerShell,private $state:ng.ui.IStateService, $stateParams:ng.ui.IStateParamsService, private dataService:Data.DataService) {
             $scope.submit = this.submit;
             $scope.addStage = this.addStage;
-            dataService.getComp($stateParams['compId']).then((data: RankIt.ICompetition) => {
-                $scope.comp = data;
-            }, (failure: any) => {
+            if($stateParams['comp']!==undefined){
+                $scope.comp = $stateParams['comp'];
+                $scope.stages = $scope.comp.stages;
+            }else{
+                dataService.getComp($stateParams['compId']).then((data: RankIt.ICompetition) => {
+                    $scope.comp = data;
+                }, (failure: any) => {
 
-            });
-            //Get the stages in the competition to show on the page.
-            dataService.getCompStages($stateParams['compId']).then((data: RankIt.IStage[])=>{
-                console.log(data);
-                $scope.stages=data;
-            },(failure:any)=>{
+                });
+                //Get the stages in the competition to show on the page.
+                dataService.getCompStages($stateParams['compId']).then((data: RankIt.IStage[])=>{
+                    console.log(data);
+                    $scope.stages=data;
+                },(failure:any)=>{
 
-            });
+                });
+            }
         }
 
         public submit = () => {

@@ -38,7 +38,7 @@
             <div class="form-group">
                 <p>Stages</p>
                 <div ng-repeat="stage in stages">
-                    <a ui-sref="Stage({'stage':{{stage}}})">{{stage.name}}</a>
+                    <a ui-sref="Stage({'stage':{{stage}},'stageId':{{stage.stageId}}})">{{stage.name}}</a>
                 </div>
                 <a class="btn btn-primary" ng-click="addStage(comp)">Add Stage</a>
             </div>
