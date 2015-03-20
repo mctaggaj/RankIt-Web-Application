@@ -6,47 +6,6 @@
  */
 module App.Auth {
 
-    export interface ILoginResponse {
-
-        /**
-         * The reason for failure
-         */
-        reason: string
-    }
-
-    /**
-     * The shape of the data returned upon successful authentication
-     */
-    interface IHttpLoginResolve {
-        /**
-         * The auth object
-         */
-        // auth : {
-
-            /**
-             * The username
-             */
-            userName: string;
-
-            /**
-             * The user Id
-             */
-            userId: string;
-
-            /**
-             * The authentication token
-             */
-            token: string;
-        // }
-    }
-
-    /**
-     * The shape of the promise resolution object.
-     */
-    interface IHttpLoginError {
-        msg: string;
-    }
-
     /**
      * Handles user authentication and current user state
      */
@@ -95,23 +54,23 @@ module App.Auth {
          * @param userName
          * @param password
          */
-        public login = (userName: string, password: string): ng.IPromise<ILoginResponse> => {
+        public login = (username: string, password: string): ng.IPromise<RankIt.IResponse> => {
             this.clearAuthData();
             var defered = this.$q.defer();
-            this.$http.post("/api/authentication", {userName: userName, password: password})
+            this.$http.post("/api/authentication", {userName: username, password: password})
                 .then(
-                (response: ng.IHttpPromiseCallbackArg<IHttpLoginResolve>) => {
+                (response: ng.IHttpPromiseCallbackArg<RankIt.User>) => {
                     // Success
-                    response.data.userName = userName 
-                    this.setAuthData(response.data.userName, response.data.userId,response.data.token)
+                    response.data.username = username 
+                    this.setAuthData(response.data.username, response.data.id, response.data.token)
                     defered.resolve({
-                        reason: null
+                        msg: null
                     });
                 },
-                (response: ng.IHttpPromiseCallbackArg<IHttpLoginError>) => {
+                (response: ng.IHttpPromiseCallbackArg<RankIt.IResponse>) => {
                     // Failure
                     defered.reject({
-                        reason: response.data.msg
+                        msg: response.data.msg
                     });
                 });
             return defered.promise;
@@ -123,20 +82,20 @@ module App.Auth {
          * @param userName
          * @param password
          */
-        public register = (userName: string, password: string): ng.IPromise<ILoginResponse> => {
+        public register = (username: string, password: string): ng.IPromise<RankIt.IResponse> => {
             this.clearAuthData();
             var defered = this.$q.defer();
-            this.$http.post("/api/users", {userName: userName, password: password})
+            this.$http.post("/api/users", {userName: username, password: password})
                 .then(
-                (response: ng.IHttpPromiseCallbackArg<IHttpLoginResolve>) => {
-                    this.setAuthData(response.data.userName,response.data.userId,response.data.token)
+                (response: ng.IHttpPromiseCallbackArg<RankIt.User>) => {
+                    this.setAuthData(response.data.username,response.data.id,response.data.token)
                     defered.resolve({
-                        reason: null
+                        msg: null
                     });
                 },
-                (response: ng.IHttpPromiseCallbackArg<IHttpLoginError>) => {
+                (response: ng.IHttpPromiseCallbackArg<RankIt.IResponse>) => {
                     defered.reject({
-                        reason: response.data.msg
+                        msg: response.data.msg
                     });
                 });
             return defered.promise;
@@ -178,7 +137,7 @@ module App.Auth {
          * Sets the token, and reties failed requests
          * @param token
          */
-        private setToken = (token : String) => {
+        private setToken = (token : string) => {
             this.localStorageService.set(Auth.LS_UserToken, token);
             if (token) {
                 this.$http.defaults.headers.common["X-Token"] = token;
@@ -213,9 +172,9 @@ module App.Auth {
          * @param userId the user id of the user
          * @param userToken the session token
          */
-        private setAuthData = (userName: string, userId: string, userToken: string) => {
-            this.localStorageService.set(Auth.LS_UserName, userName);
-            this.localStorageService.set(Auth.LS_UserId, userId);
+        private setAuthData = (username: string, id: number, userToken: string) => {
+            this.localStorageService.set(Auth.LS_UserName, username);
+            this.localStorageService.set(Auth.LS_UserId, id);
             this.setToken(userToken);
         }
 

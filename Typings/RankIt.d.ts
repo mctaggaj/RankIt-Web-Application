@@ -233,4 +233,49 @@ declare module RankIt {
          */
         competitor: boolean;
     }
+
+    /**
+     * Response message from API calls
+    **/
+
+    export interface IResponse {
+        msg: string;
+    }
+
+     /**
+     * Permissions/roles
+     */
+    export interface User {
+
+
+        /**
+         * ID of user, primary key 
+         */
+        id: number;
+
+        /**
+         * email, only initialized if constructed by authorized user
+         */
+        email: string;
+
+        /**
+         * Username if set
+         */
+        username: string;
+
+        /**
+         * First name of user
+         */
+        firstname: string;
+
+        /**
+         * Last name of user
+         */
+        lastname: string;
+
+        /**
+         * Session token
+         */
+        token: string;
+    }
 }

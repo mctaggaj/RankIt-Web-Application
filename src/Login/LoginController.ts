@@ -93,10 +93,10 @@ module App.Login {
             }
 
             this.authService.login(this.scope.info.email,this.scope.info.password)
-                .then((response : Auth.ILoginResponse) => {
+                .then((response : RankIt.IResponse) => {
                     // Sucess
                     this.$state.go(Home.state);
-                }, (response : Auth.ILoginResponse) => {
+                }, (response : RankIt.IResponse) => {
                     this.error.title = 'Error!'
 
                     this.error.html = 'Invalid username or password. If you do not have an account, \
@@ -114,11 +114,11 @@ module App.Login {
             }
 
             this.authService.register(this.scope.info.email, this.scope.info.password)
-                .then((response : Auth.ILoginResponse) => {
+                .then((response : RankIt.IResponse) => {
                     // Sucess
                     this.$state.go(Home.state);
-                }, (response : Auth.ILoginResponse) => {
-                    this.error.html = response.reason
+                }, (response : RankIt.IResponse) => {
+                    this.error.html = response.msg
                     this.error.enabled = true
                 });
         }

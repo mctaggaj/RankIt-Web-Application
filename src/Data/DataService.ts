@@ -16,7 +16,7 @@ module App.Data {
     export class DataService {
         public static serviceId = "DataService";
         public static moduleId = App.moduleId + "." + DataService.serviceId;
-        public static $inject: string[] = ["$http", "$q", "$sce"];
+        public static $inject: string[] = ["$http", "$q", "$sce", Auth.AuthService.serviceId];
 
 
         /**
@@ -35,12 +35,18 @@ module App.Data {
         private $sce: ng.ISCEService;
 
         /**
+         * AuthService reference
+         */
+        private authService: Auth.AuthService
+
+        /**
          * Creates a new DataService
          */
-        constructor ($http: ng.IHttpService, $q: ng.IQService, $sce: ng.ISCEService) {
+        constructor ($http: ng.IHttpService, $q: ng.IQService, $sce: ng.ISCEService, authService: Auth.AuthService) {
             this.$http = $http;
             this.$q = $q;
             this.$sce = $sce;
+            this.authService = authService
         }
 
         /**
@@ -201,6 +207,19 @@ module App.Data {
             return defered.promise;
         }
 
+        public getUser = (userId):ng.IPromise<RankIt.IResponse> => {
+            var defered = this.$q.defer();
+            this.$http.get("api/users/"+userId).success((data:any, status:number, headers:ng.IHttpHeadersGetter, config:ng.IRequestConfig) => {
+                defered.resolve(data);
+            }).error((data:any, status:number, headers:ng.IHttpHeadersGetter, config:ng.IRequestConfig) =>{
+
+            });
+            return defered.promise;
+        }
+
+        public clientLogin = (username: string, password: string):ng.IPromise<RankIt.IResponse> => {
+            return this.authService.login(username, password)
+        }
     }
 
     /**
