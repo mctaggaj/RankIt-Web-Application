@@ -220,6 +220,14 @@ module App.Data {
         public clientLogin = (username: string, password: string):ng.IPromise<RankIt.IResponse> => {
             return this.authService.login(username, password)
         }
+
+        public clientRegister = (username: string, password: string, firstName: string, lastName: string):ng.IPromise<RankIt.IResponse> => {
+            return this.authService.register(username, password, firstName, lastName)
+        }
+
+        public getAuthData = ():RankIt.IUser => {
+            return this.authService.getAuthData();
+        }
     }
 
     /**

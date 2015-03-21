@@ -237,7 +237,6 @@ declare module RankIt {
     /**
      * Response message from API calls
     **/
-
     export interface IResponse {
         msg: string;
     }
@@ -245,7 +244,7 @@ declare module RankIt {
      /**
      * Permissions/roles
      */
-    export interface User {
+    export interface IUser {
 
 
         /**

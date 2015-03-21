@@ -35,9 +35,9 @@ module App.Login {
     export class LoginController {
         public static controllerId = "LoginController";
         public static moduleId = Login.moduleId + "." + LoginController.controllerId;
-        public static $inject = ["$scope", "$state", Auth.AuthService.serviceId];
+        public static $inject = ["$scope", "$state", Data.DataService.serviceId];
 
-        private authService: Auth.AuthService;
+        private dataService: Data.DataService;
         private $state: ng.ui.IStateService;
         private info = {
             firstName: "",
@@ -65,8 +65,8 @@ module App.Login {
         private loginMode = true;
         private scope;
 
-        constructor ($scope: ILoginControllerShell, $state: ng.ui.IStateService, authService: Auth.AuthService) {
-            this.authService = authService;
+        constructor ($scope: ILoginControllerShell, $state: ng.ui.IStateService, dataService: Data.DataService) {
+            this.dataService = dataService;
             this.$state = $state;
             $scope.loginMode = true;
 
@@ -92,7 +92,7 @@ module App.Login {
                 return
             }
 
-            this.authService.login(this.scope.info.email,this.scope.info.password)
+            this.dataService.clientLogin(this.scope.info.email,this.scope.info.password)
                 .then((response : RankIt.IResponse) => {
                     // Sucess
                     this.$state.go(Home.state);
@@ -113,10 +113,21 @@ module App.Login {
                 return
             }
 
-            this.authService.register(this.scope.info.email, this.scope.info.password)
+            this.dataService.clientRegister(this.scope.info.email, this.scope.info.password, this.scope.info.firstName, this.scope.info.lastName)
                 .then((response : RankIt.IResponse) => {
                     // Sucess
-                    this.$state.go(Home.state);
+                    this.dataService.clientLogin(this.scope.info.email,this.scope.info.password)
+                        .then((response : RankIt.IResponse) => {
+                            // Sucess
+                            this.$state.go(Home.state);
+                        }, (response : RankIt.IResponse) => {
+                            this.scope.loginMode = true
+                            this.error.title = 'Error!'
+
+                            this.error.html = 'Something went wrong, contact an administrator'
+                            this.error.state = "BAD_LOGIN";
+                            this.error.enabled = true
+                        });
                 }, (response : RankIt.IResponse) => {
                     this.error.html = response.msg
                     this.error.enabled = true
