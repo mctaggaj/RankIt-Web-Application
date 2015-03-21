@@ -7,17 +7,17 @@ module App.Shell {
 
     interface IShellControllerShell extends ng.IScope{
         navService: Nav.NavService;
-        authService: Auth.AuthService;
+        dataService: Data.DataService;
     }
 
     export class ShellController {
         public static controllerName = "ShellController";
         public static moduleId = Shell.moduleId + "." + ShellController.controllerName;
-        public static $inject = ["$scope", Nav.NavService.serviceId, Auth.AuthService.serviceId];
+        public static $inject = ["$scope", Nav.NavService.serviceId, Data.DataService.serviceId];
 
-        constructor ($scope: IShellControllerShell, navService: Nav.NavService, authService: Auth.AuthService) {
+        constructor ($scope: IShellControllerShell, navService: Nav.NavService, dataService: Data.DataService) {
             $scope.navService=navService;
-            $scope.authService=authService;
+            $scope.dataService=dataService;
         }
     }
 

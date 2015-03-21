@@ -6,47 +6,6 @@
  */
 module App.Auth {
 
-    export interface ILoginResponse {
-
-        /**
-         * The reason for failure
-         */
-        reason: string
-    }
-
-    /**
-     * The shape of the data returned upon successful authentication
-     */
-    interface IHttpLoginResolve {
-        /**
-         * The auth object
-         */
-        // auth : {
-
-            /**
-             * The username
-             */
-            userName: string;
-
-            /**
-             * The user Id
-             */
-            userId: string;
-
-            /**
-             * The authentication token
-             */
-            token: string;
-        // }
-    }
-
-    /**
-     * The shape of the promise resolution object.
-     */
-    interface IHttpLoginError {
-        msg: string;
-    }
-
     /**
      * Handles user authentication and current user state
      */
@@ -77,6 +36,11 @@ module App.Auth {
         private httpAuthService : ng.httpAuth.IAuthService;
 
         /**
+         * Storage of the user data
+         */
+        private user: RankIt.IUser;
+
+        /**
          * Creates a new AuthService
          */
         constructor ($http: ng.IHttpService, $q: ng.IQService, localStorageService: ng.localStorage.ILocalStorageService, httpAuthService: ng.httpAuth.IAuthService) {
@@ -85,9 +49,9 @@ module App.Auth {
             this.localStorageService = localStorageService;
             this.httpAuthService = httpAuthService;
 
-            if (this.isLoggedIn()) {
-                this.setToken(this.getToken());
-            }
+            // if (this.isLoggedIn()) {
+            //     this.setToken(this.getToken());
+            // }
         }
 
         /**
@@ -95,23 +59,23 @@ module App.Auth {
          * @param userName
          * @param password
          */
-        public login = (userName: string, password: string): ng.IPromise<ILoginResponse> => {
+        public login = (username: string, password: string): ng.IPromise<RankIt.IResponse> => {
             this.clearAuthData();
             var defered = this.$q.defer();
-            this.$http.post("/api/authentication", {userName: userName, password: password})
+            this.$http.post("/api/authentication", {userName: username, password: password})
                 .then(
-                (response: ng.IHttpPromiseCallbackArg<IHttpLoginResolve>) => {
+                (response: ng.IHttpPromiseCallbackArg<RankIt.IUser>) => {
                     // Success
-                    response.data.userName = userName 
-                    this.setAuthData(response.data.userName, response.data.userId,response.data.token)
+                    response.data.username = username 
+                    this.setAuthData(response.data)
                     defered.resolve({
-                        reason: null
+                        msg: null
                     });
                 },
-                (response: ng.IHttpPromiseCallbackArg<IHttpLoginError>) => {
+                (response: ng.IHttpPromiseCallbackArg<RankIt.IResponse>) => {
                     // Failure
                     defered.reject({
-                        reason: response.data.msg
+                        msg: response.data.msg
                     });
                 });
             return defered.promise;
@@ -123,20 +87,21 @@ module App.Auth {
          * @param userName
          * @param password
          */
-        public register = (userName: string, password: string): ng.IPromise<ILoginResponse> => {
+        public register = (username: string, password: string, firstName: string, lastName: string): ng.IPromise<RankIt.IResponse> => {
             this.clearAuthData();
             var defered = this.$q.defer();
-            this.$http.post("/api/users", {userName: userName, password: password})
+            this.$http.post("/api/users", {userName: username, password: password, firstName: firstName, lastName: lastName})
                 .then(
-                (response: ng.IHttpPromiseCallbackArg<IHttpLoginResolve>) => {
-                    this.setAuthData(response.data.userName,response.data.userId,response.data.token)
+                (response: ng.IHttpPromiseCallbackArg<RankIt.IUser>) => {
+                    response.data.username = username;
+                    this.setAuthData(response.data)
                     defered.resolve({
-                        reason: null
+                        msg: null
                     });
                 },
-                (response: ng.IHttpPromiseCallbackArg<IHttpLoginError>) => {
+                (response: ng.IHttpPromiseCallbackArg<RankIt.IResponse>) => {
                     defered.reject({
-                        reason: response.data.msg
+                        msg: response.data.msg
                     });
                 });
             return defered.promise;
@@ -154,31 +119,32 @@ module App.Auth {
         /**
          * @returns {boolean} true if currently logged in false if logged out
          */
-        public isLoggedIn = (): any => {
-            return (this.getUserName()
-            && this.getUserId()
-            && this.getToken());
-        }
+        // public isLoggedIn = (): any => {
+        //     return (this.user.username
+        //     && this.user.id
+        //     && this.user.token);
+        // }
 
         /**
          * @returns {string} the user name of the current user
          */
-        public getUserName = (): string => {
-            return this.localStorageService.get(Auth.LS_UserName);
+        public getUsername = (): string => {
+            return this.localStorageService.get(Auth.LS_Username);
         }
 
         /**
          * @returns {string} the user id of the current user
          */
-        public getUserId = (): string => {
-            return this.localStorageService.get(Auth.LS_UserId);
+        public getUserId = (): number => {
+            return parseInt(this.localStorageService.get(Auth.LS_UserId));
         }
 
         /**
          * Sets the token, and reties failed requests
          * @param token
          */
-        private setToken = (token : String) => {
+        private setToken = (token : any) => {
+            this.user.token = token;
             this.localStorageService.set(Auth.LS_UserToken, token);
             if (token) {
                 this.$http.defaults.headers.common["X-Token"] = token;
@@ -198,13 +164,17 @@ module App.Auth {
             return this.localStorageService.get(Auth.LS_UserToken);
         }
 
+        public clearToken = () => {
+            return this.setToken(undefined)
+        }
+
         /**
          * Clears the authentication data
          */
         private clearAuthData = () => {
-            this.localStorageService.remove(Auth.LS_UserName);
+            this.clearToken()
+            this.localStorageService.remove(Auth.LS_Username);
             this.localStorageService.remove(Auth.LS_UserId);
-            this.localStorageService.remove(Auth.LS_UserToken);
         }
 
         /**
@@ -213,10 +183,23 @@ module App.Auth {
          * @param userId the user id of the user
          * @param userToken the session token
          */
-        private setAuthData = (userName: string, userId: string, userToken: string) => {
-            this.localStorageService.set(Auth.LS_UserName, userName);
-            this.localStorageService.set(Auth.LS_UserId, userId);
-            this.setToken(userToken);
+        private setAuthData = (data: any) => {
+            this.user.username = data.username;
+            this.user.token = data.token;
+            this.user.id = data.id;
+            this.localStorageService.set(Auth.LS_Username, data.username);
+            this.localStorageService.set(Auth.LS_UserId, data.id);
+            this.setToken(data.token);
+        }
+
+        public getAuthData = (): RankIt.IUser => {
+            if (!this.user){
+                this.user = (<any>{})
+                this.user.token = this.getToken();
+                this.user.username = this.getUsername();
+                this.user.id = this.getUserId();
+            }
+            return this.user;
         }
 
     }
