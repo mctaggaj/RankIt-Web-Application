@@ -20,10 +20,9 @@
         </div>
 
         <button type="submit" class="btn-lg btn-primary btn-block">Log in</button>
-        <button class="btn btn-default btn-block" ng-click="register()">Register</button>
+        <a class="btn btn-default btn-block" ng-click="register()">Register</a>
     </form>
     <form class="jumbotron panel" ng-hide="loginMode" ng-submit="register()">
-
         <div class="form-group form-group-lg">
             <input type="text" class="form-control input-lg" placeholder="First Name" class="ng-hide" ng-model="info.firstName" ng-required="true">
         </div>
@@ -41,6 +40,6 @@
         </div>
 
         <button type="submit" class="btn-lg btn-primary btn-block">Register</button>
-        <button class="btn btn-default btn-block" ng-click="login()">Cancel</button>
+        <a class="btn btn-default btn-block" ng-click="login()">Cancel</a>
     </form>
 </div>

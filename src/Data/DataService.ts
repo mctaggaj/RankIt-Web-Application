@@ -225,6 +225,10 @@ module App.Data {
             return this.authService.register(username, password, firstName, lastName)
         }
 
+        public clientLogout = (): void => {
+            this.authService.logout();
+        }
+
         public getAuthData = ():RankIt.IUser => {
             return this.authService.getAuthData();
         }
