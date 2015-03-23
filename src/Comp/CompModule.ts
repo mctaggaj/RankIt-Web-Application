@@ -2,6 +2,7 @@
  * Andrew Welton, Jason McTaggart
  */
 /// <reference path="CompGlobals.ts" />
+/// <reference path="Filler/FillerModule.ts" />
 /// <reference path="CompController.ts" />
 /// <reference path="Create/CreateCompModule.ts" />
 /// <reference path="Edit/EditCompModule.ts"/>

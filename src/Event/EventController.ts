@@ -11,7 +11,7 @@ module App.Event {
 
     export class EventController {
         public static controllerId = "EventController";
-        public static moduleId = Comp.moduleId + "." + EventController.controllerId;
+        public static moduleId = Event.moduleId + "." + EventController.controllerId;
 
         public static $inject = ["$scope","$state","$stateParams",Data.DataService.serviceId];
         constructor (private $scope: IEventControllerShell,private $state:ng.ui.IStateService ,$stateParams:ng.ui.IStateParamsService, private dataService:Data.DataService) {

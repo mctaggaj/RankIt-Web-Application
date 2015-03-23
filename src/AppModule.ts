@@ -1,13 +1,14 @@
 /// <reference path="AppGlobals.ts"/>
+/// <reference path="Id/IdModule.ts"/>
 /// <reference path="Nav/NavModule.ts"/>
 /// <reference path="Auth/AuthModule.ts"/>
 /// <reference path="Data/DataModule.ts"/>
 /// <reference path="Shell/ShellModule.ts"/>
 /// <reference path="Home/HomeModule.ts"/>
 /// <reference path="Login/LoginModule.ts"/>
-/// <reference path="Comp/CompModule.ts"/>
-/// <reference path="Stage/StageModule.ts"/>
 /// <reference path="Event/EventModule.ts"/>
+/// <reference path="Stage/StageModule.ts"/>
+/// <reference path="Comp/CompModule.ts"/>
 /**
  * @author Jason McTaggart
  * The App module.

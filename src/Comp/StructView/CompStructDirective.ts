@@ -65,6 +65,120 @@ module App.Comp.CompStruct {
         }
 
         /**
+         * Sorts a given competition's stages and their events
+         * @param comp
+         */
+        private sortComp (comp: RankIt.ICompetition) {
+            var firstStage: RankIt.IStage
+            var stageIndex = 0;
+            var currentStage: RankIt.IStage = comp.stages[stageIndex]
+            // Finds the first stage
+            while (!firstStage){
+                if (!currentStage.previousStage)
+                {
+                    firstStage = currentStage;
+                }
+                else
+                {
+                    stageIndex = this.stageIndexWithId(comp.stages, currentStage.previousStage)
+                    currentStage = comp.stages[stageIndex];
+                }
+            }
+
+            // Sorts the stages
+            var counter = 0;
+            while (currentStage && currentStage.nextStage)
+            {
+                this.arraySwap(comp.stages,counter++,stageIndex);
+                stageIndex = this.stageIndexWithId(comp.stages, currentStage.nextStage)
+                var nextStage = comp.stages[stageIndex];
+                this.sortStage(currentStage, nextStage);
+
+                currentStage = nextStage;
+            }
+        }
+
+        /**
+         * Sorts the events within the stage to resemble the order they would appear in a traditional bracketed competition
+         * @param stage
+         * @param nextStage
+         */
+        private sortStage (stage: RankIt.IStage, nextStage: RankIt.IStage) {
+            if (!stage || !nextStage)
+            {
+                throw new Error("Stage and nextStage arguments must exist");
+            }
+            var counter = 0;
+            for (var i in nextStage.events)
+            {
+                for (var j in nextStage.events[i].seed)
+                {
+                    var index = this.eventIndexWithSeed(stage.events, nextStage.events[i].seed[j])
+                    this.arraySwap(stage.events, counter, index);
+                    counter ++;
+                }
+            }
+        }
+
+        /**
+         * finds the index of an event with a given seed
+         * @param events
+         * @param seed
+         * @returns {number} the index of the item (-1 if not present)
+         */
+        private eventIndexWithSeed(events: RankIt.IEvent[], seed: number): number {
+            for (var i in events) {
+                var event = events[i];
+                for (var j in event.seed)
+                {
+                    if (seed == event.seed[j])
+                    {
+                        return i;
+                    }
+                }
+            }
+            return -1;
+        }
+
+        /**
+         * Gets the index of the stage with a given id
+         * @param stages
+         * @param id
+         * @returns {number} the index of the item (-1 if not present)
+         */
+        private stageIndexWithId (stages: RankIt.IStage[], id: RankIt.IId)
+        {
+            for (var i in stages)
+            {
+                if (stages[i].stageId == id)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        /**
+         * Swaps items at index x and y in the array
+         * @param array
+         * @param x
+         * @param y
+         */
+        private arraySwap(array: any[], x: number, y: number)
+        {
+            if(!array||x<0||x>=array.length||y<0||y>=array.length)
+            {
+                throw new Error("Invalid Arguments");
+            }
+            else
+            {
+                var temp = array[x];
+                array[x] = array[y];
+                array[y] = temp;
+            }
+        }
+
+        /**
          * The Post Link function see https://docs.angularjs.org/api/ng/service/$compile
          * @param scope
          * @param elem
@@ -116,27 +230,30 @@ module App.Comp.CompStruct {
                 var stageHeight=100/scope.comp.stages.length;
                 scope.stageStyle = {height: stageHeight+"%"};
 
+
+                this.sortComp(scope.comp)
                 // Applies scope changes
                 if (!scope.$$phase) {
                     scope.$apply();
                 }
-                    // Finds all the connections
-                    var connectors = [];
-                    for(var i = 1 ; i < scope.comp.stages.length ; i ++) {
-                        this.findConnections(scope.comp.stages[i-1], scope.comp.stages[i], connectors);
+
+                // Finds all the connections
+                var connectors = [];
+                for(var i = 1 ; i < scope.comp.stages.length ; i ++) {
+                    this.findConnections(scope.comp.stages[i-1], scope.comp.stages[i], connectors);
+                }
+
+                // Re-Draws when the canvas changes visibility to visible
+                scope.$watch(() => {
+                    return $canvas.css("visibility");
+                }, (newVal) => {
+
+                    // Re-Draws if the canvas is visible
+                    if (newVal === "visible")
+                    {
+                        this.draw($canvas, connectors);
                     }
-
-                    // Re-Draws when the canvas changes visibility to visible
-                    scope.$watch(() => {
-                        return $canvas.css("visibility");
-                    }, (newVal) => {
-
-                        // Re-Draws if the canvas is visible
-                        if (newVal === "visible")
-                        {
-                            this.draw($canvas, connectors);
-                        }
-                    });
+                });
             },0);
         }
 
@@ -157,18 +274,12 @@ module App.Comp.CompStruct {
                     var seed = event.seed[j];
 
                     // Finds event in previous stage with the corresponding seed
-                    for (var k = 0; k < prevStage.events.length; k++) {
-                        var fromEvent = prevStage.events[k]
-                        for (var ii = 0; ii < event.seed.length; ii++) {
-                            var fromSeed = event.seed[ii];
-                            if (seed == fromSeed) {
-                                connectors.push({
-                                    from: $("#" + fromEvent.eventId + ">.event"),
-                                    to: $("#" + event.eventId + ">.event")
-                                });
-                            }
-                        }
-                    }
+                    var index = this.eventIndexWithSeed(prevStage.events, seed)
+                    var fromEvent = prevStage.events[index];
+                    connectors.push({
+                        from: $("#" + fromEvent.eventId + ">.event"),
+                        to: $("#" + event.eventId + ">.event")
+                    });
                 }
             }
         }

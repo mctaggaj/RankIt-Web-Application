@@ -11,7 +11,7 @@ module App.Stage {
 
     export class StageController {
         public static controllerId = "StageController";
-        public static moduleId = Comp.moduleId + "." + StageController.controllerId;
+        public static moduleId = Stage.moduleId + "." + StageController.controllerId;
 
         public static $inject = ["$scope","$state","$stateParams",Data.DataService.serviceId];
         constructor (private $scope: IStageControllerShell,private $state:ng.ui.IStateService ,$stateParams:ng.ui.IStateParamsService, private dataService:Data.DataService) {

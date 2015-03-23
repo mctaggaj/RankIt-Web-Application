@@ -167,7 +167,7 @@ module App.Data {
 
         public createEvent = (stageId, event: RankIt.IEvent):ng.IPromise<RankIt.IEvent> => {
             var defered = this.$q.defer();
-            this.$http.post("/api/competitions/0/stages/"+stageId+"/events",event).success((data: RankIt.IEvent, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
+            this.$http.post("/api/stages/"+stageId+"/events",event).success((data: RankIt.IEvent, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
                 defered.resolve(data)
             }).error((data: any, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
                 defered.reject();
@@ -175,14 +175,32 @@ module App.Data {
             return defered.promise;
         }
 
-        public editCompetition = (comp: RankIt.ICompetition):ng.IPromise<RankIt.ICompetition> => {
+        public editCompetition = (compId, comp: RankIt.ICompetition):ng.IPromise<RankIt.ICompetition> => {
             var defered = this.$q.defer();
-            this.$http.post("/api/competitions",comp).success((data: RankIt.ICompetition, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
+            this.$http.put("/api/competitions/"+compId,comp).success((data: RankIt.ICompetition, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
                 defered.resolve(data)
             }).error((data: any, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
-
                 defered.reject();
+            });
+            return defered.promise;
+        }
 
+        public editStage = (stageId, stage: RankIt.IStage):ng.IPromise<RankIt.IStage> => {
+            var defered = this.$q.defer();
+            this.$http.put("/api/stages/"+stageId,stage).success((data: RankIt.IStage, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
+                defered.resolve(data)
+            }).error((data: any, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
+                defered.reject();
+            });
+            return defered.promise;
+        }
+
+        public editEvent = (eventId, event: RankIt.IEvent):ng.IPromise<RankIt.IEvent> => {
+            var defered = this.$q.defer();
+            this.$http.put("/api/events/"+eventId,event).success((data: RankIt.IEvent, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
+                defered.resolve(data)
+            }).error((data: any, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
+                defered.reject();
             });
             return defered.promise;
         }
@@ -199,7 +217,7 @@ module App.Data {
 
         public getStageEvents = (stageId):ng.IPromise<RankIt.IEvent[]> => {
             var defered = this.$q.defer();
-            this.$http.get("api/competitions/0/stages/"+stageId+"/events").success((data:any, status:number, headers:ng.IHttpHeadersGetter, config:ng.IRequestConfig) => {
+            this.$http.get("api/stages/"+stageId+"/events").success((data:any, status:number, headers:ng.IHttpHeadersGetter, config:ng.IRequestConfig) => {
                 defered.resolve(data.events);
             }).error((data:any, status:number, headers:ng.IHttpHeadersGetter, config:ng.IRequestConfig) =>{
 
