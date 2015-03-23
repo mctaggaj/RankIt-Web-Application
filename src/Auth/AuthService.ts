@@ -161,6 +161,9 @@ module App.Auth {
          * @returns {string} the auth token
          */
         public getToken = (): string => {
+            if (this.$http.defaults.headers.common["X-Token"] == undefined){
+                this.$http.defaults.headers.common["X-Token"] = this.localStorageService.get(Auth.LS_UserToken);
+            }
             return this.localStorageService.get(Auth.LS_UserToken);
         }
 
