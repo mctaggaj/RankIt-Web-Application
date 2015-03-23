@@ -25,13 +25,12 @@ module App.Comp.Edit {
                 $scope.stages = $scope.comp.stages;
             }else{
                 dataService.getComp($stateParams['compId']).then((data: RankIt.ICompetition) => {
-                    $scope.comp = data;
+                    $scope.comp=data;
                 }, (failure: any) => {
 
                 });
                 //Get the stages in the competition to show on the page.
                 dataService.getCompStages($stateParams['compId']).then((data: RankIt.IStage[])=>{
-                    console.log(data);
                     $scope.stages=data;
                 },(failure:any)=>{
 
@@ -40,7 +39,7 @@ module App.Comp.Edit {
         }
 
         public submit = () => {
-            this.dataService.editCompetition(this.$scope.comp).then((data: RankIt.ICompetition) => {
+            this.dataService.editCompetition(this.$scope.comp.competitionId,this.$scope.comp).then((data: RankIt.ICompetition) => {
                 this.$state.go(Comp.state,{compId: data.competitionId,comp:data});
             }, () => {
                 // failure

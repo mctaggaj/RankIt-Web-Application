@@ -31,7 +31,11 @@ module App.Event.Edit {
         }
 
         public submit = () => {
-
+            this.dataService.editEvent(this.$scope.event.eventId,this.$scope.event).then((data: RankIt.IEvent) => {
+                this.$state.go(Event.state,{eventId: data.eventId,event:data});
+            }, () => {
+                // failure
+            });
         }
     }
 
