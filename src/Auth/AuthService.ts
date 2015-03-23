@@ -14,7 +14,6 @@ module App.Auth {
         public static moduleId = App.moduleId + "." + AuthService.serviceId;
         public static $inject: string[] = ["$http", "$q", "localStorageService", "authService"];
 
-
         /**
          * The http service
          */
@@ -49,9 +48,9 @@ module App.Auth {
             this.localStorageService = localStorageService;
             this.httpAuthService = httpAuthService;
 
-            // if (this.isLoggedIn()) {
-            //     this.setToken(this.getToken());
-            // }
+            if (this.isLoggedIn()) {
+                this.setToken(this.getToken());
+            }
         }
 
         /**
@@ -119,11 +118,10 @@ module App.Auth {
         /**
          * @returns {boolean} true if currently logged in false if logged out
          */
-        // public isLoggedIn = (): any => {
-        //     return (this.user.username
-        //     && this.user.id
-        //     && this.user.token);
-        // }
+        public isLoggedIn = (): any => {
+            var user = this.getAuthData();
+            return (user.id&&user.token&&user.username);
+        }
 
         /**
          * @returns {string} the user name of the current user
@@ -161,9 +159,6 @@ module App.Auth {
          * @returns {string} the auth token
          */
         public getToken = (): string => {
-            if (this.$http.defaults.headers.common["X-Token"] == undefined){
-                this.$http.defaults.headers.common["X-Token"] = this.localStorageService.get(Auth.LS_UserToken);
-            }
             return this.localStorageService.get(Auth.LS_UserToken);
         }
 
@@ -188,10 +183,9 @@ module App.Auth {
          */
         private setAuthData = (data: any) => {
             this.user.username = data.username;
-            this.user.token = data.token;
-            this.user.id = data.id;
+            this.user.id = data.userId;
             this.localStorageService.set(Auth.LS_Username, data.username);
-            this.localStorageService.set(Auth.LS_UserId, data.id);
+            this.localStorageService.set(Auth.LS_UserId, data.userId);
             this.setToken(data.token);
         }
 
