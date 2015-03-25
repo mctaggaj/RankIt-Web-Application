@@ -235,6 +235,16 @@ module App.Data {
             return defered.promise;
         }
 
+        public getUserObject = (userId):ng.IPromise<RankIt.IUser> => {
+            var defered = this.$q.defer();
+            this.$http.get("api/users/"+userId).success((data:any, status:number, headers:ng.IHttpHeadersGetter, config:ng.IRequestConfig) => {
+                defered.resolve(data);
+            }).error((data:any, status:number, headers:ng.IHttpHeadersGetter, config:ng.IRequestConfig) =>{
+
+            });
+            return defered.promise;
+        }
+
         public clientLogin = (username: string, password: string):ng.IPromise<RankIt.IResponse> => {
             return this.authService.login(username, password)
         }

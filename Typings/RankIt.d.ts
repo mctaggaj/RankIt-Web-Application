@@ -79,7 +79,7 @@ declare module RankIt {
         /**
          * The list of participant (including competitors, admin and judges)
          */
-        participants: ICompetitionParticipant[];
+        users: ICompetitionParticipant[];
 
         /**
          * a URL to a live stream for a competition
@@ -265,12 +265,12 @@ declare module RankIt {
         /**
          * First name of user
          */
-        firstname: string;
+        firstName: string;
 
         /**
          * Last name of user
          */
-        lastname: string;
+        lastName: string;
 
         /**
          * Session token

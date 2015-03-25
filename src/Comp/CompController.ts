@@ -7,7 +7,7 @@ module App.Comp {
 
     interface ICompControllerShell extends ng.IScope{
         competition:RankIt.ICompetition;
-
+        users:[{firstName:string; lastName:string;}];
     }
 
     export class CompController {
@@ -16,13 +16,28 @@ module App.Comp {
 
         public static $inject = ["$scope","$state","$stateParams",Data.DataService.serviceId, Base.BaseHelperFactory.factoryId];
         constructor (private $scope: ICompControllerShell,private $state:ng.ui.IStateService ,$stateParams:ng.ui.IStateParamsService, private dataService:Data.DataService, private baseHelper: Base.BaseHelperFactory) {
+            $scope.users=[{firstName:"",lastName:""}];
             //If we have a competition structure, use it. Otherwise get it from the database
             if($stateParams['comp']){
                 $scope.competition=$stateParams['comp'];
+                this.populateUsers();
             }else{
                 dataService.getComp($stateParams['compId']).then((data: RankIt.ICompetition) => {
                     $scope.competition = data;
+                    this.populateUsers();
                 }, (failure: any) => {
+
+                });
+            }
+        }
+
+        private populateUsers = () => {
+            var userList=this.$scope.competition.users;
+            for(var i=0;i<userList.length;i++){
+                this.dataService.getUserObject(userList[i].userId).then((data:RankIt.IUser) => {
+                    var temp={firstName:data.firstName, lastName:data.lastName};
+                    this.$scope.users.push(temp);
+                }, (failure:any) => {
 
                 });
             }
