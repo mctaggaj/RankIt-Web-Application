@@ -30,6 +30,10 @@ module App.Comp.Filler {
          * @param participantsPerEvent the number of participants in each event
          */
         public fill = (comp: RankIt.ICompetition, participants: number, participantsPerEvent?: number) => {
+            if (participantsPerEvent < 2)
+            {
+                participantsPerEvent = 2;
+            }
             if(!comp.stages) comp.stages = [];
 
             var numStages = Math.ceil(this.logBase(participants,participantsPerEvent));
