@@ -9,10 +9,11 @@
         <p>{{competition.public}}</p>
         <p>{{competition.state}}</p>
         <p>{{competition.streamUrl}}</p>
+        <comp-struct comp="{{competition}}" detail="true"></comp-struct>
         <button class="btn btn-primary" ng-if="competition.competitionId" ui-sref="editComp({comp:{{competition}},compId:{{competition.competitionId}}})">Edit This Competition</button>
     </div>
     <div id="user-info" class="pull-right">
         <h3>People</h3>
-        <a ng-repeat="user in users" ui-sref="Profile({user:{{user.userObject}}})">{{user.userObject.firstName}} {{user.userObject.lastName}} - {{user.role}}</a>
+        <a ng-repeat="user in users" ui-sref="Profile({user:{{user.userObject}},userId:{{user.userObject.id}})">{{user.userObject.firstName}} {{user.userObject.lastName}} - {{user.role}}</a>
     </div>
 </div>

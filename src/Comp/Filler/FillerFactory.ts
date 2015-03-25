@@ -41,7 +41,7 @@ module App.Comp.Filler {
             for(var i = numStages; i > 0; i--){
                 var participantsInStage = Math.pow(participantsPerEvent,i);
                 if (!comp.stages[numStages-i]) {
-                    comp.stages[numStages-i] = (<any>{});
+                    comp.stages[numStages-i] = (<any>{name:"Stage "+i,state:"Upcoming"});
                     comp.stages[numStages-i].stageId=this.idService.getId()
                     comp.stages[numStages-i].competitionId = comp.competitionId;
                     if (numStages-i > 0) {

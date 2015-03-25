@@ -40,7 +40,7 @@ module App.Stage.Filler {
             for (var i = 0 ; i < numEvents ; i ++) {
                 if (!stage.events[i])
                 {
-                    stage.events[i] = (<any>{});
+                    stage.events[i] = (<any>{name:"Event "+i,state:"Upcoming"});
                     stage.events[i].eventId=this.idService.getId()
                     stage.events[i].stageId = stage.stageId;
                 }
