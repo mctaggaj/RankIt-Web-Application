@@ -1,5 +1,6 @@
 /// <reference path="AppGlobals.ts"/>
 /// <reference path="Id/IdModule.ts"/>
+/// <reference path="Base/BaseModule.ts"/>
 /// <reference path="Nav/NavModule.ts"/>
 /// <reference path="Auth/AuthModule.ts"/>
 /// <reference path="Data/DataModule.ts"/>
@@ -20,18 +21,18 @@ module App {
 
 
     app.directive('dynamic', function ($compile) {
-    return {
-      restrict: 'A',
-      replace: true,
-      scope: { msg: '=dynamic'},
-      link: function postLink(scope, element) {
-        scope.$watch( 'msg' , function(msg){
-          element.html(msg.html);
-          $compile(element.contents())(scope);
-        }, true);
-      }
-    };
-  });
+        return {
+            restrict: 'A',
+            replace: true,
+            scope: {msg: '=dynamic'},
+            link: function postLink(scope, element) {
+                scope.$watch('msg', function (msg) {
+                    element.html(msg.html);
+                    $compile(element.contents())(scope);
+                }, true);
+            }
+        };
+    });
 
 }
 
