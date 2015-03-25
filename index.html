@@ -44,11 +44,11 @@
                 <li class="dropdown" ng-show="authService.isLoggedIn()">
                     <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{dataService.getAuthData().username}}<span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a ui-sref="profile">Profile</a></li>
-                        <li><a ng-click="dataService.clientLogout()" ui-sref="login">Logout</a></li>
+                        <li><a ui-sref="Profile({userId:{{dataService.getAuthData().id}}})">Profile</a></li>
+                        <li><a ng-click="dataService.clientLogout()" ui-sref="Login">Logout</a></li>
                     </ul>
                 </li>
-                <li ng-hide="authService.isLoggedIn()"><a ui-sref="login">Login</a></li>
+                <li ng-hide="authService.isLoggedIn()"><a ui-sref="Login">Login</a></li>
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
