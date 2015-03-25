@@ -120,7 +120,7 @@ module App.Auth {
          */
         public isLoggedIn = (): any => {
             var user = this.getAuthData();
-            return (user.id&&user.token&&user.username);
+            return (user.userId&&user.token&&user.username);
         }
 
         /**
@@ -183,7 +183,7 @@ module App.Auth {
          */
         private setAuthData = (data: any) => {
             this.user.username = data.username;
-            this.user.id = data.userId;
+            this.user.userId = data.userId;
             this.localStorageService.set(Auth.LS_Username, data.username);
             this.localStorageService.set(Auth.LS_UserId, data.userId);
             this.setToken(data.token);
@@ -194,7 +194,7 @@ module App.Auth {
                 this.user = (<any>{})
                 this.user.token = this.getToken();
                 this.user.username = this.getUsername();
-                this.user.id = this.getUserId();
+                this.user.userId = this.getUserId();
             }
             return this.user;
         }

@@ -41,8 +41,10 @@ module App.Profile {
             if (!this.$scope.user){
                 return;
             }
-            if (this.$scope.userId == this.$scope.user.id){
+            if (this.dataService.getAuthData().userId == this.$scope.user.userId){
                 this.$scope.extras = true;
+            } else {
+                this.$scope.extras = false;
             }
         }
 
@@ -50,11 +52,10 @@ module App.Profile {
 
         private getUser = (userId: number) => {
             this.dataService.getUser(userId)
-                .then((response : RankIt.IUser) => {
+                .then((response : any) => {
                     // Success
                     console.log(response)
                     this.$scope.user = response;
-                    this.$scope.user.id = response.userId;
                     this.$scope.userId = userId
                     this.updateIfOwnProfile();
 

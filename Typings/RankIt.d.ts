@@ -250,7 +250,7 @@ declare module RankIt {
         /**
          * ID of user, primary key 
          */
-        id: number;
+        userId: number;
 
         /**
          * email, only initialized if constructed by authorized user
@@ -276,5 +276,16 @@ declare module RankIt {
          * Session token
          */
         token: string;
+
+        /**
+         * Bio of user
+         */
+        bio: string;
+
+
+        /**
+         * User avatar (not always populated)
+         */
+        avatar: string;
     }
 }

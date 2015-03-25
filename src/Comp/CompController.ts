@@ -39,11 +39,11 @@ module App.Comp {
                 this.dataService.getUser(userList[i].userId).then((data:RankIt.IUser) => {
                     var temp:any={};
                     temp.userObject=data;
-                    if(this.baseHelper.userCanEdit(data.id,this.$scope.competition)){
+                    if(this.baseHelper.userCanEdit(data.userId,this.$scope.competition)){
                         temp.role="Admin";
-                    }else if(this.baseHelper.userIsCompetitor(data.id,this.$scope.competition)){
+                    }else if(this.baseHelper.userIsCompetitor(data.userId,this.$scope.competition)){
                         temp.role="Competitor";
-                    }else if(this.baseHelper.userIsJudge(data.id,this.$scope.competition)){
+                    }else if(this.baseHelper.userIsJudge(data.userId,this.$scope.competition)){
                         temp.role="Judge";
                     }
                     this.$scope.users.push(temp);
