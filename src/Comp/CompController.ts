@@ -36,7 +36,7 @@ module App.Comp {
         private populateUsers = () => {
             var userList=this.$scope.competition.users;
             for(var i=0;i<userList.length;i++){
-                this.dataService.getUserObject(userList[i].userId).then((data:RankIt.IUser) => {
+                this.dataService.getUser(userList[i].userId).then((data:RankIt.IUser) => {
                     var temp:any={};
                     temp.userObject=data;
                     if(this.baseHelper.userCanEdit(data.id,this.$scope.competition)){
