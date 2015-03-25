@@ -140,7 +140,7 @@ module App.Login {
     angular.module(LoginController.moduleId, [Nav.NavService.moduleId]).
         controller(LoginController.controllerId, LoginController)
         .config(["$stateProvider", ($routeProvider: ng.ui.IStateProvider) => {
-            $routeProvider.state("login", {
+            $routeProvider.state(Login.state, {
                 templateUrl: Login.baseUrl+'login.html',
                 controller: LoginController.controllerId,
                 url: "/login"

@@ -11,12 +11,12 @@ module App.Profile {
     export class ProfileController {
         public static controllerId = "ProfileController";
         public static moduleId = Profile.moduleId + "." + ProfileController.controllerId;
-        public static $inject = ["$scope", "$state", Data.DataService.serviceId];
+        public static $inject = ["$scope", "$state", "$stateParams", Data.DataService.serviceId];
 
         private dataService: Data.DataService;
         private $state: ng.ui.IStateService;
 
-        constructor ($scope: IProfileController, $state: ng.ui.IStateService, dataService: Data.DataService) {
+        constructor ($scope: IProfileController, $state: ng.ui.IStateService, $stateParams: ng.ui.IStateParamsService, dataService: Data.DataService) {
             this.dataService = dataService;
             this.$state = $state;
         }
@@ -25,10 +25,10 @@ module App.Profile {
     angular.module(ProfileController.moduleId, [Nav.NavService.moduleId]).
         controller(ProfileController.controllerId, ProfileController)
         .config(["$stateProvider", ($routeProvider: ng.ui.IStateProvider) => {
-            $routeProvider.state("Profile", {
+            $routeProvider.state(Profile.state, {
                 templateUrl: Profile.baseUrl+'profile.html',
                 controller: ProfileController.controllerId,
-                url: "/profile"
+                url: "/profile/{userId}"
             });
         }]);
 }
