@@ -74,23 +74,23 @@ module App.Comp.CompStruct {
             var currentStage: RankIt.IStage = comp.stages[stageIndex]
             // Finds the first stage
             while (!firstStage){
-                if (!currentStage.previousStage)
+                if (!currentStage.previousStageId)
                 {
                     firstStage = currentStage;
                 }
                 else
                 {
-                    stageIndex = this.stageIndexWithId(comp.stages, currentStage.previousStage)
+                    stageIndex = this.stageIndexWithId(comp.stages, currentStage.previousStageId)
                     currentStage = comp.stages[stageIndex];
                 }
             }
 
             // Sorts the stages
             var counter = 0;
-            while (currentStage && currentStage.nextStage)
+            while (currentStage && currentStage.nextStageId)
             {
                 this.arraySwap(comp.stages,counter++,stageIndex);
-                stageIndex = this.stageIndexWithId(comp.stages, currentStage.nextStage)
+                stageIndex = this.stageIndexWithId(comp.stages, currentStage.nextStageId)
                 var nextStage = comp.stages[stageIndex];
                 this.sortStage(currentStage, nextStage);
 

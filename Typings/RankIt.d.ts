@@ -104,11 +104,11 @@ declare module RankIt {
         /**
          * The identifier of the previous stage
          */
-        previousStage?: IId;
+        previousStageId?: IId;
         /**
          * The identifier of the next stage
          */
-        nextStage?: IId;
+        nextStageId?: IId;
         /**
          * A sorted array of numbers where the number represents the rank of the competitor in the
          * previous stage to be entered into this event where there is no previous stage the parent
@@ -246,7 +246,6 @@ declare module RankIt {
      * Permissions/roles
      */
     export interface IUser {
-
 
         /**
          * ID of user, primary key 

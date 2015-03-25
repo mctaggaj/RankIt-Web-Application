@@ -36,6 +36,10 @@ module App.Comp.Filler {
             }
             if(!comp.stages) comp.stages = [];
 
+            if(participants == 0) {
+                return;
+            }
+
             var numStages = Math.ceil(this.logBase(participants,participantsPerEvent));
 
             for(var i = numStages; i > 0; i--){
@@ -45,8 +49,8 @@ module App.Comp.Filler {
                     comp.stages[numStages-i].stageId=this.idService.getId()
                     comp.stages[numStages-i].competitionId = comp.competitionId;
                     if (numStages-i > 0) {
-                        comp.stages[numStages-i-1].nextStage = comp.stages[numStages-i].stageId;
-                        comp.stages[numStages-i].previousStage = comp.stages[numStages-i-1].stageId;
+                        comp.stages[numStages-i-1].nextStageId = comp.stages[numStages-i].stageId;
+                        comp.stages[numStages-i].previousStageId = comp.stages[numStages-i-1].stageId;
                     }
                 }
                 this.stageFiller.fill(comp.stages[numStages-i],participantsInStage,participantsPerEvent)
