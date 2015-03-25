@@ -5,9 +5,11 @@
 /// <reference path="CompGlobals.ts" />
 module App.Comp {
 
+
+
     interface ICompControllerShell extends ng.IScope{
         competition:RankIt.ICompetition;
-        users:[{firstName:string; lastName:string; role:string;}];
+        users:{userObject:RankIt.IUser; role:string;}[];
     }
 
     export class CompController {
@@ -35,9 +37,8 @@ module App.Comp {
             var userList=this.$scope.competition.users;
             for(var i=0;i<userList.length;i++){
                 this.dataService.getUserObject(userList[i].userId).then((data:RankIt.IUser) => {
-                    var temp:any={firstName:data.firstName, lastName:data.lastName};
-                    console.log(this.$scope.competition);
-                    console.log(this.baseHelper.userCanEdit(data.id,this.$scope.competition));
+                    var temp:any={};
+                    temp.userObject=data;
                     if(this.baseHelper.userCanEdit(data.id,this.$scope.competition)){
                         temp.role="Admin";
                     }else if(this.baseHelper.userIsCompetitor(data.id,this.$scope.competition)){

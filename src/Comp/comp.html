@@ -13,6 +13,6 @@
     </div>
     <div id="user-info" class="pull-right">
         <h3>People</h3>
-        <a ng-repeat="user in users">{{user.firstName}} {{user.lastName}} - {{user.role}}</a>
+        <a ng-repeat="user in users" ui-sref="Profile({user:{{user.userObject}}})">{{user.userObject.firstName}} {{user.userObject.lastName}} - {{user.role}}</a>
     </div>
 </div>

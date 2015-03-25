@@ -25,7 +25,7 @@ module App.Profile {
     angular.module(ProfileController.moduleId, [Nav.NavService.moduleId]).
         controller(ProfileController.controllerId, ProfileController)
         .config(["$stateProvider", ($routeProvider: ng.ui.IStateProvider) => {
-            $routeProvider.state("profile", {
+            $routeProvider.state("Profile", {
                 templateUrl: Profile.baseUrl+'profile.html',
                 controller: ProfileController.controllerId,
                 url: "/profile"

@@ -6,4 +6,6 @@ module App.Profile {
 
     export var moduleId = App.moduleId + ".Profile";
     export var baseUrl = App.baseUrl + "Profile/";
+
+    export var state = "Profile";
 }
