@@ -14,7 +14,6 @@ module App.Auth {
         public static moduleId = App.moduleId + "." + AuthService.serviceId;
         public static $inject: string[] = ["$http", "$q", "localStorageService", "authService"];
 
-
         /**
          * The http service
          */
@@ -49,9 +48,9 @@ module App.Auth {
             this.localStorageService = localStorageService;
             this.httpAuthService = httpAuthService;
 
-            // if (this.isLoggedIn()) {
-            //     this.setToken(this.getToken());
-            // }
+            if (this.isLoggedIn()) {
+                this.setToken(this.getToken());
+            }
         }
 
         /**
@@ -119,11 +118,10 @@ module App.Auth {
         /**
          * @returns {boolean} true if currently logged in false if logged out
          */
-        // public isLoggedIn = (): any => {
-        //     return (this.user.username
-        //     && this.user.id
-        //     && this.user.token);
-        // }
+        public isLoggedIn = (): any => {
+            var user = this.getAuthData();
+            return (user.userId&&user.token&&user.username);
+        }
 
         /**
          * @returns {string} the user name of the current user
@@ -185,10 +183,9 @@ module App.Auth {
          */
         private setAuthData = (data: any) => {
             this.user.username = data.username;
-            this.user.token = data.token;
-            this.user.id = data.id;
+            this.user.userId = data.userId;
             this.localStorageService.set(Auth.LS_Username, data.username);
-            this.localStorageService.set(Auth.LS_UserId, data.id);
+            this.localStorageService.set(Auth.LS_UserId, data.userId);
             this.setToken(data.token);
         }
 
@@ -197,7 +194,7 @@ module App.Auth {
                 this.user = (<any>{})
                 this.user.token = this.getToken();
                 this.user.username = this.getUsername();
-                this.user.id = this.getUserId();
+                this.user.userId = this.getUserId();
             }
             return this.user;
         }

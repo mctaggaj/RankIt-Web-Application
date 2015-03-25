@@ -20,7 +20,6 @@ module App.Stage.Edit {
         constructor (private $scope: IEditStageControllerShell,private $state:ng.ui.IStateService, $stateParams:ng.ui.IStateParamsService, private dataService:Data.DataService) {
             $scope.submit = this.submit;
             $scope.states=RankIt.state;
-            console.log($stateParams);
             if($stateParams['stage']){
                 $scope.stage=$stateParams['stage'];
                 dataService.getStageEvents(this.$scope.stage.stageId).then((data:RankIt.IEvent[])=>{
@@ -39,11 +38,11 @@ module App.Stage.Edit {
         }
 
         public submit = () => {
-            /*this.dataService.editStage(this.$scope.comp).then((data: RankIt.ICompetition) => {
-                this.$state.go(Comp.state,{compId: data.competitionId,comp:data});
+            this.dataService.editStage(this.$scope.stage.stageId,this.$scope.stage).then((data: RankIt.IStage) => {
+                this.$state.go(Stage.state,{stageId: data.stageId,stage:data});
             }, () => {
                 // failure
-            });*/
+            });
         }
     }
 

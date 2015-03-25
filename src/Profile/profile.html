@@ -1,0 +1,27 @@
+<!-- 
+    frontend code for profile page
+    author: Timothy Engel
+-->
+<div class="row panel top-push">
+	<h1>Hey its a profile page!</h1>
+
+	<div id="profileInfo">
+		<b>Username: </b><p>{{user.userName}}</p>
+		<b>First Name: </b><p>{{user.firstName}}</p>
+		<b>Last Name: </b><p>{{user.lastName}}</p>
+	</div>
+
+
+	<form id="changePassword" class="jumbotron panel" ng-show="extras" ng-submit="changePassword()">
+		<div class="form-group form-group-lg">
+		    <input type="text" class="form-control input-lg" placeholder="Current Password" class="ng-hide" ng-model="newPassword.current" ng-required="true">
+		</div>
+		<div class="form-group form-group-lg">
+		    <input type="text" class="form-control input-lg" placeholder="New Password" ng-model="newPassword.password1" ng-required="true">
+		</div>
+		<div class="form-group form-group-lg">
+		    <input type="text" class="form-control input-lg" placeholder="New Password Confirm" ng-model="newPassword.password2" ng-required="true">
+		</div>
+		<button type="submit" class="btn-lg btn-primary btn-block">Change</button>
+	</form>
+</div>

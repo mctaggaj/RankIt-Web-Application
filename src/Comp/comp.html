@@ -1,13 +1,19 @@
 <!--Andrew Welton-->
 <div class="row panel top-push">
-    <p>View Competition Page</p>
-    <p>{{competition.name}}</p>
-    <p>{{competition.subject}}</p>
-    <p>{{competition.description}}</p>
-    <p>{{competition.location}}</p>
-    <p>{{competition.public}}</p>
-    <p>{{competition.state}}</p>
-    <p>{{competition.streamUrl}}</p>
-
-    <button class="btn btn-primary" ng-if="competition.competitionId" ui-sref="editComp({comp:{{competition}},compId:{{competition.competitionId}}})">Edit This Competition</button>
+    <div id="comp-info" class="pull-left">
+        <p>View Competition Page</p>
+        <p>{{competition.name}}</p>
+        <p>{{competition.subject}}</p>
+        <p>{{competition.description}}</p>
+        <p>{{competition.location}}</p>
+        <p>{{competition.public}}</p>
+        <p>{{competition.state}}</p>
+        <p>{{competition.streamUrl}}</p>
+        <comp-struct comp="{{competition}}" detail="true"></comp-struct>
+        <button class="btn btn-primary" ng-if="competition.competitionId" ui-sref="editComp({comp:{{competition}},compId:{{competition.competitionId}}})">Edit This Competition</button>
+    </div>
+    <div id="user-info" class="pull-right">
+        <h3>People</h3>
+        <a ng-repeat="user in users" ui-sref="Profile({user:{{user.userObject}},userId:{{user.userObject.id}})">{{user.userObject.firstName}} {{user.userObject.lastName}} - {{user.role}}</a>
+    </div>
 </div>

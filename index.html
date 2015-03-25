@@ -6,7 +6,7 @@
 <!--[if gt IE 8]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
 <head>
     <meta charset="utf-8">
-    <title>My AngularJS App</title>
+    <title>RankIt</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="styles/app.css">
@@ -41,14 +41,14 @@
                 <li ng-repeat="item in navService.navItems"><a ui-sref="{{item.state}}">{{item.name}}</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown" ng-show="dataService.getAuthData().token">
+                <li class="dropdown" ng-show="authService.isLoggedIn()">
                     <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{dataService.getAuthData().username}}<span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a ui-sref="profile">Profile</a></li>
-                        <li><a ng-click="dataService.clientLogout()" ui-sref="login">Logout</a></li>
+                        <li><a ui-sref="Profile({userId:{{dataService.getAuthData().userId}}})">Profile</a></li>
+                        <li><a ng-click="dataService.clientLogout()" ui-sref="Login">Logout</a></li>
                     </ul>
                 </li>
-                <li ng-hide="dataService.getAuthData().token"><a ui-sref="login">Login {{dataService.getAuthData().token}}</a></li>
+                <li ng-hide="authService.isLoggedIn()"><a ui-sref="Login">Login</a></li>
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->

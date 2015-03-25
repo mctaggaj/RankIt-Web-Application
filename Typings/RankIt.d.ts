@@ -78,8 +78,9 @@ declare module RankIt {
 
         /**
          * The list of participant (including competitors, admin and judges)
+         * CHANGE BACK TO PARTICIPANTS
          */
-        participants: ICompetitionParticipant[];
+        users: ICompetitionParticipant[];
 
         /**
          * a URL to a live stream for a competition
@@ -103,11 +104,11 @@ declare module RankIt {
         /**
          * The identifier of the previous stage
          */
-        previousStage?: IId;
+        previousStageId?: IId;
         /**
          * The identifier of the next stage
          */
-        nextStage?: IId;
+        nextStageId?: IId;
         /**
          * A sorted array of numbers where the number represents the rank of the competitor in the
          * previous stage to be entered into this event where there is no previous stage the parent
@@ -246,11 +247,10 @@ declare module RankIt {
      */
     export interface IUser {
 
-
         /**
          * ID of user, primary key 
          */
-        id: number;
+        userId: number;
 
         /**
          * email, only initialized if constructed by authorized user
@@ -265,16 +265,27 @@ declare module RankIt {
         /**
          * First name of user
          */
-        firstname: string;
+        firstName: string;
 
         /**
          * Last name of user
          */
-        lastname: string;
+        lastName: string;
 
         /**
          * Session token
          */
         token: string;
+
+        /**
+         * Bio of user
+         */
+        bio: string;
+
+
+        /**
+         * User avatar (not always populated)
+         */
+        avatar: string;
     }
 }

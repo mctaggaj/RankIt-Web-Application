@@ -74,23 +74,23 @@ module App.Comp.CompStruct {
             var currentStage: RankIt.IStage = comp.stages[stageIndex]
             // Finds the first stage
             while (!firstStage){
-                if (!currentStage.previousStage)
+                if (currentStage&&!currentStage.previousStageId)
                 {
                     firstStage = currentStage;
                 }
                 else
                 {
-                    stageIndex = this.stageIndexWithId(comp.stages, currentStage.previousStage)
+                    stageIndex = this.stageIndexWithId(comp.stages, currentStage.previousStageId)
                     currentStage = comp.stages[stageIndex];
                 }
             }
 
             // Sorts the stages
             var counter = 0;
-            while (currentStage && currentStage.nextStage)
+            while (currentStage && currentStage.nextStageId)
             {
                 this.arraySwap(comp.stages,counter++,stageIndex);
-                stageIndex = this.stageIndexWithId(comp.stages, currentStage.nextStage)
+                stageIndex = this.stageIndexWithId(comp.stages, currentStage.nextStageId)
                 var nextStage = comp.stages[stageIndex];
                 this.sortStage(currentStage, nextStage);
 
@@ -194,7 +194,7 @@ module App.Comp.CompStruct {
             // BAIL OUT CONDITION
             // No comp
             // No stages
-            if (!scope.comp || !scope.comp.stages){
+            if (!scope.comp || !scope.comp.stages || !scope.comp.stages.length ){
                 scope.show=false;
                 return
             }
@@ -276,10 +276,12 @@ module App.Comp.CompStruct {
                     // Finds event in previous stage with the corresponding seed
                     var index = this.eventIndexWithSeed(prevStage.events, seed)
                     var fromEvent = prevStage.events[index];
-                    connectors.push({
-                        from: $("#" + fromEvent.eventId + ">.event"),
-                        to: $("#" + event.eventId + ">.event")
-                    });
+                    if (fromEvent && event) {
+                        connectors.push({
+                            from: $("#" + fromEvent.eventId + ">.event"),
+                            to: $("#" + event.eventId + ">.event")
+                        });
+                    }
                 }
             }
         }
