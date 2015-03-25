@@ -42,9 +42,9 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown" ng-show="authService.isLoggedIn()">
-                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{dataService.getAuthData().id}}<span class="caret"></span></a>
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{dataService.getAuthData().username}}<span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a ui-sref="profile{data}">Profile</a></li>
+                        <li><a ui-sref="Profile({userId:{{dataService.getAuthData().id}}})">Profile</a></li>
                         <li><a ng-click="dataService.clientLogout()" ui-sref="login">Logout</a></li>
                     </ul>
                 </li>

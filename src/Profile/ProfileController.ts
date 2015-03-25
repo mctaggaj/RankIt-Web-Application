@@ -18,6 +18,7 @@ module App.Profile {
 
         constructor ($scope: IProfileController, $state: ng.ui.IStateService, $stateParams: ng.ui.IStateParamsService, dataService: Data.DataService) {
             this.dataService = dataService;
+            console.log($stateParams)
             this.$state = $state;
         }
     }
