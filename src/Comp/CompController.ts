@@ -60,7 +60,7 @@ module App.Comp {
             $routeProvider.state(Comp.state, {
                 templateUrl: Comp.baseUrl+'comp.html',
                 controller: CompController.controllerId,
-                url: "/comp/{compId}"
+                url: "/comp?id={compId}"
             })
         }]);
 }
