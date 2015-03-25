@@ -10,7 +10,7 @@ module App.Login {
 
     }
 
-    interface ILoginControllerShell extends ng.IScope{
+    interface ILoginController extends ng.IScope{
         message: string;
         login: (data: any) => void;
         register: (data: any) => void;
@@ -65,7 +65,7 @@ module App.Login {
         private loginMode = true;
         private scope;
 
-        constructor ($scope: ILoginControllerShell, $state: ng.ui.IStateService, dataService: Data.DataService) {
+        constructor ($scope: ILoginController, $state: ng.ui.IStateService, dataService: Data.DataService) {
             this.dataService = dataService;
             this.$state = $state;
             $scope.loginMode = true;

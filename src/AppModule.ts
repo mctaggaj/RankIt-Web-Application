@@ -7,6 +7,7 @@
 /// <reference path="Shell/ShellModule.ts"/>
 /// <reference path="Home/HomeModule.ts"/>
 /// <reference path="Login/LoginModule.ts"/>
+/// <reference path="Profile/ProfileModule.ts"/>
 /// <reference path="Event/EventModule.ts"/>
 /// <reference path="Stage/StageModule.ts"/>
 /// <reference path="Comp/CompModule.ts"/>

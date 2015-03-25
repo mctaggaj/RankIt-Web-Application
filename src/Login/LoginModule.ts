@@ -4,6 +4,6 @@
 /**
  * @author Timothy Engel
  */
-module App.Home {
+module App.Login {
     angular.module(Login.moduleId, App.getChildModuleIds(Login));
 }
