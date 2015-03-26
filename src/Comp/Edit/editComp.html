@@ -45,8 +45,8 @@
             <div class="form-group">
                 <p>Users</p>
                 <div ng-repeat="user in users">
-                    <a ng-click="isCollapsed = !isCollapsed">{{user.userObject.firstName}} {{user.userObject.lastName}}</a>
-                    <div collapse="isCollapsed">
+                    <a tooltip="Click to show/hide User Permissions" ng-click="isCollapsed = !isCollapsed">{{user.userObject.firstName}} {{user.userObject.lastName}}</a>
+                    <div collapse="!isCollapsed">
                         <input type="checkbox" ng-checked="user.admin"/> Admin
                         <input type="checkbox" ng-checked="user.competitor"/> Competitor
                         <input type="checkbox" ng-checked="user.judge"/> Judge
