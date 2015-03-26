@@ -52,6 +52,11 @@
                         <input type="checkbox" ng-checked="user.judge"/> Judge
                     </div>
                 </div>
+                <input id="newUsername" type="text" placeholder="New Users Email" ng-model="newUsername"/>
+                <input type="checkbox" /> Admin
+                <input type="checkbox" /> Competitor
+                <input type="checkbox" /> Judge
+                <a class="btn btn-primary" ng-click="addUser()">Add User</a>
             </div>
             <div class="form-group">
                 <button class="btn btn-primary" type="submit">Save Competition</button>

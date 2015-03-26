@@ -53,6 +53,11 @@ module App.Comp.Edit {
             this.$state.go(Stage.Create.state,{comp:comp});
         }
 
+        public addUser = () => {
+            //TODO::Function call to create new user for the competition.
+            //TODO::Update the list displayed on the page without refresh.
+        }
+
         private populateUsers = () => {
             var userList=this.$scope.comp.users;
             for(var i=0;i<userList.length;i++){
