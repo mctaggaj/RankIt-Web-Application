@@ -43,6 +43,17 @@
                 <a class="btn btn-primary" ng-click="addStage(comp)">Add Stage</a>
             </div>
             <div class="form-group">
+                <p>Users</p>
+                <div ng-repeat="user in users">
+                    <a ng-click="isCollapsed = !isCollapsed">{{user.userObject.firstName}} {{user.userObject.lastName}}</a>
+                    <div collapse="isCollapsed">
+                        <input type="checkbox" ng-checked="user.admin"/> Admin
+                        <input type="checkbox" ng-checked="user.competitor"/> Competitor
+                        <input type="checkbox" ng-checked="user.judge"/> Judge
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
                 <button class="btn btn-primary" type="submit">Save Competition</button>
             </div>
 

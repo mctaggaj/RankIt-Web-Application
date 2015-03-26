@@ -10,22 +10,25 @@ module App.Comp.Edit {
         stages: RankIt.IStage[];
         submit: () => void;
         addStage: (comp) => void;
+        users:{userObject:RankIt.IUser; admin:boolean; judge:boolean; competitor:boolean;}[];
     }
 
     export class EditCompController {
         public static controllerId = "EditCompController";
         public static moduleId = Edit.moduleId + "." + EditCompController.controllerId;
 
-        public static $inject = ["$scope","$state","$stateParams",Data.DataService.serviceId];
-        constructor (private $scope: IEditCompControllerShell,private $state:ng.ui.IStateService, $stateParams:ng.ui.IStateParamsService, private dataService:Data.DataService) {
+        public static $inject = ["$scope","$state","$stateParams",Data.DataService.serviceId, Base.BaseHelperFactory.factoryId];
+        constructor (private $scope: IEditCompControllerShell,private $state:ng.ui.IStateService, $stateParams:ng.ui.IStateParamsService, private dataService:Data.DataService, private baseHelper: Base.BaseHelperFactory) {
             $scope.submit = this.submit;
             $scope.addStage = this.addStage;
+            $scope.users=[];
             if($stateParams['comp']!==undefined){
                 $scope.comp = $stateParams['comp'];
                 $scope.stages = $scope.comp.stages;
             }else{
                 dataService.getComp($stateParams['compId']).then((data: RankIt.ICompetition) => {
                     $scope.comp=data;
+                    this.populateUsers();
                 }, (failure: any) => {
 
                 });
@@ -48,6 +51,22 @@ module App.Comp.Edit {
 
         public addStage = (comp) => {
             this.$state.go(Stage.Create.state,{comp:comp});
+        }
+
+        private populateUsers = () => {
+            var userList=this.$scope.comp.users;
+            for(var i=0;i<userList.length;i++){
+                this.dataService.getUser(userList[i].userId).then((data:RankIt.IUser) => {
+                    var temp:any={};
+                    temp.userObject=data;
+                    temp.admin=this.baseHelper.userCanEdit(data.userId,this.$scope.comp);
+                    temp.competitor=this.baseHelper.userIsCompetitor(data.userId,this.$scope.comp);
+                    temp.judge=this.baseHelper.userIsJudge(data.userId,this.$scope.comp)
+                    this.$scope.users.push(temp);
+                }, (failure:any) => {
+
+                });
+            }
         }
     }
 
