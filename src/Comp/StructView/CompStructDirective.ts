@@ -225,8 +225,6 @@ module App.Comp.CompStruct {
             // Gives Angular time to complete directive rendering
             this.$timeout( () =>{
                 var $canvas= $("canvas#"+id);
-                $canvas.attr('width', $canvas.parent().width());
-                $canvas.attr('height', $canvas.parent().height());
                 var stageHeight=100/scope.comp.stages.length;
                 scope.stageStyle = {height: stageHeight+"%"};
 
@@ -245,12 +243,13 @@ module App.Comp.CompStruct {
 
                 // Re-Draws when the canvas changes visibility to visible
                 scope.$watch(() => {
-                    return $canvas.css("visibility");
-                }, (newVal) => {
-
-                    // Re-Draws if the canvas is visible
-                    if (newVal === "visible")
+                    return $canvas.css("visibility")+$canvas.parent().width()+""+$canvas.parent().height();
+                }, (newVal: string) => {
+                    // Re-Draws if the canvas is visible and sets the height and width.
+                    if (newVal&& newVal.search("visible")>-1)
                     {
+                        $canvas.attr('width', $canvas.parent().width());
+                        $canvas.attr('height', $canvas.parent().height());
                         this.draw($canvas, connectors);
                     }
                 });
