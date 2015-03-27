@@ -59,7 +59,7 @@ module App.Comp.Edit {
         }
 
         private populateUsers = () => {
-            var userList=this.$scope.comp.users;
+            var userList=this.$scope.comp.participants;
             for(var i=0;i<userList.length;i++){
                 this.dataService.getUser(userList[i].userId).then((data:RankIt.IUser) => {
                     var temp:any={};

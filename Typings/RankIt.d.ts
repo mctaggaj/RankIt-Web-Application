@@ -78,9 +78,8 @@ declare module RankIt {
 
         /**
          * The list of participant (including competitors, admin and judges)
-         * CHANGE BACK TO PARTICIPANTS
          */
-        users: ICompetitionParticipant[];
+        participants: ICompetitionParticipant[];
 
         /**
          * a URL to a live stream for a competition
