@@ -9,6 +9,8 @@ module App.Profile {
         user: RankIt.IUser;
         userId: number;
         extras: boolean;
+        bioEditMode: boolean;
+        editBio: any;
     }
 
     export class ProfileController {
@@ -34,7 +36,16 @@ module App.Profile {
             console.log($stateParams)
 
             this.updateIfOwnProfile();
+            $scope.editBio = this.editBio;
             
+        }
+
+        private editBio = () => {
+            if (this.$scope.bioEditMode){
+                this.$scope.bioEditMode = false;
+            } else {
+                this.$scope.bioEditMode = true;
+            }
         }
 
         private updateIfOwnProfile = () => {
