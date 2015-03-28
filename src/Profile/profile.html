@@ -41,7 +41,7 @@
 			</div>
 			<p ng-hide="bioEditMode">{{user.bio}}</p>
 			<div ng-show="bioEditMode">
-				<textarea style="width:100%;height:7em;resize: none;" placeholder="Describe yourself here...">{{user.bio}}</textarea>
+				<textarea style="width:100%;height:7em;resize: none;" placeholder="Describe yourself here..." ng-model="bio2"></textarea>
 				<button class="btn btn-default pull-right" style="margin-left:5px;" ng-click="bioEditMode = false;">
 					Cancel
 				</button>
@@ -58,15 +58,19 @@
 				<h3>Change Password</h3>
 			</div>
 			<div class="col-md-12 col-xs-12">
-				<form id="changePassword" class="jumbotron panel" ng-submit="changePassword()">
+				<div class="alert alert-{{error.type}} alert-dismissible login-alert" ng-show="error.enabled" role="alert">
+			        <button type="button" class="close" aria-label="Close" ng-click="error.enabled = false"><span aria-hidden="true">&times;</span></button>
+			        <div dynamic="error" style="display:inline;"></div>
+			    </div>
+				<form id="changePassword" class="jumbotron panel" ng-submit="changePassword(this)">
 					<div class="form-group form-group-lg">
-					    <input type="text" class="form-control input-lg" placeholder="Current Password" class="ng-hide" ng-model="newPassword.current" ng-required="true">
+					    <input type="password" class="form-control input-lg" placeholder="Current Password" class="ng-hide" ng-model="newPassword.current" ng-required="true">
 					</div>
 					<div class="form-group form-group-lg">
-					    <input type="text" class="form-control input-lg" placeholder="New Password" ng-model="newPassword.password1" ng-required="true">
+					    <input type="password" class="form-control input-lg" placeholder="Password" ng-model="newPassword.password1" ng-required="true">
 					</div>
 					<div class="form-group form-group-lg">
-					    <input type="text" class="form-control input-lg" placeholder="New Password Confirm" ng-model="newPassword.password2" ng-required="true">
+					    <input type="password" class="form-control input-lg" placeholder="Password Confirm" ng-model="newPassword.password2" ng-required="true">
 					</div>
 					<button type="submit" class="btn-lg btn-primary btn-block">Change</button>
 				</form>
