@@ -9,6 +9,7 @@ module App.Home {
         competitions:RankIt.ICompetition[];
         subjects:{ [subject: string]: {name: string; checked: boolean}; };
         queryString: string;
+        noResultsMessage: string;
     }
 
     export class HomeController {
@@ -17,6 +18,7 @@ module App.Home {
 
         public static $inject = ["$scope",Data.DataService.serviceId];
         constructor ($scope: IHomeControllerShell, dataService:Data.DataService) {
+            $scope.noResultsMessage="Loading Competitions";
             $scope.competitions=[];
             $scope.subjects={};
             dataService.getAllComps().then((data: RankIt.ICompetition[]) => {
@@ -27,6 +29,15 @@ module App.Home {
                     if($scope.subjects[data[i].subject]=== undefined){
                         $scope.subjects[data[i].subject] = {name: data[i].subject, checked: true};
                     }
+                }
+
+                if (data.length)
+                {
+                    $scope.noResultsMessage="No Results";
+                }
+                else
+                {
+                    $scope.noResultsMessage="No Competitions. Why don't you create one?";
                 }
             }, (failure: any) => {
 
