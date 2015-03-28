@@ -6,13 +6,23 @@
 #changePassword {
 }
 
-#avatar {
+#avatar, #avatar-blurred {
 	width:200px;
 	height:200px;
-
+	
 	background:#ececec url('http://www.reactionface.info/sites/default/files/imagecache/Node_Page/images/4e584a22eddc6c06410053e4.jpg');
 	background-size:100%;
 
+}
+
+/* blur the background, to make blurred edges that overflow the unblurred image that is on top */
+#avatar-blurred {
+	position:absolute;
+    -webkit-filter: blur(20px);
+    -moz-filter: blur(20px);
+    -o-filter: blur(20px);
+    -ms-filter: blur(20px);
+    filter: blur(20px);
 }
 
 #profileInfo {
