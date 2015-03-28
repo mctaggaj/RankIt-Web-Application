@@ -213,6 +213,12 @@ module App.Data {
             return defered.promise;
         }
 
+        public addUserToComp = ():ng.IPromise<RankIt.ICompetition> => {
+            var defered = this.$q.defer();
+
+            return defered.promise;
+        }
+
         // public getUserObject = (userId):ng.IPromise<RankIt.IUser> => {
         //     var defered = this.$q.defer();
         //     this.$http.get("api/users/"+userId).success((data:any, status:number, headers:ng.IHttpHeadersGetter, config:ng.IRequestConfig) => {

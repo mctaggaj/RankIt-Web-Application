@@ -28,14 +28,9 @@ module App.Comp.Edit {
             }else{
                 dataService.getComp($stateParams['compId']).then((data: RankIt.ICompetition) => {
                     $scope.comp=data;
+                    $scope.stages=data.stages;
                     this.populateUsers();
                 }, (failure: any) => {
-
-                });
-                //Get the stages in the competition to show on the page.
-                dataService.getCompStages($stateParams['compId']).then((data: RankIt.IStage[])=>{
-                    $scope.stages=data;
-                },(failure:any)=>{
 
                 });
             }
