@@ -14,6 +14,8 @@
     </div>
     <div id="user-info" class="pull-right">
         <h3>People</h3>
-        <a ng-repeat="user in users" ui-sref="Profile({user:{{user.userObject}},userId:{{user.userObject.userId}}})">{{user.userObject.firstName}} {{user.userObject.lastName}} - {{user.role}}</a>
+        <div ng-repeat="user in users">
+            <a ui-sref="Profile({user:{{user.userObject}},userId:{{user.userObject.userId}}})">{{user.userObject.firstName}} {{user.userObject.lastName}} - {{user.role}}</a>
+        </div>
     </div>
 </div>
