@@ -5,19 +5,29 @@
 <div class="row panel top-push profile">
 	<div class="col-xs-12">
 		<div ng-if="extras" class="pull-right" style="right:0">
-			<button ng-hide="editMode" class="btn btn-success" ng-click="changeToEditMode(true);">
-				<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>&nbsp;Edit Profile
-			</button>
-			<div ng-show="editMode" style="padding-bottom:0.5em">
+			<div ng-hide="editMode">
+				<div class="has-{{msg.type}} profile-alert ng-hide" ng-show="msg.enabled" style="display:inline;">
+	        		<div class="control-label" dynamic="msg" style="display:inline;"></div>
+			    </div>
+				<button class="btn btn-success" ng-click="changeToEditMode(true);">
+					<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>&nbsp;Edit Profile
+				</button>
+			</div>
+			<div ng-show="editMode" style="padding-bottom:0.5em" style="display:inline;">
+				
 				<form class="form-inline" ng-submit="saveChanges()" style="display:inline-block;">
+					<div class="has-{{msg.type}} profile-alert" ng-show="msg.enabled" style="display:inline;">
+		        		<div class="control-label" dynamic="msg" style="display:inline;"></div>
+				    </div>
 					<input type="password" class="form-control" placeholder="Current Password" ng-model="user2.password" ng-required="true">
 					<button type="submit" class="btn btn-primary" >
 						<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>&nbsp;Save
 					</button>
+					<button class="btn btn-default" ng-click="changeToEditMode(false);">
+						Cancel
+					</button>
 				</form>
-				<button class="btn btn-default" ng-click="changeToEditMode(false);">
-					Cancel
-				</button>
+				
 			</div>
 		</div>
 	</div>
@@ -72,9 +82,9 @@
 
 				</div>
 				<div class="col-md-12 col-xs-12">
-					<div class="alert alert-{{error.type}} alert-dismissible login-alert" ng-show="error.enabled" role="alert">
-				        <button type="button" class="close" aria-label="Close" ng-click="error.enabled = false"><span aria-hidden="true">&times;</span></button>
-				        <div dynamic="error" style="display:inline;"></div>
+					<div class="alert alert-{{msgNewPassword.type}} alert-dismissible login-alert" ng-show="msgNewPassword.enabled" role="alert">
+				        <button type="button" class="close" aria-label="Close" ng-click="msgNewPassword.enabled = false"><span aria-hidden="true">&times;</span></button>
+				        <div dynamic="msgNewPassword" style="display:inline;"></div>
 				    </div>
 					<!-- <div class="jumbotron panel"> -->
 						<!-- <div class="form-group form-group-lg">

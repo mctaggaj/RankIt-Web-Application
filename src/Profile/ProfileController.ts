@@ -12,7 +12,15 @@ module App.Profile {
         extras: boolean;
         editMode: boolean;
         changeToEditMode: any;
-        error: {
+        msg: {
+            enabled: boolean
+            title: string
+            state: string
+            type: string
+            handler: (self: any) => void
+            html: string
+        }
+        msgNewPassword: {
             enabled: boolean
             title: string
             state: string
@@ -28,13 +36,13 @@ module App.Profile {
     export class ProfileController {
         public static controllerId = "ProfileController";
         public static moduleId = Profile.moduleId + "." + ProfileController.controllerId;
-        public static $inject = ["$scope", "$state", "$stateParams", Data.DataService.serviceId];
+        public static $inject = ["$scope", "$state", "$stateParams", Data.DataService.serviceId, "$timeout"];
 
         private dataService: Data.DataService;
         private $state: ng.ui.IStateService;
         private $scope;
 
-        private error = {
+        private msgNewPassword = {
             enabled: false,
             title: "Error!",
             state: "",
@@ -45,10 +53,24 @@ module App.Profile {
             html: ""
         }
 
-        constructor ($scope: IProfileController, $state: ng.ui.IStateService, $stateParams: ng.ui.IStateParamsService, dataService: Data.DataService) {
+        private msg = {
+            enabled: false,
+            title: "Error!",
+            state: "",
+            type: "danger",
+            handler: (self) => {
+                console.log(self)
+            },
+            html: ""
+        }
+
+        private $timeout;
+
+        constructor ($scope: IProfileController, $state: ng.ui.IStateService, $stateParams: ng.ui.IStateParamsService, dataService: Data.DataService, $timeout) {
             this.dataService = dataService;
             this.$scope = $scope;
             this.$state = $state;
+            this.$timeout = $timeout
             $scope.userId = parseInt($stateParams['userId'])
             $scope.user = $stateParams['user'];
             $scope.user2 =  this.clone($scope.user);
@@ -60,24 +82,31 @@ module App.Profile {
             }
             this.updateIfOwnProfile();
             $scope.saveChanges = this.saveChanges;
-            $scope.error = this.error
+            $scope.msgNewPassword = this.msgNewPassword
+            $scope.msg = this.msg
             // $scope.changePassword = this.changePassword;
             $scope.changeToEditMode = this.changeToEditMode;
         }
 
         private saveChanges = () => {
-            
+            this.$scope.msg.enabled = false;
             if (this.checkNewPasswords(this.$scope.user2)){
-                this.$scope.editMode = false;
                 this.editProfile();
             }
         }
 
         private changeToEditMode = (value: boolean) => {
+            this.$scope.msg.enabled = false;
             if (!value){
                 this.$scope.user2 = this.clone(this.$scope.user);
             }
             this.$scope.editMode = value;
+        }
+
+        private hideMessage = () => {
+            if (this.$scope.msg.type == "success"){
+                this.$scope.msg.enabled = false;
+            }
         }
 
         private editProfile = () => {
@@ -85,20 +114,29 @@ module App.Profile {
             .then((response : any) => {
                 this.$scope.user = this.clone(response);
                 this.$scope.user2 = this.clone(response);
+                this.$scope.editMode = false;
+                this.$scope.msg.html = "Changed saved.";
+                this.$scope.msg.type = "success";
+                this.$scope.msg.enabled = true;
+                this.$timeout(this.hideMessage, 2000);
             }, (response : RankIt.IResponse) => {
-                this.$scope.user2 = this.clone(this.$scope.user);
-                console.log("Failed to update user: " + response)
+                this.$scope.msg.html = 'Incorrect password specified, please try again <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>';
+                this.$scope.msg.type = "error";
+                this.$scope.msg.enabled = true;
             });
         }
 
         private checkNewPasswords = (data: any): boolean => {
             if (data.password1 != data.password2){
-                this.$scope.error.html = "Paswords do not match! Please try again";
-                this.$scope.error.type = "danger";
-                this.$scope.error.enabled = true;
+                this.$scope.msgNewPassword.html = "Paswords do not match! Please try again";
+                this.$scope.msgNewPassword.type = "danger";
+                this.$scope.msgNewPassword.enabled = true;
                 return false;
+            } else {
+                data.newPassword = data.password1;
+                return true;
             }
-            return true;
+            
             // else {
 
             //     this.dataService.clientModify(this.$scope.user.userId, {password:form.newPassword.current, newPassword:form.newPassword.password1})
