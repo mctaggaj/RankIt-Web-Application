@@ -7,9 +7,11 @@ module App.Profile {
 
     interface IProfileController extends ng.IScope{
         user: RankIt.IUser;
+        user2: RankIt.IUser;
         userId: number;
         extras: boolean;
-        bioEditMode: boolean;
+        editMode: boolean;
+        changeToEditMode: any;
         error: {
             enabled: boolean
             title: string
@@ -18,9 +20,9 @@ module App.Profile {
             handler: (self: any) => void
             html: string
         }
-        editBio: any;
-        changePassword: any;
-        bio2: string;
+        saveChanges: any;
+        // changePassword: any;
+        // bio2: string;
     }
 
     export class ProfileController {
@@ -39,11 +41,6 @@ module App.Profile {
             type: "danger",
             handler: (self) => {
                 console.log(self)
-
-                if (self.state == "BAD_LOGIN"){
-                    this.$scope.loginMode = false
-                    self.enabled = false
-                }
             },
             html: ""
         }
@@ -54,58 +51,78 @@ module App.Profile {
             this.$state = $state;
             $scope.userId = parseInt($stateParams['userId'])
             $scope.user = $stateParams['user'];
+            $scope.user2 =  this.clone($scope.user);
+            $scope.editMode = false;
 
 
             if (!$scope.user){
                 this.getUser($scope.userId)
-            } else {
-                $scope.bio2 = $scope.user.bio;
             }
-            this.getUser($scope.userId)
             this.updateIfOwnProfile();
-            $scope.editBio = this.editBio;
+            $scope.saveChanges = this.saveChanges;
             $scope.error = this.error
-            $scope.changePassword = this.changePassword;
-            
+            // $scope.changePassword = this.changePassword;
+            $scope.changeToEditMode = this.changeToEditMode;
         }
 
-        private editBio = (bio:string) => {
-            if (this.$scope.bioEditMode){
-                this.$scope.bioEditMode = false;
-                
-                this.dataService.clientModify(this.$scope.user.userId, {password:"test", bio: this.$scope.bio2})
-                .then((response : RankIt.IResponse) => {
-                    this.$scope.user.bio = this.$scope.bio2;
-                }, (response : RankIt.IResponse) => {
-                    console.log("Failed to update bio: " + response.msg)
-                });
-            } else {
-                this.$scope.bioEditMode = true;
+        private saveChanges = () => {
+            
+            if (this.checkNewPasswords(this.$scope.user2)){
+                this.$scope.editMode = false;
+                this.editProfile();
             }
         }
 
-        private changePassword = (form: any) => {
-            if (form.newPassword.password1 != form.newPassword.password2){
+        private changeToEditMode = (value: boolean) => {
+            if (!value){
+                this.$scope.user2 = this.clone(this.$scope.user);
+            }
+            this.$scope.editMode = value;
+        }
+
+        private editProfile = () => {
+            this.dataService.clientModify(this.$scope.user.userId, this.$scope.user2)
+            .then((response : any) => {
+                this.$scope.user = this.clone(response);
+                this.$scope.user2 = this.clone(response);
+            }, (response : RankIt.IResponse) => {
+                this.$scope.user2 = this.clone(this.$scope.user);
+                console.log("Failed to update user: " + response)
+            });
+        }
+
+        private checkNewPasswords = (data: any): boolean => {
+            if (data.password1 != data.password2){
                 this.$scope.error.html = "Paswords do not match! Please try again";
                 this.$scope.error.type = "danger";
                 this.$scope.error.enabled = true;
-            } else {
-
-                this.dataService.clientModify(this.$scope.user.userId, {password:form.newPassword.current, newPassword:form.newPassword.password1})
-                .then((response : RankIt.IResponse) => {
-                    form.newPassword.current = "";
-                    form.newPassword.password1 = "";
-                    form.newPassword.password2 = "";
-                    this.$scope.error.html = "Password changed successfully!";
-                    this.$scope.error.type = "success";
-                    this.$scope.error.enabled = true;
-                }, (response : RankIt.IResponse) => {
-                    this.$scope.error.html = "Incorrect current password, please try again";
-                    this.$scope.error.type = "danger";
-                    this.$scope.error.enabled = true;
-                });
-                
+                return false;
             }
+            return true;
+            // else {
+
+            //     this.dataService.clientModify(this.$scope.user.userId, {password:form.newPassword.current, newPassword:form.newPassword.password1})
+            //     .then((response : RankIt.IResponse) => {
+            //         data.password = "";
+            //         form.newPassword.password1 = "";
+            //         form.newPassword.password2 = "";
+            //         this.$scope.error.html = "Password changed successfully!";
+            //         this.$scope.error.type = "success";
+            //         this.$scope.error.enabled = true;
+            //     }, (response : RankIt.IResponse) => {
+            //         this.$scope.error.html = "Incorrect current password, please try again";
+            //         this.$scope.error.type = "danger";
+            //         this.$scope.error.enabled = true;
+            //     });
+                
+            // }
+        }
+
+        private checkFirstAndLastName = (data: RankIt.IUser):boolean => {
+            if (!(data.firstName && data.lastName)){
+                return false;
+            }
+            return true;
         }
 
         private updateIfOwnProfile = () => {
@@ -126,13 +143,22 @@ module App.Profile {
                 .then((response : any) => {
                     // Success
                     this.$scope.user = response;
+                    this.$scope.user2 = this.clone(response);
                     this.$scope.userId = userId;
-                    this.$scope.bio2 = this.$scope.user.bio;
                     this.updateIfOwnProfile();
 
                 }, (response : RankIt.IUser) => {
                     console.log("Failed to get user by Id: " + userId.toString())
                 });
+        }
+
+        private clone = (obj:any) => {
+            if (null == obj || "object" != typeof obj) return obj;
+            var copy = obj.constructor();
+            for (var attr in obj) {
+                if (obj.hasOwnProperty(attr)) copy[attr] = this.clone(obj[attr]);
+            }
+            return copy;
         }
     }
 

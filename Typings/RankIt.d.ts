@@ -254,12 +254,17 @@ declare module RankIt {
         /**
          * email, only initialized if constructed by authorized user
          */
-        email: string;
+        // email: string;
 
         /**
          * Username if set
          */
         username: string;
+
+        /**
+         * Password if set
+         */
+        password: string;
 
         /**
          * First name of user

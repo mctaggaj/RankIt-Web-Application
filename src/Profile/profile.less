@@ -8,18 +8,16 @@
 	padding-bottom:1em;
 }
 
-#avatar, #avatar-blurred {
+#avatar, #avatar-blurred, #avatar2 {
 	width:200px;
 	height:200px;
-	
 	background:#ececec url('http://www.reactionface.info/sites/default/files/imagecache/Node_Page/images/4e584a22eddc6c06410053e4.jpg');
 	background-size:100%;
-
 }
 
 /* blur the background, to make blurred edges that overflow the unblurred image that is on top */
 #avatar-blurred {
-	position:absolute;
+	position: absolute;
     -webkit-filter: blur(20px);
     -moz-filter: blur(20px);
     -o-filter: blur(20px);
@@ -27,10 +25,11 @@
     filter: blur(20px);
 }
 
+#avatar2 {
+	position:absolute;
+}
+
 #profileInfo {
-	
-	margin-right: auto;
-	margin-left: auto;
 	padding-bottom:2em;
 }
 
@@ -43,7 +42,7 @@
 }
 
 .profile {
-	padding-top:2em;
+	padding-top:1em;
 }
 
 .profile .row {
