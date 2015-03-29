@@ -17,7 +17,16 @@ module App.Stage.Create {
 
         public static $inject = ["$scope","$state","$stateParams",Data.DataService.serviceId];
         constructor (private $scope: ICreateStageControllerShell,private $state:ng.ui.IStateService,$stateParams:ng.ui.IStateParamsService, private dataService:Data.DataService) {
-            $scope.comp = $stateParams['comp'];
+            if($stateParams['comp']){
+                $scope.comp = $stateParams['comp'];
+            }else{
+                dataService.getComp($stateParams['compId']).then((data:RankIt.ICompetition) => {
+                    $scope.comp=data;
+                }, () => {
+                    //failure
+                });
+            }
+
             $scope.submit = this.submit;
 
         }
@@ -37,7 +46,7 @@ module App.Stage.Create {
             $routeProvider.state(Create.state, {
                 templateUrl: Create.baseUrl+'createStage.html',
                 controller: CreateStageController.controllerId,
-                url: "/stage/create",
+                url: "/stage/create/{compId}",
                 params:{'comp':undefined}
             })
         }]);

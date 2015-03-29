@@ -27,9 +27,11 @@
                 <b>Stream</b>
                 <p>{{competition.streamUrl}}</p>
             </div>
-            <comp-struct comp="{{competition}}" detail="true"></comp-struct>
-            
-            
+            <div ng-if="competition">
+                <comp-struct comp="competition" detail="true">
+
+                </comp-struct>
+            </div>
             <div id="user-info" class="col-md-4 col-xs-4">
                 <div class="pull-right">
                     <h3 style="margin-top:0;">People</h3>

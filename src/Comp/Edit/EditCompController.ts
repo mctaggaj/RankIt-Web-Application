@@ -22,7 +22,7 @@ module App.Comp.Edit {
             $scope.submit = this.submit;
             $scope.addStage = this.addStage;
             $scope.users=[];
-            if($stateParams['comp']!==undefined){
+            if($stateParams['comp']){
                 $scope.comp = $stateParams['comp'];
                 $scope.stages = $scope.comp.stages;
             }else{
@@ -76,7 +76,8 @@ module App.Comp.Edit {
             $routeProvider.state(Edit.state, {
                 templateUrl: Edit.baseUrl+'editComp.html',
                 controller: EditCompController.controllerId,
-                url: "/comp/edit/{compId}"
+                url: "/comp/edit/{compId}",
+                params:{'comp':null}
             })
         }]);
 }
