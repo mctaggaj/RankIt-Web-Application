@@ -241,6 +241,16 @@ module App.Data {
             this.authService.logout();
         }
 
+        public clientModify = (userId: number, data:any):ng.IPromise<RankIt.IResponse> => {
+           var defered = this.$q.defer();
+            this.$http.put("/api/users/"+userId, data).success((data: RankIt.IUser, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
+                defered.resolve(data)
+            }).error((data: any, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
+                defered.reject();
+            });
+            return defered.promise;
+        }
+
         public getAuthData = ():RankIt.IUser => {
             return this.authService.getAuthData();
         }

@@ -41,8 +41,6 @@ module App.Profile {
                 console.log(self)
 
                 if (self.state == "BAD_LOGIN"){
-
-
                     this.$scope.loginMode = false
                     self.enabled = false
                 }
@@ -59,12 +57,11 @@ module App.Profile {
 
 
             if (!$scope.user){
-                console.log('getting user')
                 this.getUser($scope.userId)
             } else {
                 $scope.bio2 = $scope.user.bio;
             }
-
+            this.getUser($scope.userId)
             this.updateIfOwnProfile();
             $scope.editBio = this.editBio;
             $scope.error = this.error
@@ -75,7 +72,13 @@ module App.Profile {
         private editBio = (bio:string) => {
             if (this.$scope.bioEditMode){
                 this.$scope.bioEditMode = false;
-                this.$scope.user.bio = this.$scope.bio2;
+                
+                this.dataService.clientModify(this.$scope.user.userId, {password:"test", bio: this.$scope.bio2})
+                .then((response : RankIt.IResponse) => {
+                    this.$scope.user.bio = this.$scope.bio2;
+                }, (response : RankIt.IResponse) => {
+                    console.log("Failed to update bio: " + response.msg)
+                });
             } else {
                 this.$scope.bioEditMode = true;
             }
@@ -87,12 +90,21 @@ module App.Profile {
                 this.$scope.error.type = "danger";
                 this.$scope.error.enabled = true;
             } else {
-                form.newPassword.current = "";
-                form.newPassword.password1 = "";
-                form.newPassword.password2 = "";
-                this.$scope.error.html = "Password changed successfully!";
-                this.$scope.error.type = "success";
-                this.$scope.error.enabled = true;
+
+                this.dataService.clientModify(this.$scope.user.userId, {password:form.newPassword.current, newPassword:form.newPassword.password1})
+                .then((response : RankIt.IResponse) => {
+                    form.newPassword.current = "";
+                    form.newPassword.password1 = "";
+                    form.newPassword.password2 = "";
+                    this.$scope.error.html = "Password changed successfully!";
+                    this.$scope.error.type = "success";
+                    this.$scope.error.enabled = true;
+                }, (response : RankIt.IResponse) => {
+                    this.$scope.error.html = "Incorrect current password, please try again";
+                    this.$scope.error.type = "danger";
+                    this.$scope.error.enabled = true;
+                });
+                
             }
         }
 
@@ -113,7 +125,6 @@ module App.Profile {
             this.dataService.getUser(userId)
                 .then((response : any) => {
                     // Success
-                    console.log(response)
                     this.$scope.user = response;
                     this.$scope.userId = userId;
                     this.$scope.bio2 = this.$scope.user.bio;
