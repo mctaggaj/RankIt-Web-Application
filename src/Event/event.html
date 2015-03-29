@@ -1,8 +1,31 @@
-<!--Andrew Welton-->
+<!--Timothy Engel-->
 <div class="row panel top-push">
-    <p>View Event Page</p>
-    <p>{{event.location}}</p>
-    <p>{{event.name}}</p>
-    <p>{{event.state}}</p>
-    <button class="btn btn-primary" ng-if="event" ui-sref="editEvent({event:{{event}},'eventId':{{event.eventId}}})">Edit This Event</button>
+    <div id="comp-container">
+        <div class="page-header">
+                <h1 style="margin:0">{{event.name}}
+                	<button class="btn btn-primary pull-right" ng-if="event" ui-sref="editEvent({event:{{event}},'eventId':{{event.eventId}}})"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>&nbsp;Edit This Event</button>
+                </h1>
+            </div>
+        <h1></h1>
+        <div id="comp-info" class="row">
+            <div class="col-md-8 col-xs-8">
+                <b>Location</b>
+                <p>{{event.location}}</p>
+
+                <b>Progress</b>
+                <p>{{event.state}}</p>
+            </div>
+            
+            
+            <div id="user-info" class="col-md-4 col-xs-4">
+                <div class="pull-right">
+                    <h3>People</h3>
+                    <a ng-repeat="user in users" ui-sref="Profile({user:{{user.userObject}},userId:{{user.userObject.userId}}})">{{user.userObject.firstName}} {{user.userObject.lastName}} - {{user.role}}</a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            
+        </div>
+    </div>
 </div>
