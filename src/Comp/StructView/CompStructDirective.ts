@@ -51,8 +51,8 @@ module App.Comp.CompStruct {
         public static moduleId = CompStruct.moduleId + "." + CompStructDirective.directiveId;
         public static $inject = ["$timeout"];
 
-        public $scope = {
-            comp: "="
+        public static $scope = {
+            comp: "@"
         }
 
         public restrict = "E";
@@ -178,23 +178,16 @@ module App.Comp.CompStruct {
             }
         }
 
-        /**
-         * The Post Link function see https://docs.angularjs.org/api/ng/service/$compile
-         * @param scope
-         * @param elem
-         * @param attrs
-         */
-        public postLink = (scope: ICompStructScope,
+        private display = (scope: ICompStructScope,
                            elem: ng.IAugmentedJQuery,
-                           attrs: ng.IAttributes,
-                           controller: any,
-                           transclude: ng.ITranscludeFunction) => {
+                           attrs: ng.IAttributes) => {
             scope.show=true;
 
             // BAIL OUT CONDITION
             // No comp
             // No stages
             if (!scope.comp || !scope.comp.stages || !scope.comp.stages.length ){
+                console.log("BAIL OUT"+scope.comp);
                 scope.show=false;
                 return
             }
@@ -205,6 +198,7 @@ module App.Comp.CompStruct {
                 // BAIL OUT CONDITION
                 // No events in stage
                 if (!scope.comp.stages[i].events){
+                    console.log("BAIL OUT 2"+scope.comp);
                     scope.show=false;
                     return;
                 }
@@ -254,6 +248,26 @@ module App.Comp.CompStruct {
                     }
                 });
             },0);
+        }
+
+        /**
+         * The Post Link function see https://docs.angularjs.org/api/ng/service/$compile
+         * @param scope
+         * @param elem
+         * @param attrs
+         */
+        public postLink = (scope: ICompStructScope,
+                           elem: ng.IAugmentedJQuery,
+                           attrs: ng.IAttributes,
+                           controller: any,
+                           transclude: ng.ITranscludeFunction) => {
+            scope.$watch(() => {
+                return scope.comp
+            }, () => {
+                if (scope.comp) {
+                    this.display(scope,elem,attrs)
+                }
+            })
         }
 
 
@@ -333,15 +347,15 @@ module App.Comp.CompStruct {
          * @returns {{post: IDirectiveLinkFn}}
          */
         public compile: ng.IDirectiveCompileFn  =
-    (
-        templateElement: ng.IAugmentedJQuery,
-        templateAttributes: ng.IAttributes,
-        transclude: ng.ITranscludeFunction
-    ): ng.IDirectivePrePost =>{
-            return (<ng.IDirectivePrePost>{
-                post:  this.postLink
-            })
-        }
+            (
+                templateElement: ng.IAugmentedJQuery,
+                templateAttributes: ng.IAttributes,
+                transclude: ng.ITranscludeFunction
+            ): ng.IDirectivePrePost =>{
+                return (<ng.IDirectivePrePost>{
+                    post:  this.postLink
+                })
+            }
 
         /**
          * The factory returning the directive
@@ -353,7 +367,7 @@ module App.Comp.CompStruct {
             return {
                 compile: comp.compile,
                 templateUrl: comp.templateUrl,
-                $scope: comp.$scope,
+                $scope: CompStructDirective.$scope,
                 restrict: comp.restrict
             }
 

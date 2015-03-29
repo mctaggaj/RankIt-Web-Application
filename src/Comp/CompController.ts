@@ -8,7 +8,7 @@ module App.Comp {
 
 
     interface ICompControllerShell extends ng.IScope{
-        competition:RankIt.ICompetition;
+        comp:RankIt.ICompetition;
         users:{userObject:RankIt.IUser; role:string;}[];
     }
 
@@ -21,11 +21,11 @@ module App.Comp {
             $scope.users=[];
             //If we have a competition structure, use it. Otherwise get it from the database
             if($stateParams['comp']){
-                $scope.competition=$stateParams['comp'];
+                $scope.comp=$stateParams['comp'];
                 this.populateUsers();
             }else{
                 dataService.getComp($stateParams['compId']).then((data: RankIt.ICompetition) => {
-                    $scope.competition = data;
+                    $scope.comp = data;
                     this.populateUsers();
                 }, (failure: any) => {
 
@@ -34,16 +34,16 @@ module App.Comp {
         }
 
         private populateUsers = () => {
-            var userList=this.$scope.competition.participants;
+            var userList=this.$scope.comp.participants;
             for(var i=0;i<userList.length;i++){
                 this.dataService.getUser(userList[i].userId).then((data:RankIt.IUser) => {
                     var temp:any={};
                     temp.userObject=data;
-                    if(this.baseHelper.userCanEdit(data.userId,this.$scope.competition)){
+                    if(this.baseHelper.userCanEdit(data.userId,this.$scope.comp)){
                         temp.role="Admin";
-                    }else if(this.baseHelper.userIsCompetitor(data.userId,this.$scope.competition)){
+                    }else if(this.baseHelper.userIsCompetitor(data.userId,this.$scope.comp)){
                         temp.role="Competitor";
-                    }else if(this.baseHelper.userIsJudge(data.userId,this.$scope.competition)){
+                    }else if(this.baseHelper.userIsJudge(data.userId,this.$scope.comp)){
                         temp.role="Judge";
                     }
                     this.$scope.users.push(temp);
