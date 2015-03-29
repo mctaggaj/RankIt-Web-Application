@@ -31,9 +31,14 @@
             
             
             <div id="user-info" class="col-md-4 col-xs-4">
-                <div class=" pull-right">
-                    <h3>People</h3>
+                <div class="pull-right">
+                    <h3 style="margin-top:0;">People</h3>
                     <a ng-repeat="user in users" ui-sref="Profile({user:{{user.userObject}},userId:{{user.userObject.userId}}})">{{user.userObject.firstName}} {{user.userObject.lastName}} - {{user.role}}</a>
+                    
+                    <h3 ng-if="competition.stages.length > 0">Stages</h3>
+                    <div ng-repeat="stage in competition.stages">
+                        <a ui-sref="Stage({'stage':{{stage}},'stageId':{{stage.stageId}}})">{{stage.name}}</a>
+                    </div>
                 </div>
             </div>
         </div>
