@@ -55,13 +55,13 @@ module App.Auth {
 
         /**
          * Logs in with the given username and password
-         * @param userName
+         * @param username
          * @param password
          */
         public login = (username: string, password: string): ng.IPromise<RankIt.IResponse> => {
             this.clearAuthData();
             var defered = this.$q.defer();
-            this.$http.post("/api/authentication", {userName: username, password: password})
+            this.$http.post("/api/authentication", {username: username, password: password})
                 .then(
                 (response: ng.IHttpPromiseCallbackArg<RankIt.IUser>) => {
                     // Success
@@ -83,13 +83,13 @@ module App.Auth {
         /**
          * Registers a new user
          * @Author Tim
-         * @param userName
+         * @param username
          * @param password
          */
         public register = (username: string, password: string, firstName: string, lastName: string): ng.IPromise<RankIt.IResponse> => {
             this.clearAuthData();
             var defered = this.$q.defer();
-            this.$http.post("/api/users", {userName: username, password: password, firstName: firstName, lastName: lastName})
+            this.$http.post("/api/users", {username: username, password: password, firstName: firstName, lastName: lastName})
                 .then(
                 (response: ng.IHttpPromiseCallbackArg<RankIt.IUser>) => {
                     response.data.username = username;
@@ -177,7 +177,7 @@ module App.Auth {
 
         /**
          * Sets the authentication data
-         * @param userName The user name of the user
+         * @param username The user name of the user
          * @param userId the user id of the user
          * @param userToken the session token
          */

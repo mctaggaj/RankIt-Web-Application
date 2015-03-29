@@ -283,8 +283,8 @@ declare module RankIt {
 
 
         /**
-         * User avatar (not always populated)
+         * User picture (not always populated)
          */
-        avatar: string;
+        picture: string;
     }
 }
