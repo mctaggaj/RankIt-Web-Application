@@ -9,8 +9,7 @@
     <div class="stage-container">
         <div ng-repeat="stage in comp.stages" class="stage" ng-style="stageStyle">
             <div ng-repeat="event in stage.events" class="event-container" id="{{event.eventId}}" ng-style="eventStyle[stage.stageId]">
-
-                <div class="event"><a ng-show="detail" ui-sref="Event({'event':{{event}},'eventId':{{event.eventId}}})">{{event.name}}</a><p ng-hide="detail"></p></div>
+                <div class="event"><p ng-show="detail" ui-sref="Event({'event':{{event}},'eventId':{{event.eventId}}})">{{event.name}}</p><p ng-hide="detail"></p></div>
             </div>
         </div>
     </div>

@@ -8,10 +8,6 @@
                         <h2>{{comp.name}} - {{comp.subject}}</h2>
                         <p>{{comp.state}}</p>
                     </accordion-heading>
-                    <div class="comp-struct">
-                        <comp-struct competition="comp" detail="false">
-                        </comp-struct>
-                    </div>
                     <h4 ng-if="comp.location">Taking place at {{comp.location}}</h4>
                     <p>{{comp.description}}</p>
                     <span ng-if="comp.streamURL">

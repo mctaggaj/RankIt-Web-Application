@@ -92,9 +92,12 @@ module App.Comp.CompStruct {
                 this.arraySwap(comp.stages,counter++,stageIndex);
                 stageIndex = this.stageIndexWithId(comp.stages, currentStage.nextStageId)
                 var nextStage = comp.stages[stageIndex];
-                this.sortStage(currentStage, nextStage);
-
                 currentStage = nextStage;
+            }
+
+            for (var i = comp.stages.length-1; i > 0 ; i --)
+            {
+                this.sortStage(comp.stages[i-1], comp.stages[i]);
             }
         }
 

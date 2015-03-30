@@ -65,27 +65,41 @@ comp-struct > div{
     max-width: 100%;
     margin: auto;
     height:100%;
-    max-height: 20px;
+    max-height: 30px;
     text-align: center;
     text-overflow: ellipsis;
     height:100%;
-    width:70px;
-
+    width:100px;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
     visibility: hidden;
-    &.done {
-      background: forestgreen;
-    }
     p {
       height: 100%;
       width: 100%;
+      text-align: center;
+      vertical-align: middle;
       overflow: hidden;
       white-space: nowrap;
+      margin-bottom: 0;
     }
   }
   &.detail {
     .event {
       background:skyblue;
       visibility: visible;
+      p {
+        cursor: pointer;
+      }
+      &.done {
+        background: forestgreen;
+        &:hover {
+          background: darkgreen;
+        }
+      }
+      &:hover {
+        background: deepskyblue;
+      }
     }
 
 
