@@ -34,7 +34,7 @@ module App.Comp {
         }
 
         private populateUsers = () => {
-            var userList=this.$scope.comp.participants;
+            var userList=this.$scope.comp.participants||[];
             if(userList.length>0){
                 for(var i=0;i<userList.length;i++){
                     this.dataService.getUser(userList[i].userId).then((data:RankIt.IUser) => {
