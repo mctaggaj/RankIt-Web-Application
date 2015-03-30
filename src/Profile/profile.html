@@ -34,12 +34,19 @@
 	<div class="col-xs-12">
 		<div class="col-md-3">
 			<div class="row" id="profileInfo">
-				<div class="col-md-12 col-xs-6">
-					<img ng-src="data:image/jpg;base64,{{picture.base64}}" id="avatar-blurred"></img>
-					<img ng-src="data:image/jpg;base64,{{picture.base64}}" id="avatar2"></img>
-					<img ng-src="data:image/jpg;base64,{{picture.base64}}" id="avatar"></img>
-					<input ng-show="editMode" type="file" ng-model="picture" base-sixty-four-input>
-				</div>
+                <div class="col-md-12 col-xs-6" ng-if="picture.base64">
+                    <img ng-src="data:image/jpg;base64,{{picture.base64}}" id="avatar-blurred"></img>
+                    <img ng-src="data:image/jpg;base64,{{picture.base64}}" id="avatar2"></img>
+                    <img ng-src="data:image/jpg;base64,{{picture.base64}}" id="avatar"></img>
+                    <input ng-show="editMode" type="file" ng-model="picture" base-sixty-four-input>
+                </div>
+                <div class="col-md-12 col-xs-6" ng-if="!picture.base64">
+                    <img ng-src="http://www.gravatar.com/avatar/{{user.userId}}?r=PG&s=200&default=identicon" id="avatar-blurred"></img>
+                    <img ng-src="http://www.gravatar.com/avatar/{{user.userId}}?r=PG&s=200&default=identicon" id="avatar2"></img>
+                    <img ng-src="http://www.gravatar.com/avatar/{{user.userId}}?r=PG&s=200&default=identicon" id="avatar"></img>
+                    <input ng-show="editMode" type="file" ng-model="picture" base-sixty-four-input>
+                </div>
+
 				
 				<div class="col-md-12 col-xs-6">
 
