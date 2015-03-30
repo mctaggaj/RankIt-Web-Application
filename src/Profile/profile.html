@@ -35,12 +35,14 @@
 		<div class="col-md-3">
 			<div class="row" id="profileInfo">
 				<div class="col-md-12 col-xs-6">
-					<div id="avatar-blurred"></div>
-					<div id="avatar2"></div>
-					<div id="avatar"></div>
+					<img ng-src="data:image/jpg;base64,{{picture.base64}}" id="avatar-blurred"></img>
+					<img ng-src="data:image/jpg;base64,{{picture.base64}}" id="avatar2"></img>
+					<img ng-src="data:image/jpg;base64,{{picture.base64}}" id="avatar"></img>
+					<input ng-show="editMode" type="file" ng-model="picture" base-sixty-four-input>
 				</div>
 				
 				<div class="col-md-12 col-xs-6">
+
 					<h3 ng-hide="editMode">{{user2.firstName}} {{user2.lastName[0]}}.</h3>
 					<div ng-show="editMode" style="padding-top:1em;width:200px">
 						<input type="text" class="form-control" placeholder="First Name" ng-model="user2.firstName"></input>

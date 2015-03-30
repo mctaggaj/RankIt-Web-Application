@@ -29,6 +29,11 @@ module App.Profile {
             html: string
         }
         saveChanges: any;
+        picture: {
+            filetype: string
+            filename: string
+            base64: string
+        }
         // changePassword: any;
         // bio2: string;
     }
@@ -75,10 +80,17 @@ module App.Profile {
             $scope.user = $stateParams['user'];
             $scope.user2 =  this.clone($scope.user);
             $scope.editMode = false;
+            $scope.picture = {
+                filetype: "",
+                filename: "",
+                base64: ""
+            }
 
 
             if (!$scope.user){
                 this.getUser($scope.userId)
+            } else {
+                $scope.picture.base64 = $scope.user.picture
             }
             this.updateIfOwnProfile();
             $scope.saveChanges = this.saveChanges;
@@ -99,6 +111,7 @@ module App.Profile {
             this.$scope.msg.enabled = false;
             if (!value){
                 this.$scope.user2 = this.clone(this.$scope.user);
+                this.$scope.picture.base64 = this.$scope.user2.picture
             }
             this.$scope.editMode = value;
         }
@@ -110,6 +123,7 @@ module App.Profile {
         }
 
         private editProfile = () => {
+            this.$scope.user2.picture = this.$scope.picture.base64
             this.dataService.clientModify(this.$scope.user.userId, this.$scope.user2)
             .then((response : any) => {
                 this.$scope.user = this.clone(response);
@@ -183,6 +197,7 @@ module App.Profile {
                     this.$scope.user = response;
                     this.$scope.user2 = this.clone(response);
                     this.$scope.userId = userId;
+                    this.$scope.picture.base64 = response.picture
                     this.updateIfOwnProfile();
 
                 }, (response : RankIt.IUser) => {
