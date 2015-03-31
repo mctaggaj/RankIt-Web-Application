@@ -82,7 +82,7 @@ module App.Comp.Edit {
         public addUser = () => {
             if(!this.userAlreadyInComp()){
                 if(this.$scope.newUsername.length > 0){
-                    if(this.$scope.newUserAdmin || this.$scope.newUserCompetitor || this.$scope.newUserCompetitor){
+                    if(this.$scope.newUserAdmin || this.$scope.newUserCompetitor || this.$scope.newUserJudge){
                         if(!this.$scope.comp['participants']){
                             this.$scope.comp['participants']=[];
                         }

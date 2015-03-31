@@ -37,23 +37,19 @@ module App.Comp {
             var userList=this.$scope.comp.participants||[];
             if(userList.length>0){
                 for(var i=0;i<userList.length;i++){
-                    this.dataService.getUser(userList[i].userId).then((data:RankIt.IUser) => {
-                        var temp:any={};
-                        temp.userObject=data;
-                        temp.role="";
-                        if(this.baseHelper.userCanEdit(data.userId,this.$scope.comp)){
-                            temp.role="Admin";
-                        }
-                        if(this.baseHelper.userIsCompetitor(data.userId,this.$scope.comp)){
-                            temp.role.length>0 ? temp.role+=" / Competitor" : temp.role="Competitor";
-                        }
-                        if(this.baseHelper.userIsJudge(data.userId,this.$scope.comp)){
-                            temp.role.length>0 ? temp.role+=" / Judge" : temp.role="Judge";
-                        }
-                        this.$scope.users.push(temp);
-                    }, (failure:any) => {
-
-                    });
+                    var temp:any={};
+                    temp.userObject=userList[i];
+                    temp.role="";
+                    if(this.baseHelper.userCanEdit(userList[i].userId,this.$scope.comp)){
+                        temp.role="Admin";
+                    }
+                    if(this.baseHelper.userIsCompetitor(userList[i].userId,this.$scope.comp)){
+                        temp.role.length>0 ? temp.role+=" / Competitor" : temp.role="Competitor";
+                    }
+                    if(this.baseHelper.userIsJudge(userList[i].userId,this.$scope.comp)){
+                        temp.role.length>0 ? temp.role+=" / Judge" : temp.role="Judge";
+                    }
+                    this.$scope.users.push(temp);
                 }
             }
         }
