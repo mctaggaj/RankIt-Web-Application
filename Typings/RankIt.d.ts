@@ -127,6 +127,13 @@ declare module RankIt {
         participants: IStageParticipant[];
     }
 
+    export interface IScore {
+        eventId: IId;
+        value:number;
+        userId:IId;
+        scoreType: number;
+    }
+
     /**
      * Event
      * Could represent a game or race
@@ -152,6 +159,10 @@ declare module RankIt {
          * The list of participant (including competitors, admin and judges)
          */
         participants: IEventParticipant[];
+        /**
+         * The list of scores
+         */
+        scores: IScore[];
     }
 
     /**

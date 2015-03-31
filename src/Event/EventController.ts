@@ -7,23 +7,28 @@ module App.Event {
 
     interface IEventControllerShell extends ng.IScope{
         event:RankIt.IEvent;
+
+        canJudge: boolean;
     }
 
     export class EventController {
         public static controllerId = "EventController";
         public static moduleId = Event.moduleId + "." + EventController.controllerId;
 
-        public static $inject = ["$scope","$state","$stateParams",Data.DataService.serviceId];
-        constructor (private $scope: IEventControllerShell,private $state:ng.ui.IStateService ,$stateParams:ng.ui.IStateParamsService, private dataService:Data.DataService) {
+        public static $inject = ["$scope","$state","$stateParams",Data.DataService.serviceId,Auth.AuthService.serviceId, Base.BaseHelperFactory.factoryId];
+        constructor (private $scope: IEventControllerShell,private $state:ng.ui.IStateService ,$stateParams:ng.ui.IStateParamsService, private dataService:Data.DataService, authService:Auth.AuthService, eventHelper: Base.BaseHelperFactory ) {
             if($stateParams['event']){
                 $scope.event=$stateParams['event'];
+                $scope.canJudge = eventHelper.userIsJudge(authService.getUserId(),$scope.event)
             }else{
                 dataService.getEvent($stateParams['eventId']).then((data: RankIt.IEvent) => {
                     $scope.event = data;
+                    $scope.canJudge = eventHelper.userIsJudge(authService.getUserId(),$scope.event)
                 }, (failure: any) => {
 
                 });
             }
+
         }
     }
 
