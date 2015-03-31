@@ -3,7 +3,7 @@
     <div id="comp-container">
         <div class="page-header">
                 <h1 style="margin:0">{{stage.name}}
-                	<button class="btn btn-primary pull-right" ng-if="stage" ui-sref="editStage({'stage':{{stage}},'stageId':{{stage.stageId}}})"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>&nbsp;Edit This Stage</button>
+                	<button class="btn btn-primary pull-right" ng-if="stage&&admin" ui-sref="editStage({'stage':{{stage}},'stageId':{{stage.stageId}}})"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>&nbsp;Edit This Stage</button>
                 </h1>
             </div>
         <h1></h1>
@@ -26,7 +26,7 @@
             <div id="user-info" class="col-md-4 col-xs-4">
                 <div class="pull-right">
                     <h3 style="margin-top:0;">People</h3>
-                    <a ng-repeat="user in stage.users" ui-sref="Profile({user:{{user.userObject}},userId:{{user.userObject.userId}}})">{{user.userObject.firstName}} {{user.userObject.lastName}} - {{user.role}}</a>
+                    <a ng-repeat="user in users" ui-sref="Profile({user:{{user.userObject}},userId:{{user.userObject.userId}}})">{{user.userObject.firstName}} {{user.userObject.lastName}} - {{user.role}}</a>
                     
                     <h3 ng-if="stage.events.length > 0">Events</h3>
                     <div ng-repeat="event in stage.events">

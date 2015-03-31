@@ -10,6 +10,7 @@ module App.Comp {
     interface ICompControllerShell extends ng.IScope{
         comp:RankIt.ICompetition;
         users:{userObject:RankIt.IUser; role:string;}[];
+        admin:boolean;
     }
 
     export class CompController {
@@ -19,17 +20,31 @@ module App.Comp {
         public static $inject = ["$scope","$state","$stateParams",Data.DataService.serviceId, Base.BaseHelperFactory.factoryId];
         constructor (private $scope: ICompControllerShell,private $state:ng.ui.IStateService ,$stateParams:ng.ui.IStateParamsService, private dataService:Data.DataService, private baseHelper: Base.BaseHelperFactory) {
             $scope.users=[];
+            $scope.admin = false
+
             //If we have a competition structure, use it. Otherwise get it from the database
             if($stateParams['comp']){
                 $scope.comp=$stateParams['comp'];
                 this.populateUsers();
+                this.checkAdmin();
             }else{
                 dataService.getComp($stateParams['compId']).then((data: RankIt.ICompetition) => {
                     $scope.comp = data;
                     this.populateUsers();
+                    this.checkAdmin();
                 }, (failure: any) => {
 
                 });
+            }
+        }
+
+        private checkAdmin = () => {
+            var userId = this.dataService.getAuthData().userId
+            var userList = this.$scope.users;
+            for(var i=0;i<userList.length;i++){
+                if ((userList[i].userObject.userId == userId) && userList[i].role.indexOf("Admin") > -1) {
+                    this.$scope.admin = true;
+                }
             }
         }
 

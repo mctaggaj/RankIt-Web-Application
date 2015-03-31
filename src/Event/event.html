@@ -3,7 +3,7 @@
     <div id="comp-container">
         <div class="page-header">
                 <h1 style="margin:0">{{event.name}}
-                    <button class="btn btn-primary pull-right" ng-if="event" ui-sref="editEvent({event:{{event}},'eventId':{{event.eventId}}})"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>&nbsp;Edit This Event</button>
+                    <button class="btn btn-primary pull-right" ng-if="event&&admin" ui-sref="editEvent({event:{{event}},'eventId':{{event.eventId}}})"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>&nbsp;Edit This Event</button>
                     &nbsp;
                     <button class="btn btn-primary pull-right" ng-if="event&&canJudge" ui-sref="judgeEvent({event:{{event}},'eventId':{{event.eventId}}})"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>&nbsp;Judge This Event</button>
                 </h1>

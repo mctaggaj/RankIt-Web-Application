@@ -3,7 +3,7 @@
     <div id="comp-container">
         <div class="page-header">
                 <h1 style="margin:0">{{comp.name}}
-                    <button class="btn btn-primary pull-right" ng-if="comp.competitionId" ui-sref="editComp({comp:{{comp}},compId:{{comp.competitionId}}})"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>&nbsp;Edit This Competition</button>
+                    <button class="btn btn-primary pull-right" ng-if="comp&&admin" ui-sref="editComp({comp:{{comp}},compId:{{comp.competitionId}}})"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>&nbsp;Edit This Competition</button>
                 </h1>
             </div>
         <h1></h1>
