@@ -61,11 +61,6 @@ module App.Comp.Create {
         }
 
         public addUser = () => {
-            console.log(this.$scope.newUsername);
-            console.log(this.$scope.newUserAdmin);
-            console.log(this.$scope.newUserCompetitor);
-            console.log(this.$scope.newUserJudge);
-
             if(this.$scope.newUsername.length > 0){
                 if(this.newCompetitorCounter != this.$scope.numParticipants){
                     if(this.$scope.newUserAdmin || this.$scope.newUserCompetitor || this.$scope.newUserCompetitor){

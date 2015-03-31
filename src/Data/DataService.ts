@@ -213,6 +213,16 @@ module App.Data {
             return defered.promise;
         }
 
+        public getUserByEmail = (username):ng.IPromise<RankIt.IUser> => {
+            var defered = this.$q.defer();
+            this.$http.get("api/users/"+username).success((data:any, status:number, headers:ng.IHttpHeadersGetter, config:ng.IRequestConfig) => {
+                defered.resolve(data);
+            }).error((data:any, status:number, headers:ng.IHttpHeadersGetter, config:ng.IRequestConfig) =>{
+
+            });
+            return defered.promise;
+        }
+
         public getAllUsers = ():ng.IPromise<RankIt.IUser[]> => {
             var defered = this.$q.defer();
             this.$http.get("api/users").success((data:any, status:number, headers:ng.IHttpHeadersGetter, config:ng.IRequestConfig) => {
