@@ -34,10 +34,12 @@ module App.Event.Edit {
             if($stateParams['event']){
                 $scope.event=$stateParams['event'];
                 this.populateUsernameList();
+                this.sanitizeBooleans();
             }else{
                 dataService.getEvent($stateParams['eventId']).then((data: RankIt.IEvent) => {
                     $scope.event = data;
                     this.populateUsernameList();
+                    this.sanitizeBooleans();
                 }, (failure: any) => {
 
                 });
@@ -60,6 +62,17 @@ module App.Event.Edit {
             }, ()=>{
 
             });
+        }
+
+        //Move to sanitize service of some kind
+        private sanitizeBooleans = () => {
+            for(var i=0;i<this.$scope.event.participants.length;i++){
+                if(this.$scope.event.participants[i]['permissions']){
+                    this.$scope.event.participants[i]['permissions']['admin'] ? this.$scope.event.participants[i]['permissions']['admin']=true : this.$scope.event.participants[i]['permissions']['admin']=false;
+                    this.$scope.event.participants[i]['permissions']['competitor'] ? this.$scope.event.participants[i]['permissions']['competitor']=true : this.$scope.event.participants[i]['permissions']['competitor']=false;
+                    this.$scope.event.participants[i]['permissions']['judge'] ? this.$scope.event.participants[i]['permissions']['judge']=true : this.$scope.event.participants[i]['permissions']['judge']=false;
+                }
+            }
         }
 
         private userAlreadyInEvent = () => {

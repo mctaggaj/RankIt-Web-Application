@@ -34,6 +34,7 @@ module App.Stage.Edit {
             $scope.usernameList=[];
             if($stateParams['stage']){
                 $scope.stage=$stateParams['stage'];
+                this.sanitizeBooleans();
                 dataService.getStageEvents(this.$scope.stage.stageId).then((data:RankIt.IEvent[])=>{
                     this.$scope.events=data;
                     this.populateUsernameList();
@@ -44,7 +45,8 @@ module App.Stage.Edit {
                 dataService.getStage($stateParams['stageId']).then((data:RankIt.IStage)=>{
                     this.$scope.stage=data;
                     this.$scope.events=data.events;
-                    this.populateUsernameList()
+                    this.populateUsernameList();
+                    this.sanitizeBooleans();
                 },()=>{
                     //failure
                 });
@@ -59,6 +61,17 @@ module App.Stage.Edit {
             }, ()=>{
 
             });
+        }
+
+        //Move to sanitize service of some kind
+        private sanitizeBooleans = () => {
+            for(var i=0;i<this.$scope.stage.participants.length;i++){
+                if(this.$scope.stage.participants[i]['permissions']){
+                    this.$scope.stage.participants[i]['permissions']['admin'] ? this.$scope.stage.participants[i]['permissions']['admin']=true : this.$scope.stage.participants[i]['permissions']['admin']=false;
+                    this.$scope.stage.participants[i]['permissions']['competitor'] ? this.$scope.stage.participants[i]['permissions']['competitor']=true : this.$scope.stage.participants[i]['permissions']['competitor']=false;
+                    this.$scope.stage.participants[i]['permissions']['judge'] ? this.$scope.stage.participants[i]['permissions']['judge']=true : this.$scope.stage.participants[i]['permissions']['judge']=false;
+                }
+            }
         }
 
         private userAlreadyInStage = () => {

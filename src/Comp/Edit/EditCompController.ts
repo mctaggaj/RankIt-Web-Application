@@ -48,10 +48,12 @@ module App.Comp.Edit {
             if($stateParams['comp']){
                 $scope.comp = $stateParams['comp'];
                 $scope.stages = $scope.comp.stages;
+                this.sanitizeBooleans();
             }else{
                 dataService.getComp($stateParams['compId']).then((data: RankIt.ICompetition) => {
                     $scope.comp=data;
                     $scope.stages=data.stages;
+                    this.sanitizeBooleans();
                 }, (failure: any) => {
 
                 });
@@ -68,6 +70,17 @@ module App.Comp.Edit {
 
         public addStage = (comp) => {
             this.$state.go(Stage.Create.state,{comp:comp});
+        }
+
+        //Move to sanitize service of some kind
+        private sanitizeBooleans = () => {
+            for(var i=0;i<this.$scope.comp.participants.length;i++){
+                if(this.$scope.comp.participants[i]['permissions']){
+                    this.$scope.comp.participants[i]['permissions']['admin'] ? this.$scope.comp.participants[i]['permissions']['admin']=true : this.$scope.comp.participants[i]['permissions']['admin']=false;
+                    this.$scope.comp.participants[i]['permissions']['competitor'] ? this.$scope.comp.participants[i]['permissions']['competitor']=true : this.$scope.comp.participants[i]['permissions']['competitor']=false;
+                    this.$scope.comp.participants[i]['permissions']['judge'] ? this.$scope.comp.participants[i]['permissions']['judge']=true : this.$scope.comp.participants[i]['permissions']['judge']=false;
+                }
+            }
         }
 
         private userAlreadyInComp = () => {
