@@ -6,6 +6,8 @@
  * @Sub-Author - Andrew Welton
  *  I copied and pasted Jason's working function and changed parameters as needed.
  *  All the functions are basically the same, Jason wrote the core one.
+ * @Sub-Author - Timothy Engel
+ *  I added client calls for AuthService
  */
 /// <reference path="DataGlobals.ts" />
 module App.Data {
