@@ -10,10 +10,10 @@ module App.Base {
     export class BaseHelperFactory {
         public static factoryId = "BaseHelper"
         public static moduleId = Base.moduleId + "." + BaseHelperFactory.factoryId;
-        public static $inject: string[] = [];
+        public static $inject: string[] = [App.Data.DataService.serviceId];
 
 
-        constructor () {
+        constructor (private dataService: App.Data.DataService) {
         }
 
         /**
@@ -66,15 +66,38 @@ module App.Base {
          * @returns {boolean} True if they have the permission false otherwise
          */
         private userHas(userId: RankIt.IId, entity: RankIt.IBase, has:(permissions: RankIt.IPermissions) => boolean) {
+            var participant = this.getParticipant(userId, entity);
+            if (participant&&has(participant.permissions))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private getStageFromComp(stageId: RankIt.IId, comp: RankIt.ICompetition) {
+            if (!stageId)
+            {
+                return undefined;
+            }
+            for (var i in comp.stages) {
+                if (comp.stages[i].stageId === stageId)
+                {
+                    return comp.stages[i];
+                }
+            }
+            return undefined;
+        }
+
+        private getParticipant(userId: RankIt.IId, entity: RankIt.IBase): RankIt.IParticipant {
             if (entity && entity.participants && userId!=undefined) {
                 for (var i in entity.participants) {
-                    if (entity.participants[i].userId===userId&&has(entity.participants[i].permissions))
+                    if (entity.participants[i].userId===userId)
                     {
-                        return true;
+                        return entity.participants[i];
                     }
                 }
             }
-            return false;
+            return undefined;
         }
 
         /**
@@ -129,9 +152,78 @@ module App.Base {
             return displayName;
         }
 
+        private getCompetitorWithRank = (entity: RankIt.IBase, rank: number):RankIt.IParticipant => {
+            for (var i in entity.participants)
+            {
+                if (this.hasCompetitor(entity.participants[i].permissions)&&entity.participants[i].rank===rank){
+                    return entity.participants[i];
+                }
+            }
+            return undefined;
+        }
 
-        public static factory = () => {
-            var fac = new BaseHelperFactory();
+        private setStageRoleId = (participant: RankIt.IStageParticipant, stage: RankIt.IStage) => {
+            participant.stageId=stage.competitionId;
+        }
+
+        private setEventRoleId = (participant: RankIt.IEventParticipant, event: RankIt.IEvent) => {
+            participant.eventId=event.eventId;
+        }
+
+        private seedStageHelper = (stage: RankIt.IStage, comp:RankIt.ICompetition) =>
+        {
+            if (!comp)
+            {
+                console.error("No parent competitions")
+                return
+            }
+
+            var seedFrom: RankIt.IBase = this.getStageFromComp(stage.previousStageId, comp) || comp;
+
+            this.seedEntity(stage, seedFrom, this.setStageRoleId)
+
+            for (var i in stage.events) {
+                this.seedEntity(stage.events[i], stage, this.setEventRoleId);
+            }
+
+            stage.state = RankIt.state[1]
+        }
+
+
+        public seedStage = (stage: RankIt.IStage, comp?:RankIt.ICompetition) =>
+        {
+            if (!comp) {
+                this.dataService.getComp(stage.competitionId).then((comp: RankIt.ICompetition) => {
+                    this.seedStageHelper(stage,comp);
+                })
+            }
+            else {
+                this.seedStageHelper(stage,comp);
+            }
+        }
+
+        public seedEntity = (entity: RankIt.ISeedable, seedFrom: RankIt.IBase, setParticipantParentId: (participant: RankIt.IParticipant, parent: RankIt.IBase)=>void) =>
+        {
+            for (var i in entity.seed) {
+                var rank = entity.seed[i];
+                var competitor = this.getCompetitorWithRank(seedFrom, entity.seed[i]);
+                if (competitor) {
+                    var participant = this.getParticipant(competitor.userId, entity);
+                    if (!participant)
+                    {
+                        participant = {userId: competitor.userId, permissions: {competitor:false, judge:false, admin:false}, rank:0};
+                        setParticipantParentId(participant, entity);
+                    }
+
+                    participant.rank = rank;
+                    participant.permissions.competitor=true;
+                }
+            }
+        }
+
+
+        public static factory = (dataService: Data.DataService) => {
+            var fac = new BaseHelperFactory(dataService);
             return {
                 userIsJudge: fac.userIsJudge,
                 userIsCompetitor: fac.userIsCompetitor,
@@ -142,6 +234,6 @@ module App.Base {
 
     }
 
-    angular.module(BaseHelperFactory.moduleId, [])
-        .service(BaseHelperFactory.factoryId, BaseHelperFactory.factory)
+    angular.module(BaseHelperFactory.moduleId, [Data.DataService.moduleId])
+        .service(BaseHelperFactory.factoryId, [Data.DataService.serviceId ,BaseHelperFactory.factory])
 }

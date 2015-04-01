@@ -48,6 +48,19 @@ declare module RankIt {
         results: IId[];
     }
 
+    export interface ISeedable extends IBase {
+
+        /**
+         * A sorted array of numbers where the number represents the rank of the competitor in the
+         * previous stage to be entered into this event where there is no previous stage the parent
+         * competition is used
+         *
+         * The order of the array correlates to the order of the results
+         * I.E the competitor at position i in the results array is comes out with a rank of seed[i]
+         */
+        seed: number[];
+    }
+
     /**
      * An entire competition
      * Could represent a season of football in a given league
@@ -91,7 +104,7 @@ declare module RankIt {
      * Stage
      * Most of the time this will be one of Finals, Semifinals, Quarterfinals ...
      */
-    export interface IStage extends IBase {
+    export interface IStage extends ISeedable {
         /**
          * The stage's identifier
          */
@@ -108,15 +121,6 @@ declare module RankIt {
          * The identifier of the next stage
          */
         nextStageId?: IId;
-        /**
-         * A sorted array of numbers where the number represents the rank of the competitor in the
-         * previous stage to be entered into this event where there is no previous stage the parent
-         * competition is used
-         *
-         * The order of the array correlates to the order of the results
-         * I.E the competitor at position i in the results array is comes out with a rank of seed[i]
-         */
-        seed: number[];
         /**
          * The list of event contained within the stage
          */
@@ -138,7 +142,7 @@ declare module RankIt {
      * Event
      * Could represent a game or race
      */
-    export interface IEvent extends IBase {
+    export interface IEvent extends ISeedable {
         /**
          * The identifier of the event
          */
@@ -147,14 +151,6 @@ declare module RankIt {
          * The identifier of the parent state
          */
         stageId: IId;
-        /**
-         * A sorted array of numbers where the number represents the rank of the competitor in the
-         * parent stage to be entered into this event.
-         *
-         * The order of the array correlates to the order of the results
-         * I.E the competitor at position i in the results array is comes out with a rank of seed[i]
-         */
-        seed: number[];
         /**
          * The list of participant (including competitors, admin and judges)
          */
