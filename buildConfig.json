@@ -35,7 +35,11 @@
       "bower_components/bootstrap/dist/css/bootstrap.css*",
       "bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js",
       "bower_components/angular-http-auth/src/http-auth-interceptor.js",
-      "bower_components/angular-local-storage/dist/angular-local-storage.js"
+      "bower_components/angular-local-storage/dist/angular-local-storage.js",
+      "bower_components/angular-base64-upload/dist/angular-base64-upload.min.js",
+      "bower_components/font-awesome/css/font-awesome.min.css",
+      "bower_components/font-awesome/css/font-awesome.min.css.map",
+      "bower_components/font-awesome/fonts/*"
     ],
     "dest" : "package/"
   }

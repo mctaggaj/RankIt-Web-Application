@@ -1,19 +1,54 @@
-<!--Andrew Welton-->
+<!--Timothy Engel, Andrew Welton-->
 <div class="row panel top-push">
-    <div id="comp-info" class="pull-left">
-        <p>View Competition Page</p>
-        <p>{{competition.name}}</p>
-        <p>{{competition.subject}}</p>
-        <p>{{competition.description}}</p>
-        <p>{{competition.location}}</p>
-        <p>{{competition.public}}</p>
-        <p>{{competition.state}}</p>
-        <p>{{competition.streamUrl}}</p>
-        <comp-struct comp="{{competition}}" detail="true"></comp-struct>
-        <button class="btn btn-primary" ng-if="competition.competitionId" ui-sref="editComp({comp:{{competition}},compId:{{competition.competitionId}}})">Edit This Competition</button>
-    </div>
-    <div id="user-info" class="pull-right">
-        <h3>People</h3>
-        <a ng-repeat="user in users" ui-sref="Profile({user:{{user.userObject}},userId:{{user.userObject.id}})">{{user.userObject.firstName}} {{user.userObject.lastName}} - {{user.role}}</a>
+    <div id="comp-container">
+        <div class="page-header">
+                <h1 style="margin:0">{{comp.name}}
+                    <button class="btn btn-primary pull-right" ng-if="comp&&admin" ui-sref="editComp({comp:{{comp}},compId:{{comp.competitionId}}})"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>&nbsp;Edit This Competition</button>
+                </h1>
+            </div>
+        <h1></h1>
+        <div id="comp-info" class="row">
+            <div class="col-xs-8">
+                <b>Subject</b>
+                <p>{{comp.subject}}</p>
+
+                <b>Description</b>
+                <p>{{comp.description}}</p>
+
+                <b>Location</b>
+                <p>{{comp.location}}</p>
+
+                <b>Public Event</b>
+                <p>{{comp.public ? "Yes":"No"}}</p>
+
+                <b>Progress</b>
+                <p>{{comp.state}}</p>
+
+                <b>Stream</b>
+                <p>{{comp.streamUrl}}</p>
+            </div>
+            <div id="user-info" class="col-xs-4">
+                <div class="pull-right">
+                    <h3 style="margin-top:0;">People</h3>
+                    <div ng-repeat="user in users">
+                        <a ui-sref="Profile({user:{{user.userObject}},userId:{{user.userObject.userId}}})">{{user.userObject.firstName}} {{user.userObject.lastName}} - {{user.role}}</a>
+                    </div>
+                    
+                    <h3 ng-if="comp.stages.length > 0">Stages</h3>
+                    <div ng-repeat="stage in comp.stages">
+                        <a ui-sref="Stage({'stage':{{stage}},'stageId':{{stage.stageId}}})">{{stage.name}}</a>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-if="comp" class="col-xs-12" style="height: 200px">
+                <comp-struct comp="comp" detail="true">
+
+                </comp-struct>
+            </div>
+        </div>
+        <div class="row">
+            
+        </div>
     </div>
 </div>

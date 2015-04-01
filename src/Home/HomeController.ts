@@ -8,6 +8,8 @@ module App.Home {
     interface IHomeControllerShell extends ng.IScope{
         competitions:RankIt.ICompetition[];
         subjects:{ [subject: string]: {name: string; checked: boolean}; };
+        queryString: string;
+        noResultsMessage: string;
     }
 
     export class HomeController {
@@ -16,6 +18,7 @@ module App.Home {
 
         public static $inject = ["$scope",Data.DataService.serviceId];
         constructor ($scope: IHomeControllerShell, dataService:Data.DataService) {
+            $scope.noResultsMessage="Loading Competitions";
             $scope.competitions=[];
             $scope.subjects={};
             dataService.getAllComps().then((data: RankIt.ICompetition[]) => {
@@ -26,6 +29,15 @@ module App.Home {
                     if($scope.subjects[data[i].subject]=== undefined){
                         $scope.subjects[data[i].subject] = {name: data[i].subject, checked: true};
                     }
+                }
+
+                if (data.length)
+                {
+                    $scope.noResultsMessage="No Results";
+                }
+                else
+                {
+                    $scope.noResultsMessage="No Competitions. Why don't you create one?";
                 }
             }, (failure: any) => {
 
@@ -51,11 +63,23 @@ module App.Home {
         }])
         //Filter out the unchecked boxes for subjects
         .filter('homeFilter', function() {
-            return function(input: RankIt.ICompetition[],options: { [subject: string]: {name: string; checked: boolean}; }) {
+            return function(input: RankIt.ICompetition[], query : {options: { [subject: string]: {name: string; checked: boolean}; }; queryString: string} ) {
                 var output: RankIt.ICompetition[] = []
+                var options = query.options;
+                var queryString = query.queryString.toLocaleLowerCase();
                 for (var i in input) {
                     if(options[input[i].subject].checked==true){
-                        output.push(input[i]);
+
+                        if (!queryString ||
+                            queryString.length == 0 ||
+                            input[i].subject.toLocaleLowerCase().search(queryString) >=0 ||
+                            input[i].name.toLocaleLowerCase().search(queryString) >=0 ||
+                            input[i].location.toLocaleLowerCase().search(queryString) >=0 ||
+                            input[i].state.toLocaleLowerCase().search(queryString) >=0 ||
+                            input[i].description.toLocaleLowerCase().search(queryString) >=0 )
+                        {
+                            output.push(input[i]);
+                        }
                     }
                 }
                 return output;

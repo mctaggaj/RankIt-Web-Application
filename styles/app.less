@@ -6,7 +6,12 @@
 @import "variables";
 
 @import "../src/Login/login";
+@import "../src/Profile/profile";
+@import "../src/Home/home";
 @import "../src/Comp/StructView/compStruct";
+@import "../src/Comp/comp";
+@import "../src/Stage/stage";
+@import "../src/Event/event";
 
 
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
@@ -20,29 +25,6 @@
   left: 0;
   .top-push{
     margin-top:1em;
-  }
-}
-.comp-row {
-  position: relative;
-  width:100%;
-  height: 120px;
-
-  -webkit-transition: all 500ms cubic-bezier(0.850, 0.005, 0.070, 1.000);
-  transition: all 500ms cubic-bezier(0.850, 0.005, 0.070, 1.000);
-
-  &.ng-enter.ng-enter-active,
-  &.ng-leave {
-    left:0;
-    height: 132px;
-    position: relative;
-    display: block;
-  }
-
-  &.ng-leave.ng-leave-active,
-  &.ng-enter {
-    left:-200%;
-    height:0px;
-    display: block;
   }
 }
 

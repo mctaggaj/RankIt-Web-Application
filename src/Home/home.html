@@ -1,28 +1,31 @@
 <!--Andrew Welton-->
-<div class="row top-push">
+<div class="row top-push" id="home">
     <div class="col-xs-8">
-        <accordion ng-repeat="comp in competitions | homeFilter:subjects" class="comp-row">
-            <accordion-group>
-                <accordion-heading>
-                    <h2>{{comp.name}} - {{comp.description}}</h2>
-                    <p>In Progress</p>
-                </accordion-heading>
-                <comp-struct competition="comp" detail="true">
-                </comp-struct>
-                <h4>Taking place at {{comp.location}}</h4>
-                <p>Competing in: {{comp.subject}}</p>
-                <span ng-if="comp.streamURL">
-                    <h2>Stream</h2>
-                    <iframe src="{{comp.streamURL}}" frameborder="0" scrolling="no" height="378" width="620"></iframe>
-                </span>
-                <a ui-sref="Comp({compId:{{comp.competitionId}}})">View Competition Page</a>
-            </accordion-group>
-        </accordion>
+        <span ng-repeat="comp in filteredComps = (competitions | homeFilter:{options:subjects, queryString:queryString})" class="comp-row">
+            <accordion>
+                <accordion-group>
+                    <accordion-heading>
+                        <h2>{{comp.name}} - {{comp.subject}}</h2>
+                        <p>{{comp.state}}</p>
+                    </accordion-heading>
+                    <h4 ng-if="comp.location">Taking place at {{comp.location}}</h4>
+                    <p>{{comp.description}}</p>
+                    <span ng-if="comp.streamURL">
+                        <h2>Stream</h2>
+                        <iframe src="{{comp.streamURL}}" frameborder="0" scrolling="no" height="378" width="620"></iframe>
+                    </span>
+                    <a ui-sref="Comp({compId:{{comp.competitionId}},comp:{{comp}}})">View Competition Page</a>
+                </accordion-group>
+            </accordion>
+        </span>
+
+        <p ng-hide="filteredComps.length">{{noResultsMessage}}</p>
+
     </div>
     <div class="col-xs-4">
         <div class="panel" style="padding:0.5em">
             <label for="competitionSearch">Search for a Competition:</label>
-            <input type="text" id="competitionSearch" class="form-control" placeholder="Search"/>
+            <input type="text" id="competitionSearch" class="form-control" placeholder="Search" ng-init="queryString=''" ng-model="queryString"/>
             <label>Or</label>
             <label>Filter By:</label>
             <div class="checkbox" ng-repeat="(subject, item) in subjects">

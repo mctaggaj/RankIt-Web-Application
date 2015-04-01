@@ -27,10 +27,26 @@
                 <div ng-repeat="event in events">
                     <a ui-sref="Event({'event':{{event}},'eventId':{{event.eventId}}})">{{event.name}}</a>
                 </div>
-                <a class="btn btn-primary" ng-if="stage" ui-sref="createEvent({'stage':{{stage}}})">Add Event</a>
+                <a class="btn btn-primary" ng-if="stage" ui-sref="createEvent({'stage':{{stage}},stageId:{{stage.stageId}}})">Add Event</a>
             </div>
             <div class="form-group">
-                <button class="btn btn-primary" type="submit">Save Event</button>
+                <p>Users</p>
+                <div ng-repeat="user in stage.participants">
+                    <a tooltip="Click to show/hide User Permissions" ng-click="isCollapsed = !isCollapsed">{{user.firstName}} {{user.lastName}}</a>
+                    <div collapse="!isCollapsed">
+                        <input type="checkbox" ng-checked="user.permissions.admin" ng-model="user.permissions.admin"/> Admin
+                        <input type="checkbox" ng-checked="user.permissions.competitor" ng-model="user.permissions.competitor"/> Competitor
+                        <input type="checkbox" ng-checked="user.permissions.judge" ng-model="user.permissions.judge"/> Judge
+                    </div>
+                </div>
+                <input id="newUsername" type="text" typeahead="username for username in usernameList | filter:$viewValue | limitTo:8" placeholder="New Users Email" ng-model="newUsername"/>
+                <input id="newUserAdmin" type="checkbox" ng-model="newUserAdmin" /> Admin
+                <input id="newUserCompetitor" type="checkbox" ng-model="newUserCompetitor" /> Competitor
+                <input id="newUserJudge" type="checkbox" ng-model="newUserJudge" /> Judge
+                <a class="btn btn-primary" ng-click="addUser()">Add User</a>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary" type="submit">Save Stage</button>
             </div>
         </form>
     </div>

@@ -9,7 +9,10 @@
     <title>RankIt</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <link rel="stylesheet" href="styles/app.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
 
     <!--Vendor Files-->
     <script src="bower_components/jquery/dist/jquery.js"></script>
@@ -20,6 +23,7 @@
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
     <script src="bower_components/angular-http-auth/src/http-auth-interceptor.js"></script>
     <script src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
+    <script src="bower_components/angular-base64-upload/dist/angular-base64-upload.min.js"></script>
 </head>
 <body ng-app="App" ng-controller="ShellController">
 <nav class="navbar navbar-default navbar-fixed-top">
@@ -44,7 +48,7 @@
                 <li class="dropdown" ng-show="authService.isLoggedIn()">
                     <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{dataService.getAuthData().username}}<span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a ui-sref="Profile({userId:{{dataService.getAuthData().userId}}})">Profile</a></li>
+                        <li><a ui-sref="Profile({userId:dataService.getAuthData().userId})">Profile</a></li>
                         <li><a ng-click="dataService.clientLogout()" ui-sref="Login">Logout</a></li>
                     </ul>
                 </li>

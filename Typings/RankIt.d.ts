@@ -78,9 +78,8 @@ declare module RankIt {
 
         /**
          * The list of participant (including competitors, admin and judges)
-         * CHANGE BACK TO PARTICIPANTS
          */
-        users: ICompetitionParticipant[];
+        participants: ICompetitionParticipant[];
 
         /**
          * a URL to a live stream for a competition
@@ -128,6 +127,13 @@ declare module RankIt {
         participants: IStageParticipant[];
     }
 
+    export interface IScore {
+        eventId: IId;
+        value:number;
+        userId:IId;
+        scoreType: number;
+    }
+
     /**
      * Event
      * Could represent a game or race
@@ -153,6 +159,10 @@ declare module RankIt {
          * The list of participant (including competitors, admin and judges)
          */
         participants: IEventParticipant[];
+        /**
+         * The list of scores
+         */
+        scores: IScore[];
     }
 
     /**
@@ -255,12 +265,17 @@ declare module RankIt {
         /**
          * email, only initialized if constructed by authorized user
          */
-        email: string;
+        // email: string;
 
         /**
          * Username if set
          */
         username: string;
+
+        /**
+         * Password if set
+         */
+        password: string;
 
         /**
          * First name of user
@@ -284,8 +299,8 @@ declare module RankIt {
 
 
         /**
-         * User avatar (not always populated)
+         * User picture (not always populated)
          */
-        avatar: string;
+        picture: string;
     }
 }

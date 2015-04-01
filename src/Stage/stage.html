@@ -1,10 +1,44 @@
-<!--Andrew Welton-->
+<!--Timothy Engel-->
 <div class="row panel top-push">
-    <p>View Stage Page</p>
-    <p>{{stage.name}}</p>
-    <p>{{stage.subject}}</p>
-    <p>{{stage.description}}</p>
-    <p>{{stage.location}}</p>
-    <p>{{stage.state}}</p>
-    <button class="btn btn-primary" ng-if="stage" ui-sref="editStage({'stage':{{stage}},'stageId':{{stage.stageId}}})">Edit This Stage</button>
+    <div id="comp-container">
+        <div class="page-header">
+                <h1 style="margin:0">{{stage.name}}
+                	<button class="btn btn-primary pull-right" ng-if="stage&&admin" ui-sref="editStage({'stage':{{stage}},'stageId':{{stage.stageId}}})"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>&nbsp;Edit This Stage</button>
+                </h1>
+            </div>
+        <h1></h1>
+        <div id="comp-info" class="row">
+            <div class="col-md-8 col-xs-8">
+                <b>Subject</b>
+                <p>{{stage.subject}}</p>
+
+                <b>Description</b>
+                <p>{{stage.description}}</p>
+
+                <b>Location</b>
+                <p>{{stage.location}}</p>
+
+                <b>Progress</b>
+                <p>{{stage.state}}</p>
+            </div>
+            
+            
+            <div id="user-info" class="col-md-4 col-xs-4">
+                <div class="pull-right">
+                    <h3 style="margin-top:0;">People</h3>
+                    <div ng-repeat="user in users">
+                        <a ui-sref="Profile({user:{{user.userObject}},userId:{{user.userObject.userId}}})">{{user.userObject.firstName}} {{user.userObject.lastName}} - {{user.role}}</a>
+                    </div>
+                    
+                    <h3 ng-if="stage.events.length > 0">Events</h3>
+                    <div ng-repeat="event in stage.events">
+	                    <a ui-sref="Event({'event':{{event}},'eventId':{{event.eventId}}})">{{event.name}}</a>
+	                </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            
+        </div>
+    </div>
 </div>

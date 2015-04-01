@@ -34,22 +34,24 @@
                     <option>512</option>
                 </select>
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-show="numParticipants>0">
                 <label for="compParticipantsPerEvent">Participants Per Event</label>
                 <select id="compParticipantsPerEvent" class="form-control" ng-model="participantsPerEvent" ng-init="participantsPerEvent='2'">
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
+                    <option ng-if="numParticipants>=2">2</option>
+                    <option ng-if="numParticipants>=3">3</option>
+                    <option ng-if="numParticipants>=4">4</option>
+                    <option ng-if="numParticipants>=5">5</option>
                 </select>
             </div>
-            <div class="form-group">
-                <label for="compState">Competition State</label>
-                <select id="compState" class="form-control" ng-model="comp.state" ng-init="comp.state='Upcoming'">
-                    <option>Upcoming</option>
-                    <option>In Progress</option>
-                    <option>Finished</option>
-                </select>
+            <div class="form-group" ng-show="numParticipants>0">
+                <div ng-repeat="user in comp.participants" ng-if="comp.participants">
+                    <p>{{user.username}}</p>
+                </div>
+                <input id="newUsername" typeahead="username for username in usernameList | filter:$viewValue | limitTo:8" type="text" placeholder="New Users Email" ng-model="newUsername"/>
+                <input id="newUserAdmin" type="checkbox" ng-model="newUserAdmin"/> Admin
+                <input id="newUserCompetitor" type="checkbox" ng-model="newUserCompetitor"/> Competitor
+                <input id="newUserJudge" type="checkbox" ng-model="newUserJudge"/> Judge
+                <a class="btn btn-primary" ng-click="addUser()">Add User</a>
             </div>
             <div class="form-group">
                 <label for="compDescription">Competition Description</label>
@@ -60,7 +62,7 @@
                 <input id="compLocation" class="form-control" type="text" placeholder="Where is it?" ng-model="comp.location"/>
             </div>
             <div class="form-group">
-                <button class="btn btn-primary" type="submit">Create Competition</button>
+                <button class="btn btn-primary" type="submit" ng-disabled="loading"><icon class="fa fa-spinner fa-spin" ng-show="loading"/>&nbsp;Create Competition</button>
             </div>
         </form>
     </div>

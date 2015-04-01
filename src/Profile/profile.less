@@ -3,7 +3,70 @@
  * Author: Tim
  */
 
-changePassword {
-	width: 30%;
-	right:0;
+#changePassword {
+	padding-top:1em;
+	padding-bottom:1em;
+}
+
+#avatar, #avatar-blurred, #avatar2 {
+	width:200px;
+	height:200px;
+	/*background:#ececec url('http://www.reactionface.info/sites/default/files/imagecache/Node_Page/images/4e584a22eddc6c06410053e4.jpg');
+	background-size:100%;*/
+}
+
+/* blur the background, to make blurred edges that overflow the unblurred image that is on top */
+#avatar-blurred {
+	position: absolute;
+    -webkit-filter: blur(20px);
+    -moz-filter: blur(20px);
+    -o-filter: blur(20px);
+    -ms-filter: blur(20px);
+    filter: blur(20px);
+}
+
+#avatar2 {
+	position:absolute;
+}
+
+#profileInfo {
+	padding-bottom:2em;
+}
+
+#profileInfo h3 {
+}
+
+#profileStats {
+	text-align: center;
+
+}
+
+.profile {
+	padding-top:1em;
+}
+
+.profile .row {
+}
+
+
+.profile-alert {
+	opacity: 1;
+	top: 0;
+	position: relative;
+
+	&.ng-hide {
+		top: -100px;
+		opacity: 0;
+		padding-top: 0;
+		padding-bottom: 0;
+		margin: 0;
+		display:inline-block !important;
+	}
+
+	&.ng-hide-add,
+	&.ng-hide-remove {
+		display: inline-block !important;
+		-webkit-transition: all 0.6s;
+		transition: all 0.6s;
+	}
 }

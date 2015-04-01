@@ -3,15 +3,15 @@
  * Author: Jason McTaggart
  */
 comp-struct > div{
-  height:50px;
-  width: 50px;
+  height:100%;
+  width: 100%;
   top:0;
   position: relative;
 
   > canvas {
     position:absolute;
-    height: 100%;
-    width:100%;
+//    height: 100%;
+//    width:100%;
   }
   > .stage-container {
     position: absolute;
@@ -20,44 +20,89 @@ comp-struct > div{
   }
   .stage {
     width:100%;
-    padding: 10px;
+    padding: 0;
+
+    &:first-of-type:not(:last-of-type)
+    {
+      .event-container {
+        position: relative;
+        top:0;
+      }
+    }
+
+    &:last-of-type:not(:first-of-type)
+    {
+      .event-container {
+        position: absolute;
+        bottom: 0;
+      }
+    }
+
+    &:not(:first-of-type):not(:last-of-type), &:first-of-type:last-of-type
+    {
+      .event-container{
+        position: relative;
+        top: 50%;
+        -webkit-transform: translateY(-50%);
+        transform: translateY(-50%);
+      }
+
+    }
   }
   .event-container {
-    height:100%;
-    float:left
+    float:left;
+    padding-left: 5px;
+    padding-right: 5px;
+    &:first-of-type {
+      padding-left: 0;
+    }
+    &:last-of-type {
+      padding-right: 0;
+    }
   }
   .event {
     width: 10px;
     max-width: 100%;
     margin: auto;
     height:100%;
-    max-height: 20px;
+    max-height: 30px;
     text-align: center;
     text-overflow: ellipsis;
+    height:100%;
+    width:100px;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    visibility: hidden;
+    p {
+      height: 100%;
+      width: 100%;
+      text-align: center;
+      vertical-align: middle;
+      overflow: hidden;
+      white-space: nowrap;
+      margin-bottom: 0;
+    }
   }
   &.detail {
-    height:100px;
-    width:200px;
     .event {
-      height:100%;
-      width:70px;
       background:skyblue;
+      visibility: visible;
+      p {
+        cursor: pointer;
+      }
       &.done {
         background: forestgreen;
+        &:hover {
+          background: darkgreen;
+        }
       }
-      p {
-        height: 100%;
-        width: 100%;
-        overflow: hidden;
-        white-space: nowrap;
+      &:hover {
+        background: deepskyblue;
       }
     }
 
-    .event-container {
-      padding-left: 5%;
-      padding-right: 5%;
-    }
-    //    }
+
   }
 
 

@@ -2,26 +2,114 @@
     frontend code for profile page
     author: Timothy Engel
 -->
-<div class="row panel top-push">
-	<h1>Hey its a profile page!</h1>
+<div class="row panel top-push profile">
+	<div class="col-xs-12">
+		<div ng-if="extras" class="pull-right" style="right:0">
+			<div ng-hide="editMode">
+				<div class="has-{{msg.type}} profile-alert ng-hide" ng-show="msg.enabled" style="display:inline;">
+	        		<div class="control-label" dynamic="msg" style="display:inline;"></div>
+			    </div>
+				<button class="btn btn-success" ng-click="changeToEditMode(true);">
+					<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>&nbsp;Edit Profile
+				</button>
+			</div>
+			<div ng-show="editMode" style="padding-bottom:0.5em" style="display:inline;">
+				
+				<form class="form-inline" ng-submit="saveChanges()" style="display:inline-block;">
+					<div class="has-{{msg.type}} profile-alert" ng-show="msg.enabled" style="display:inline;">
+		        		<div class="control-label" dynamic="msg" style="display:inline;"></div>
+				    </div>
+					<input type="password" class="form-control" placeholder="Current Password" ng-model="user2.password" ng-required="true">
+					<button type="submit" class="btn btn-primary" >
+						<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>&nbsp;Save
+					</button>
+					<button class="btn btn-default" ng-click="changeToEditMode(false);">
+						Cancel
+					</button>
+				</form>
+				
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-12">
+		<div class="col-md-3">
+			<div class="row" id="profileInfo">
+                <div class="col-md-12 col-xs-6" ng-if="picture.base64">
+                    <img ng-src="data:image/jpg;base64,{{picture.base64}}" id="avatar-blurred"></img>
+                    <img ng-src="data:image/jpg;base64,{{picture.base64}}" id="avatar2"></img>
+                    <img ng-src="data:image/jpg;base64,{{picture.base64}}" id="avatar"></img>
+                    <input ng-show="editMode" type="file" ng-model="picture" base-sixty-four-input>
+                </div>
+                <div class="col-md-12 col-xs-6" ng-if="!picture.base64">
+                    <img ng-src="http://www.gravatar.com/avatar/{{user.userId}}?r=PG&s=200&default=identicon" id="avatar-blurred"></img>
+                    <img ng-src="http://www.gravatar.com/avatar/{{user.userId}}?r=PG&s=200&default=identicon" id="avatar2"></img>
+                    <img ng-src="http://www.gravatar.com/avatar/{{user.userId}}?r=PG&s=200&default=identicon" id="avatar"></img>
+                    <input ng-show="editMode" type="file" ng-model="picture" base-sixty-four-input>
+                </div>
 
-	<div id="profileInfo">
-		<b>Username: </b><p>{{user.userName}}</p>
-		<b>First Name: </b><p>{{user.firstName}}</p>
-		<b>Last Name: </b><p>{{user.lastName}}</p>
+				
+				<div class="col-md-12 col-xs-6">
+
+					<h3 ng-hide="editMode">{{user2.firstName}} {{user2.lastName[0]}}.</h3>
+					<div ng-show="editMode" style="padding-top:1em;width:200px">
+						<input type="text" class="form-control" placeholder="First Name" ng-model="user2.firstName"></input>
+						<input type="text" class="form-control" placeholder="Last Name" ng-model="user2.lastName"></input>
+					</div>
+					<p>{{user2.username}}</p>
+					<p>{{user2.email}}</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-8">
+			<div id="profileStats" class="row">
+				<div class="col-md-6 col-xs-6" style="text-align: center;">
+					<span class="glyphicon glyphicon-list" aria-hidden="true" style="font-size:7em;color:green;"></span>
+					<h1 style="padding:0;margin:0">46</h1>
+					<small>Competitions Owned</small>
+				</div>
+				<div class="col-md-6  col-xs-6" style="text-align: center;">
+					<span class="glyphicon glyphicon-fire" aria-hidden="true" style="font-size:7em;color:crimson;"></span>
+					<h1 style="padding:0;margin:0">46</h1>
+					<small>Competitions Won</small>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="page-header">
+					<h3>Bio</h3>
+				</div>
+				<p ng-hide="editMode">{{user2.bio}}</p>
+				<div ng-show="editMode">
+					<textarea style="width:100%;height:7em;resize: none;" placeholder="Describe yourself here..." ng-model="user2.bio"></textarea>
+				</div>
+
+
+			</div>
+			<div class="row" ng-show="editMode">
+				<div class="page-header">
+					<h3>Change Password? (Leave blank to keep current)</h3>
+
+				</div>
+				<div class="col-md-12 col-xs-12">
+					<div class="alert alert-{{msgNewPassword.type}} alert-dismissible login-alert" ng-show="msgNewPassword.enabled" role="alert">
+				        <button type="button" class="close" aria-label="Close" ng-click="msgNewPassword.enabled = false"><span aria-hidden="true">&times;</span></button>
+				        <div dynamic="msgNewPassword" style="display:inline;"></div>
+				    </div>
+					<!-- <div class="jumbotron panel"> -->
+						<!-- <div class="form-group form-group-lg">
+						    <input type="password" class="form-control input-lg" placeholder="Current Password" class="ng-hide" ng-model="newPassword.current" ng-required="true">
+						</div> -->
+						<div class="form-group form-group-lg">
+						    <input type="password" class="form-control input-lg" placeholder="New Password" ng-model="user2.password1" ng-required="true">
+						</div>
+						<div class="form-group form-group-lg">
+						    <input type="password" class="form-control input-lg" placeholder="Confirm" ng-model="user2.password2" ng-required="true">
+						</div>
+						<!-- <button type="submit" class="btn-lg btn-primary btn-block">Change</button> -->
+					<!-- </div> -->
+				</div>
+			</div>
+		</div>
 	</div>
 
-
-	<form id="changePassword" class="jumbotron panel" ng-show="extras" ng-submit="changePassword()">
-		<div class="form-group form-group-lg">
-		    <input type="text" class="form-control input-lg" placeholder="Current Password" class="ng-hide" ng-model="newPassword.current" ng-required="true">
-		</div>
-		<div class="form-group form-group-lg">
-		    <input type="text" class="form-control input-lg" placeholder="New Password" ng-model="newPassword.password1" ng-required="true">
-		</div>
-		<div class="form-group form-group-lg">
-		    <input type="text" class="form-control input-lg" placeholder="New Password Confirm" ng-model="newPassword.password2" ng-required="true">
-		</div>
-		<button type="submit" class="btn-lg btn-primary btn-block">Change</button>
-	</form>
 </div>

@@ -8,8 +8,9 @@ module App.Comp {
 
 
     interface ICompControllerShell extends ng.IScope{
-        competition:RankIt.ICompetition;
+        comp:RankIt.ICompetition;
         users:{userObject:RankIt.IUser; role:string;}[];
+        admin:boolean;
     }
 
     export class CompController {
@@ -19,37 +20,52 @@ module App.Comp {
         public static $inject = ["$scope","$state","$stateParams",Data.DataService.serviceId, Base.BaseHelperFactory.factoryId];
         constructor (private $scope: ICompControllerShell,private $state:ng.ui.IStateService ,$stateParams:ng.ui.IStateParamsService, private dataService:Data.DataService, private baseHelper: Base.BaseHelperFactory) {
             $scope.users=[];
+            $scope.admin = false
+
             //If we have a competition structure, use it. Otherwise get it from the database
             if($stateParams['comp']){
-                $scope.competition=$stateParams['comp'];
+                $scope.comp=$stateParams['comp'];
                 this.populateUsers();
+                this.checkAdmin();
             }else{
                 dataService.getComp($stateParams['compId']).then((data: RankIt.ICompetition) => {
-                    $scope.competition = data;
+                    $scope.comp = data;
                     this.populateUsers();
+                    this.checkAdmin();
                 }, (failure: any) => {
 
                 });
             }
         }
 
-        private populateUsers = () => {
-            var userList=this.$scope.competition.users;
+        private checkAdmin = () => {
+            var userId = this.dataService.getAuthData().userId
+            var userList = this.$scope.users;
             for(var i=0;i<userList.length;i++){
-                this.dataService.getUser(userList[i].userId).then((data:RankIt.IUser) => {
+                if ((userList[i].userObject.userId == userId) && userList[i].role.indexOf("Admin") > -1) {
+                    this.$scope.admin = true;
+                }
+            }
+        }
+
+        private populateUsers = () => {
+            var userList=this.$scope.comp.participants||[];
+            if(userList.length>0){
+                for(var i=0;i<userList.length;i++){
                     var temp:any={};
-                    temp.userObject=data;
-                    if(this.baseHelper.userCanEdit(data.userId,this.$scope.competition)){
+                    temp.userObject=userList[i];
+                    temp.role="";
+                    if(this.baseHelper.userCanEdit(userList[i].userId,this.$scope.comp)){
                         temp.role="Admin";
-                    }else if(this.baseHelper.userIsCompetitor(data.userId,this.$scope.competition)){
-                        temp.role="Competitor";
-                    }else if(this.baseHelper.userIsJudge(data.userId,this.$scope.competition)){
-                        temp.role="Judge";
+                    }
+                    if(this.baseHelper.userIsCompetitor(userList[i].userId,this.$scope.comp)){
+                        temp.role.length>0 ? temp.role+=" / Competitor" : temp.role="Competitor";
+                    }
+                    if(this.baseHelper.userIsJudge(userList[i].userId,this.$scope.comp)){
+                        temp.role.length>0 ? temp.role+=" / Judge" : temp.role="Judge";
                     }
                     this.$scope.users.push(temp);
-                }, (failure:any) => {
-
-                });
+                }
             }
         }
     }
@@ -60,7 +76,8 @@ module App.Comp {
             $routeProvider.state(Comp.state, {
                 templateUrl: Comp.baseUrl+'comp.html',
                 controller: CompController.controllerId,
-                url: "/comp?id={compId}"
+                url: "/comp?id={compId}",
+                params:{'comp':null}
             })
         }]);
 }

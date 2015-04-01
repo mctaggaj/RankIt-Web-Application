@@ -203,10 +203,43 @@ module App.Data {
             return defered.promise;
         }
 
+        public addScore = (eventId: RankIt.IId, score: RankIt.IScore):ng.IPromise<RankIt.IScore> => {
+            var defered = this.$q.defer();
+            (<any>score).vmax= (<any>score).vmax||100;
+            (<any>score).unitName=(<any>score).unitName||"";
+            (<any>score).unitNameLong=(<any>score).unitNameLong||"";
+            this.$http.post("/api/events/"+eventId+"/scores",score).success((data: RankIt.IScore) => {
+                defered.resolve(data)
+            }).error(() => {
+                defered.reject();
+            });
+            return defered.promise;
+        }
+
         public getUser = (userId):ng.IPromise<RankIt.IUser> => {
             var defered = this.$q.defer();
             this.$http.get("api/users/"+userId).success((data:any, status:number, headers:ng.IHttpHeadersGetter, config:ng.IRequestConfig) => {
                 defered.resolve(data);
+            }).error((data:any, status:number, headers:ng.IHttpHeadersGetter, config:ng.IRequestConfig) =>{
+
+            });
+            return defered.promise;
+        }
+
+        public getUserByEmail = (username):ng.IPromise<RankIt.IUser> => {
+            var defered = this.$q.defer();
+            this.$http.get("api/users/"+username).success((data:any, status:number, headers:ng.IHttpHeadersGetter, config:ng.IRequestConfig) => {
+                defered.resolve(data);
+            }).error((data:any, status:number, headers:ng.IHttpHeadersGetter, config:ng.IRequestConfig) =>{
+
+            });
+            return defered.promise;
+        }
+
+        public getAllUsers = ():ng.IPromise<RankIt.IUser[]> => {
+            var defered = this.$q.defer();
+            this.$http.get("api/users").success((data:any, status:number, headers:ng.IHttpHeadersGetter, config:ng.IRequestConfig) => {
+                defered.resolve(data.users);
             }).error((data:any, status:number, headers:ng.IHttpHeadersGetter, config:ng.IRequestConfig) =>{
 
             });
@@ -233,6 +266,16 @@ module App.Data {
 
         public clientLogout = (): void => {
             this.authService.logout();
+        }
+
+        public clientModify = (userId: number, data:any):ng.IPromise<RankIt.IResponse> => {
+           var defered = this.$q.defer();
+            this.$http.put("/api/users/"+userId, data).success((data: RankIt.IUser, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
+                defered.resolve(data)
+            }).error((data: any, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
+                defered.reject();
+            });
+            return defered.promise;
         }
 
         public getAuthData = ():RankIt.IUser => {
