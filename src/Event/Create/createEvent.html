@@ -21,6 +21,17 @@
                 </select>
             </div>
             <div class="form-group">
+                <p>Add Users to Event?</p>
+                <div ng-repeat="user in event.participants" ng-if="event.participants">
+                    <p>{{user.username}}</p>
+                </div>
+                <input id="newUsername" typeahead="username for username in usernameList | filter:$viewValue | limitTo:8" type="text" placeholder="New Users Email" ng-model="newUsername"/>
+                <input id="newUserAdmin" type="checkbox" ng-model="newUserAdmin"/> Admin
+                <input id="newUserCompetitor" type="checkbox" ng-model="newUserCompetitor"/> Competitor
+                <input id="newUserJudge" type="checkbox" ng-model="newUserJudge"/> Judge
+                <a class="btn btn-primary" ng-click="addUser()">Add User</a>
+            </div>
+            <div class="form-group">
                 <button class="btn btn-primary" type="submit">Create Event</button>
             </div>
         </form>

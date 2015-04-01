@@ -26,7 +26,9 @@
             <div id="user-info" class="col-md-4 col-xs-4">
                 <div class="pull-right">
                     <h3 style="margin-top:0;">People</h3>
-                    <a ng-repeat="user in users" ui-sref="Profile({user:{{user.userObject}},userId:{{user.userObject.userId}}})">{{user.userObject.firstName}} {{user.userObject.lastName}} - {{user.role}}</a>
+                    <div>
+                        <a ng-repeat="user in users" ui-sref="Profile({user:{{user.userObject}},userId:{{user.userObject.userId}}})">{{user.userObject.firstName}} {{user.userObject.lastName}} - {{user.role}}</a>
+                    </div>
                     
                     <h3 ng-if="stage.events.length > 0">Events</h3>
                     <div ng-repeat="event in stage.events">
