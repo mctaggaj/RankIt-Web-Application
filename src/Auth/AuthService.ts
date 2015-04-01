@@ -175,6 +175,17 @@ module App.Auth {
             this.localStorageService.remove(Auth.LS_UserId);
         }
 
+
+        private setUsername = (username: string) => {
+            this.user.username = username;
+            this.localStorageService.set(Auth.LS_Username, username);
+        }
+
+        private setUserId = (userId: number) => {
+            this.user.userId = userId;
+            this.localStorageService.set(Auth.LS_UserId, userId);
+        }
+
         /**
          * Sets the authentication data
          * @param username The user name of the user
@@ -182,10 +193,8 @@ module App.Auth {
          * @param userToken the session token
          */
         private setAuthData = (data: any) => {
-            this.user.username = data.username;
-            this.user.userId = data.userId;
-            this.localStorageService.set(Auth.LS_Username, data.username);
-            this.localStorageService.set(Auth.LS_UserId, data.userId);
+            this.setUsername(data.username);
+            this.setUserId(data.userId);
             this.setToken(data.token);
         }
 
