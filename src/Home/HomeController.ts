@@ -10,6 +10,9 @@ module App.Home {
         subjects:{ [subject: string]: {name: string; checked: boolean}; };
         queryString: string;
         noResultsMessage: string;
+        totalItems: number;
+        currentPage: number;
+        pageChanged: (page:any) => void;
     }
 
     export class HomeController {
@@ -17,12 +20,15 @@ module App.Home {
         public static moduleId = Home.moduleId + "." + HomeController.controllerId;
 
         public static $inject = ["$scope",Data.DataService.serviceId];
-        constructor ($scope: IHomeControllerShell, dataService:Data.DataService) {
+        constructor (private $scope: IHomeControllerShell, dataService:Data.DataService) {
             $scope.noResultsMessage="Loading Competitions";
             $scope.competitions=[];
             $scope.subjects={};
+            $scope.pageChanged=this.pageChanged;
+            $scope.currentPage=1;
             dataService.getAllComps().then((data: RankIt.ICompetition[]) => {
                 $scope.competitions = data;
+                $scope.totalItems=data.length;
                 //Get a list of all subjects for the checkboxes in the sidebar
                 for(var i=0;i<data.length;i++)
                 {
@@ -42,6 +48,11 @@ module App.Home {
             }, (failure: any) => {
 
             });
+        }
+
+        public pageChanged = (page) => {
+            console.log(page);
+            console.log(this.$scope.currentPage);
         }
     }
 
