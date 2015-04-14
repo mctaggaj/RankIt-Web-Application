@@ -51,8 +51,7 @@ module App.Home {
         }
 
         public pageChanged = (page) => {
-            console.log(page);
-            console.log(this.$scope.currentPage);
+            this.$scope.currentPage=page;
         }
     }
 

@@ -1,11 +1,11 @@
 <!--Andrew Welton-->
 <div class="row top-push" id="home">
-    <div class="col-xs-8">
-        <span ng-repeat="comp in filteredComps = (competitions | homeFilter:{options:subjects, queryString:queryString})" class="comp-row">
-            <accordion ng-if="$index >= (currentPage-1)*1 && $index<currentPage*1">
+    <div class="col-xs-8" ng-init="itemsPerPage=1;currentPage=1">
+        <span ng-repeat="comp in (filteredComps = (competitions | homeFilter:{options:subjects, queryString:queryString})).slice((itemsPerPage*(currentPage-1)),(itemsPerPage*(currentPage)))" class="comp-row">
+            <accordion>
                 <accordion-group>
                     <accordion-heading>
-                        <h2>{{comp.name}} - {{comp.subject}} {{$index}}</h2>
+                        <h2>{{comp.name}} - {{comp.subject}}</h2>
                         <p>{{comp.state}}</p>
                     </accordion-heading>
                     <h4 ng-if="comp.location">Taking place at {{comp.location}}</h4>
@@ -19,7 +19,7 @@
             </accordion>
         </span>
         <p ng-hide="filteredComps.length">{{noResultsMessage}}</p>
-        <pagination ng-if="competitions" total-items="totalItems" ng-model="currentPage" items-per-page="1" ng-change="pageChanged(page)"></pagination>
+        <pagination ng-if="filteredComps.length" total-items="filteredComps.length" ng-model="currentPage" items-per-page="itemsPerPage" ng-change="pageChanged(currentPage)"></pagination>
     </div>
     <div class="col-xs-4">
         <div class="panel" style="padding:0.5em">
