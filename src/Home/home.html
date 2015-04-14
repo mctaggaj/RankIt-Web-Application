@@ -1,7 +1,7 @@
 <!--Andrew Welton-->
 <div class="row top-push" id="home">
-    <div class="col-xs-8">
-        <span ng-repeat="comp in filteredComps = (competitions | homeFilter:{options:subjects, queryString:queryString})" class="comp-row">
+    <div class="col-xs-8" ng-init="itemsPerPage=4;currentPage=1">
+        <span ng-repeat="comp in (filteredComps = (competitions | homeFilter:{options:subjects, queryString:queryString})).slice((itemsPerPage*(currentPage-1)),(itemsPerPage*(currentPage)))" class="comp-row">
             <accordion>
                 <accordion-group>
                     <accordion-heading>
@@ -18,9 +18,8 @@
                 </accordion-group>
             </accordion>
         </span>
-
         <p ng-hide="filteredComps.length">{{noResultsMessage}}</p>
-
+        <pagination ng-if="filteredComps.length" total-items="filteredComps.length" ng-model="currentPage" items-per-page="itemsPerPage" ng-change="pageChanged(currentPage)"></pagination>
     </div>
     <div class="col-xs-4">
         <div class="panel" style="padding:0.5em">
