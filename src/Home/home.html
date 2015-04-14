@@ -1,6 +1,6 @@
 <!--Andrew Welton-->
 <div class="row top-push" id="home">
-    <div class="col-xs-8" ng-init="itemsPerPage=1;currentPage=1">
+    <div class="col-xs-8" ng-init="itemsPerPage=4;currentPage=1">
         <span ng-repeat="comp in (filteredComps = (competitions | homeFilter:{options:subjects, queryString:queryString})).slice((itemsPerPage*(currentPage-1)),(itemsPerPage*(currentPage)))" class="comp-row">
             <accordion>
                 <accordion-group>
