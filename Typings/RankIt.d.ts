@@ -1,6 +1,8 @@
 /**
  * The Typescript declarations for RankIt objects
  * @author Jason McTaggart
+ * @author Andrew Welton
+ * @author Tim Engel
  */
 declare module RankIt {
 
@@ -254,7 +256,7 @@ declare module RankIt {
     export interface IUser {
 
         /**
-         * ID of user, primary key 
+         * ID of user, primary key
          */
         userId: number;
 

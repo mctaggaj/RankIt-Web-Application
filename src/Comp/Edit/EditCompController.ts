@@ -8,9 +8,14 @@ module App.Comp.Edit {
     interface IEditCompControllerShell extends ng.IScope{
         comp: any;
         stages: RankIt.IStage[];
+        stagesBackup: RankIt.IStage[];
         submit: () => void;
         addUser: () => void;
         addStage: (comp) => void;
+        moveStageUp: (stage) => void;
+        moveStageDown: (stage) => void;
+        resetOrder: () => void;
+        saveOrder: () => void;
         users:{userObject:RankIt.IUser; admin:boolean; judge:boolean; competitor:boolean;}[];
         newUsername: string;
         newUserAdmin: boolean;
@@ -18,6 +23,7 @@ module App.Comp.Edit {
         newUserJudge: boolean;
         usernameList: string[];
         loading: boolean;
+        stageOrderChanged: boolean;
     }
 
     export class EditCompController {
@@ -29,12 +35,17 @@ module App.Comp.Edit {
             $scope.submit = this.submit;
             $scope.addStage = this.addStage;
             $scope.addUser = this.addUser;
+            $scope.moveStageUp = this.moveStageUp;
+            $scope.moveStageDown = this.moveStageDown;
+            $scope.resetOrder = this.resetOrder;
+            $scope.saveOrder = this.saveOrder;
             $scope.users=[];
             $scope.newUsername="";
             $scope.newUserAdmin=false;
             $scope.newUserCompetitor=false;
             $scope.newUserJudge=false;
             $scope.loading=false;
+            $scope.stageOrderChanged=false;
             $scope.usernameList=[];
             dataService.getAllUsers().then((data:RankIt.IUser[]) => {
                 for(var i=0;i<data.length;i++){
@@ -58,6 +69,63 @@ module App.Comp.Edit {
 
                 });
             }
+        }
+
+        private fixStagePointers = () => {
+            for(var i=0;i<this.$scope.stages.length;i++){
+                if(i==0){
+                    this.$scope.stages[i].previousStageId=null;
+                }
+                if(this.$scope.stages[i+1]){
+                    this.$scope.stages[i].nextStageId=this.$scope.stages[i+1].stageId;
+                }else{
+                    this.$scope.stages[i].nextStageId=null;
+                }
+
+            }
+        }
+
+        public moveStageUp = (stage) => {
+            if(!this.$scope.stageOrderChanged){
+                this.$scope.stageOrderChanged=true;
+                //"Deep copy" the object so changes to stages don't reflect in the backup
+                this.$scope.stagesBackup=JSON.parse(JSON.stringify(this.$scope.stages));
+            }
+            var index = this.$scope.stages.indexOf(stage);
+            if(index>0){
+                var temp = this.$scope.stages[index-1]
+                this.$scope.stages[index-1]=this.$scope.stages[index];
+                this.$scope.stages[index]=temp;
+            }
+            this.fixStagePointers();
+        }
+
+        public moveStageDown = (stage) => {
+            if(!this.$scope.stageOrderChanged){
+                this.$scope.stageOrderChanged=true;
+                //"Deep copy" the object so changes to stages don't reflect in the backup
+                this.$scope.stagesBackup=JSON.parse(JSON.stringify(this.$scope.stages));
+            }
+            var index = this.$scope.stages.indexOf(stage);
+            if(index<this.$scope.stages.length-1){
+                var temp = this.$scope.stages[index+1]
+                this.$scope.stages[index+1]=this.$scope.stages[index];
+                this.$scope.stages[index]=temp;
+            }
+            this.fixStagePointers();
+        }
+
+        public resetOrder = () => {
+            this.$scope.stageOrderChanged = false;
+            this.$scope.stages=this.$scope.stagesBackup;
+        }
+
+        public saveOrder = () => {
+            this.dataService.editCompetition(this.$scope.comp.competitionId,this.$scope.comp).then((data: RankIt.ICompetition) => {
+                this.$scope.stageOrderChanged = false;
+            }, () => {
+                // failure
+            });
         }
 
         public submit = () => {

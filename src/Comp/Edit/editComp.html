@@ -38,8 +38,14 @@
             <div class="form-group">
                 <p>Stages</p>
                 <div ng-repeat="stage in stages">
-                    <a ui-sref="Stage({'stage':{{stage}},'stageId':{{stage.stageId}}})">{{stage.name}}</a>
+                    <div>
+                        <a ui-sref="Stage({'stage':{{stage}},'stageId':{{stage.stageId}}})">{{stage.name}}</a>
+                        <span class="glyphicon glyphicon-arrow-up" ng-if="stages.length>1" ng-click="moveStageUp(stage)"></span>
+                        <span class="glyphicon glyphicon-arrow-down" ng-if="stages.length>1" ng-click="moveStageDown(stage)"></span>
+                    </div>
                 </div>
+                <a class="btn btn-primary" ng-if="stageOrderChanged" ng-click="resetOrder()">Reset Stage Ordering</a>
+                <a class="btn btn-primary" ng-if="stageOrderChanged" ng-click="saveOrder()">Save Stage Ordering</a>
                 <a class="btn btn-primary" ng-if="comp" ui-sref="createStage({'comp':{{comp}},'compId':{{comp.competitionId}}})">Add Stage</a>
             </div>
             <div class="form-group">
