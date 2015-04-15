@@ -112,7 +112,7 @@ declare module RankIt {
         /**
          * The parent competition's identifier
          */
-        competitionId: IId;
+        compId: IId;
         /**
          * The identifier of the previous stage
          */
@@ -188,7 +188,7 @@ declare module RankIt {
         /**
          * The identifier of the stage
          */
-        competitionId: IId;
+        compId: IId;
         /**
          * The identifier of this role
          */

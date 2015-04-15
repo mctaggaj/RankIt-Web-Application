@@ -1,8 +1,8 @@
 <!--Jason McTaggart-->
 <div class="row panel top-push">
-    <div class="col-xs-12">
+    <div class="col-xs-12" ng-if="event">
         <h1>Judge an Event</h1>
-
+        <h4 ng-repeat="competitor in competitors">{{getDisplayName(competitor)}}: {{getScoreForUser(competitor.userId)}}</h4>
         <div ng-repeat="score in event.scores" class="container">
             <div class="col-xs-12 col-sm-6">User: {{getDisplayName(competitors[score.userId+''])}}</div>
             <div class="col-xs-12 col-sm-6">Score: {{score.value}}</div>

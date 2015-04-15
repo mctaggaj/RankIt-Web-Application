@@ -16,14 +16,17 @@ module App.Stage.Edit {
         newUserCompetitor: boolean;
         newUserJudge: boolean;
         usernameList: string[];
+
+        start: () => void;
+        busy:boolean;
     }
 
     export class EditStageController {
         public static controllerId = "EditStageController";
         public static moduleId = Edit.moduleId + "." + EditStageController.controllerId;
 
-        public static $inject = ["$scope","$state","$stateParams",Data.DataService.serviceId];
-        constructor (private $scope: IEditStageControllerShell,private $state:ng.ui.IStateService, $stateParams:ng.ui.IStateParamsService, private dataService:Data.DataService) {
+        public static $inject = ["$scope","$state","$stateParams",Data.DataService.serviceId, Base.BaseHelperFactory.factoryId];
+        constructor (private $scope: IEditStageControllerShell,private $state:ng.ui.IStateService, $stateParams:ng.ui.IStateParamsService, private dataService:Data.DataService, private baseHelper: Base.BaseHelperFactory) {
             $scope.submit = this.submit;
             $scope.addUser = this.addUser;
             $scope.states=RankIt.state;
@@ -32,21 +35,20 @@ module App.Stage.Edit {
             $scope.newUserCompetitor=false;
             $scope.newUserJudge=false;
             $scope.usernameList=[];
+            $scope.start = this.start;
             if($stateParams['stage']){
                 $scope.stage=$stateParams['stage'];
+                $scope.events = $scope.stage.events
+                this.populateUsernameList();
                 this.sanitizeBooleans();
-                dataService.getStageEvents(this.$scope.stage.stageId).then((data:RankIt.IEvent[])=>{
-                    this.$scope.events=data;
-                    this.populateUsernameList();
-                },()=>{
-                    //failure
-                });
             }else{
-                dataService.getStage($stateParams['stageId']).then((data:RankIt.IStage)=>{
-                    this.$scope.stage=data;
-                    this.$scope.events=data.events;
+                this.$scope.busy = true;
+                dataService.getStage($stateParams['stageId']).then((stage:RankIt.IStage)=>{
+                    this.$scope.stage=stage;
+                    this.$scope.events=stage.events;
                     this.populateUsernameList();
                     this.sanitizeBooleans();
+                    this.$scope.busy = false;
                 },()=>{
                     //failure
                 });
@@ -81,6 +83,17 @@ module App.Stage.Edit {
                 }
             }
             return false;
+        }
+
+        private start = () => {
+            this.$scope.busy = true;
+            this.baseHelper.seedStage(this.$scope.stage).then(() => {
+                this.$scope.busy = false;
+                this.sanitizeBooleans();
+                this.submit();
+            },() => {
+                this.$scope.busy = false;
+            });
         }
 
         public addUser = () => {
@@ -118,10 +131,12 @@ module App.Stage.Edit {
         }
 
         public submit = () => {
-            console.log(this.$scope.stage);
+            this.$scope.busy = true;
             this.dataService.editStage(this.$scope.stage.stageId,this.$scope.stage).then((data: RankIt.IStage) => {
                 this.$state.go(Stage.state,{stageId: data.stageId,stage:data});
+                this.$scope.busy = false;
             }, () => {
+                this.$scope.busy = false;
                 // failure
             });
         }

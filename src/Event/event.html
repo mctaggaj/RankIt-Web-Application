@@ -16,6 +16,8 @@
 
                 <b>Progress</b>
                 <p>{{event.state}}</p>
+                <b>Score</b>
+                <p ng-repeat="(userId, score) in scores">{{getDisplayName(userId)}} {{score}}</p>
             </div>
             
             

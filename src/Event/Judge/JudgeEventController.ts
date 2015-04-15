@@ -17,6 +17,7 @@ module App.Event.Judge {
 
         busy: boolean;
         getDisplayName(user:RankIt.IUser):String
+        getScoreForUser(userId: RankIt.IId): number
     }
 
     export class JudgeEventController {
@@ -24,11 +25,15 @@ module App.Event.Judge {
         public static moduleId = Judge.moduleId + "." + JudgeEventController.controllerId;
 
         public static $inject = ["$scope","$state","$stateParams",Data.DataService.serviceId, Base.BaseHelperFactory.factoryId];
+
+        private scores: any;
+
         constructor (private $scope: IJudgeEventControllerShell,private $state:ng.ui.IStateService, $stateParams:ng.ui.IStateParamsService, private dataService:Data.DataService, private eventHelper:Base.BaseHelperFactory) {
             this.$scope.busy=true;
             $scope.submit = this.submit;
             $scope.getDisplayName=eventHelper.getDisplayName;
             $scope.newScore = {score:0,userId:undefined}
+            $scope.getScoreForUser = this.getScoreForUser;
             if($stateParams['event']){
                 $scope.event=$stateParams['event'];
                 $scope.competitors=this.getCompetitors($scope.event);
@@ -44,6 +49,19 @@ module App.Event.Judge {
 
                 });
             }
+
+            this.$scope.$watchCollection(() => {
+                if (this.$scope.event)
+                {
+                    return this.$scope.event.scores;
+                }
+                return null;
+            }, (newVal: RankIt.IScore[]) => {
+                if (newVal) {
+                    console.log(this.eventHelper.tallyScores(this.$scope.event));
+                    this.scores = this.eventHelper.tallyScores(this.$scope.event);
+                }
+            })
         }
 
         private getUserFromId = (userId:any) => {
@@ -56,6 +74,10 @@ module App.Event.Judge {
                     }
                 }
             }
+        }
+
+        private getScoreForUser = (userId: RankIt.IId) => {
+            return this.scores[userId+""] || 0;
         }
 
         private getCompetitors = (event: RankIt.IEvent, competitors?:ICompetitors): ICompetitors => {
