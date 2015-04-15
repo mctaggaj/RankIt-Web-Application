@@ -40,6 +40,12 @@
                 </div>
                 <div class="form-group">
                     <button class="btn btn-primary" type="submit">Save Event</button>
+                    <a class="btn btn-danger" ng-click="deleteCollapse = !deleteCollapse">Delete Event</a>
+                </div>
+                <div class="form-group" collapse="!deleteCollapse">
+                    <alert class="danger">Deleting an event is an irreversible operation. Are you sure you want to delete it?</alert>
+                    <a class="btn btn-danger" ng-click="deleteEvent(event.eventId)">Yes, delete the event</a>
+                    <a class="btn btn-primary" ng-click="deleteCollapse = !deleteCollapse">No, don't delete</a>
                 </div>
             </form>
         </div>

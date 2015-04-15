@@ -9,6 +9,7 @@ module App.Event.Edit {
         event: any;
         submit: () => void;
         addUser: () => void;
+        deleteEvent: (eventId) => void
         states:string[];
         newUsername: string;
         newUserAdmin: boolean;
@@ -26,6 +27,7 @@ module App.Event.Edit {
             $scope.submit = this.submit;
             $scope.states=RankIt.state;
             $scope.addUser = this.addUser;
+            $scope.deleteEvent = this.deleteEvent;
             $scope.newUsername="";
             $scope.newUserAdmin=false;
             $scope.newUserCompetitor=false;
@@ -51,6 +53,14 @@ module App.Event.Edit {
                 this.$state.go(Event.state,{eventId: data.eventId,event:data});
             }, () => {
                 // failure
+            });
+        }
+
+        public deleteEvent = (eventId) => {
+            this.dataService.deleteEvent(eventId).then((data: RankIt.IResponse)=> {
+                this.$state.go(Stage.state,{stageId:this.$scope.event.stageId});
+            }, () => {
+                //failure
             });
         }
 
