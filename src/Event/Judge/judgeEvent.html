@@ -1,14 +1,13 @@
 <!--Jason McTaggart-->
 <div class="row panel top-push">
-    <div class="col-xs-12" ng-init="">
+    <div class="col-xs-12">
         <h1>Judge an Event</h1>
 
         <div ng-repeat="score in event.scores" class="container">
-            <div class="col-xs-12 col-sm-6" ng-init="displayName=getDisplayName(competitors[score.userId])" >User: {{displayName}}</div>
+            <div class="col-xs-12 col-sm-6">User: {{getDisplayName(competitors[score.userId+''])}}</div>
             <div class="col-xs-12 col-sm-6">Score: {{score.value}}</div>
         </div>
         <form id="reportScoreForm" ng-submit="submit()">
-
             <p>* Indicates a required field.</p>
             <div class="form-group">
                 <label for="user">User</label>

@@ -46,6 +46,18 @@ module App.Event.Judge {
             }
         }
 
+        private getUserFromId = (userId:any) => {
+            var entity = this.$scope.event
+            if (entity && entity.participants && userId!=undefined) {
+                for (var i in entity.participants) {
+                    if (entity.participants[i].userId===userId)
+                    {
+                        //return this.eventHelper.getDisplayName(entity.participants[i]);
+                    }
+                }
+            }
+        }
+
         private getCompetitors = (event: RankIt.IEvent, competitors?:ICompetitors): ICompetitors => {
             competitors = competitors || {};
             for (var i in event.participants)
