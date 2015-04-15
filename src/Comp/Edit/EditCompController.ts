@@ -11,6 +11,7 @@ module App.Comp.Edit {
         submit: () => void;
         addUser: () => void;
         addStage: (comp) => void;
+        deleteComp: (compId) => void;
         users:{userObject:RankIt.IUser; admin:boolean; judge:boolean; competitor:boolean;}[];
         newUsername: string;
         newUserAdmin: boolean;
@@ -29,6 +30,7 @@ module App.Comp.Edit {
             $scope.submit = this.submit;
             $scope.addStage = this.addStage;
             $scope.addUser = this.addUser;
+            $scope.deleteComp = this.deleteComp;
             $scope.users=[];
             $scope.newUsername="";
             $scope.newUserAdmin=false;
@@ -70,6 +72,14 @@ module App.Comp.Edit {
 
         public addStage = (comp) => {
             this.$state.go(Stage.Create.state,{comp:comp});
+        }
+
+        public deleteComp = (compId) => {
+            this.dataService.deleteCompetition(compId).then((data: RankIt.IResponse)=> {
+                this.$state.go(Home.state);
+            }, () => {
+                //failure
+            });
         }
 
         //Move to sanitize service of some kind

@@ -193,6 +193,16 @@ module App.Data {
             return defered.promise;
         }
 
+        public deleteCompetition = (compId):ng.IPromise<RankIt.IResponse> => {
+            var defered = this.$q.defer();
+            this.$http.delete("/api/competitions/"+compId).success((data: RankIt.IResponse, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
+                defered.resolve(data)
+            }).error((data: any, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
+                defered.reject();
+            });
+            return defered.promise;
+        }
+
         public getStageEvents = (stageId):ng.IPromise<RankIt.IEvent[]> => {
             var defered = this.$q.defer();
             this.$http.get("api/stages/"+stageId+"/events").success((data:any, status:number, headers:ng.IHttpHeadersGetter, config:ng.IRequestConfig) => {

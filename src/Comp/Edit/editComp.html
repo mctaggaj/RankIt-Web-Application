@@ -64,9 +64,15 @@
                     </div>
                     <div class="form-group">
                         <button class="btn btn-primary" type="submit">Save Competition</button>
+                        <a class="btn btn-danger" ng-click="deleteCollapse = !deleteCollapse">Delete Competition</a>
+                    </div>
+                    <div class="form-group" collapse="!deleteCollapse">
+                        <alert class="danger">Deleting a competition will delete all stages and events. This is irreversible.</alert>
+                        <a class="btn btn-danger" ng-click="deleteComp(comp.competitionId)">Yes, delete the competition</a>
+                        <a class="btn btn-primary" ng-click="deleteCollapse = !deleteCollapse">No, don't delete</a>
                     </div>
                 </form>
             </div>
-            </span>
+        </span>
     </div>
 </div>
