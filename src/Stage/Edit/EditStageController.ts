@@ -9,6 +9,7 @@ module App.Stage.Edit {
         stage: any;
         submit: () => void;
         addUser: () => void;
+        deleteStage: (stageId) => void;
         events: any;
         states:string[];
         newUsername: string;
@@ -29,6 +30,7 @@ module App.Stage.Edit {
         constructor (private $scope: IEditStageControllerShell,private $state:ng.ui.IStateService, $stateParams:ng.ui.IStateParamsService, private dataService:Data.DataService, private baseHelper: Base.BaseHelperFactory) {
             $scope.submit = this.submit;
             $scope.addUser = this.addUser;
+            $scope.deleteStage = this.deleteStage;
             $scope.states=RankIt.state;
             $scope.newUsername="";
             $scope.newUserAdmin=false;
@@ -138,6 +140,14 @@ module App.Stage.Edit {
             }, () => {
                 this.$scope.busy = false;
                 // failure
+            });
+        }
+
+        public deleteStage = (stageId) => {
+            this.dataService.deleteStage(stageId).then((data: RankIt.IResponse)=> {
+                this.$state.go(Comp.state,{compId:this.$scope.stage.compId});
+            }, () => {
+                //failure
             });
         }
     }

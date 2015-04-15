@@ -53,6 +53,14 @@
                     <button class="btn btn-primary" type="submit" ng-disabled="busy"><icon class="fa fa-spinner fa-spin" ng-show="busy"/>&nbsp;Save Stage </button>
                     <button class="btn btn-primary" type="button" ng-disabled="busy" ng-click="start()"><icon class="fa fa-spinner fa-spin" ng-show="busy"/>&nbsp;Start Stage</button>
                 </div>
+                <div class="form-group">
+                    <a class="btn btn-danger" ng-click="deleteCollapse = !deleteCollapse">Delete Stage</a>
+                </div>
+                <div class="form-group" collapse="!deleteCollapse">
+                    <alert class="danger">Deleting a stage will delete all associated events as well. This is irreversible.</alert>
+                    <a class="btn btn-danger" ng-click="deleteStage(stage.stageId)">Yes, delete the stage</a>
+                    <a class="btn btn-primary" ng-click="deleteCollapse = !deleteCollapse">No, don't delete</a>
+                </div>
             </form>
         </div>
         </span>
