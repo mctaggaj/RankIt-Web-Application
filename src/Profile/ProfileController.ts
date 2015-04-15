@@ -34,6 +34,8 @@ module App.Profile {
             filename: string
             base64: string
         }
+        score: number;
+        compRoles: number;
         // changePassword: any;
         // bio2: string;
     }
@@ -100,6 +102,11 @@ module App.Profile {
             $scope.msg = this.msg
             // $scope.changePassword = this.changePassword;
             $scope.changeToEditMode = this.changeToEditMode;
+            $scope.score = 0
+            $scope.compRoles = 0
+
+            this.getUserCompetitionRoles($scope.userId)
+            this.getUserScores($scope.userId)
         }
 
         private saveChanges = () => {
@@ -193,7 +200,7 @@ module App.Profile {
 
 
         private getUser = (userId: number) => {
-            this.dataService.getUser(userId)
+            this.dataService.getUser(userId, true)
                 .then((response : any) => {
                     // Success
                     this.$scope.user = response;
@@ -204,6 +211,32 @@ module App.Profile {
 
                 }, (response : RankIt.IUser) => {
                     console.log("Failed to get user by Id: " + userId.toString())
+                });
+        }
+
+        private getUserScores = (userId: number) => {
+            this.dataService.getAllScores(userId)
+                .then((response : any) => {
+
+                    // Success
+                    this.$scope.score = 0
+                    for (var i=0;i<response.length;i++) {
+                        this.$scope.score += response[i].value
+                    }
+
+                }, (response : RankIt.IResponse) => {
+                    console.log("Failed to get user scores by Id: " + userId.toString())
+                });
+        }
+
+        private getUserCompetitionRoles = (userId: number) => {
+            this.dataService.getAllCompRoles(userId)
+                .then((response : any) => {
+                    this.$scope.compRoles = response.length
+                    
+
+                }, (response : RankIt.IResponse) => {
+                    console.log("Failed to get user roles by Id: " + userId.toString())
                 });
         }
 

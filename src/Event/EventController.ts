@@ -10,6 +10,8 @@ module App.Event {
         users:{userObject:RankIt.IUser; role:string;}[];
         admin:boolean;
         canJudge: boolean;
+
+        scores : any;
     }
 
     export class EventController {
@@ -26,12 +28,14 @@ module App.Event {
                 $scope.canJudge = this.baseHelper.userIsJudge(dataService.getAuthData().userId,$scope.event)
                 this.populateUsers();
                 this.checkAdmin();
+                this.$scope.scores = this.baseHelper.tallyScores(this.$scope.event);
+
             }else{
                 dataService.getEvent($stateParams['eventId']).then((data: RankIt.IEvent) => {
                     $scope.event = data;
                     $scope.canJudge = this.baseHelper.userIsJudge(dataService.getAuthData().userId,$scope.event)
                     this.populateUsers();
-                this.checkAdmin();
+                    this.checkAdmin();
                 }, (failure: any) => {
 
                 });
@@ -66,6 +70,15 @@ module App.Event {
                         temp.role.length>0 ? temp.role+=" / Judge" : temp.role="Judge";
                     }
                     this.$scope.users.push(temp);
+                }
+            }
+        }
+
+        private getDisplayName = (userId: RankIt.IId) => {
+            for (var i in this.$scope.users) {
+                if (this.$scope.users[i].userObject.userId === userId)
+                {
+                    return this.baseHelper.getDisplayName(this.$scope.users[i].userObject);
                 }
             }
         }

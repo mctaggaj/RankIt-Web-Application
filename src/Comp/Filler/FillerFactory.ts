@@ -47,7 +47,7 @@ module App.Comp.Filler {
                 if (!comp.stages[numStages-i]) {
                     comp.stages[numStages-i] = (<any>{name:"Stage "+i,state:"Upcoming"});
                     comp.stages[numStages-i].stageId=this.idService.getId()
-                    comp.stages[numStages-i].competitionId = comp.competitionId;
+                    comp.stages[numStages-i].compId = comp.competitionId;
                     if (numStages-i > 0) {
                         comp.stages[numStages-i-1].nextStageId = comp.stages[numStages-i].stageId;
                         comp.stages[numStages-i].previousStageId = comp.stages[numStages-i-1].stageId;

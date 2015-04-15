@@ -218,9 +218,15 @@ module App.Data {
             return defered.promise;
         }
 
-        public getUser = (userId):ng.IPromise<RankIt.IUser> => {
+        // include avatar: boolean, optional (defaults to not include avatar)
+        public getUser = (userId, includeAvatar:boolean = false):ng.IPromise<RankIt.IUser> => {
+            var avatar = ""
+            if (includeAvatar){
+                avatar = "?picture=true"
+            }
+
             var defered = this.$q.defer();
-            this.$http.get("api/users/"+userId).success((data:any, status:number, headers:ng.IHttpHeadersGetter, config:ng.IRequestConfig) => {
+            this.$http.get("api/users/"+userId+avatar).success((data:any, status:number, headers:ng.IHttpHeadersGetter, config:ng.IRequestConfig) => {
                 defered.resolve(data);
             }).error((data:any, status:number, headers:ng.IHttpHeadersGetter, config:ng.IRequestConfig) =>{
 
@@ -245,6 +251,37 @@ module App.Data {
             }).error((data:any, status:number, headers:ng.IHttpHeadersGetter, config:ng.IRequestConfig) =>{
 
             });
+            return defered.promise;
+        }
+
+        public getAllCompRoles = (userId):ng.IPromise<any> => {
+            var defered = this.$q.defer();
+            this.$http.get("api/competitions/roles/"+userId).success((data:any, status:number, headers:ng.IHttpHeadersGetter, config:ng.IRequestConfig) => {
+                defered.resolve(data.compRoles);
+            }).error((data: any, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
+                // Failure
+
+                defered.reject();
+
+            });
+
+
+            return defered.promise;
+        }
+
+
+        public getAllScores = (userId):ng.IPromise<any> => {
+            var defered = this.$q.defer();
+            this.$http.get("api/competitions/scores/"+userId).success((data:any, status:number, headers:ng.IHttpHeadersGetter, config:ng.IRequestConfig) => {
+                defered.resolve(data.scores);
+            }).error((data: any, status: number, headers: ng.IHttpHeadersGetter, config: ng.IRequestConfig) => {
+                // Failure
+
+                defered.reject();
+
+            });
+
+
             return defered.promise;
         }
 

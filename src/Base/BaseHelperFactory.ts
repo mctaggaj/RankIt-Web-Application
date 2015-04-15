@@ -10,10 +10,10 @@ module App.Base {
     export class BaseHelperFactory {
         public static factoryId = "BaseHelper"
         public static moduleId = Base.moduleId + "." + BaseHelperFactory.factoryId;
-        public static $inject: string[] = [App.Data.DataService.serviceId];
+        public static $inject: string[] = ["$q", "$timeout", App.Data.DataService.serviceId];
 
 
-        constructor (private dataService: App.Data.DataService) {
+        constructor (private $q:ng.IQService, private $timeout: ng.ITimeoutService, private dataService: App.Data.DataService) {
         }
 
         /**
@@ -88,7 +88,7 @@ module App.Base {
             return undefined;
         }
 
-        private getParticipant(userId: RankIt.IId, entity: RankIt.IBase): RankIt.IParticipant {
+        public getParticipant(userId: RankIt.IId, entity: RankIt.IBase): RankIt.IParticipant {
             if (entity && entity.participants && userId!=undefined) {
                 for (var i in entity.participants) {
                     if (entity.participants[i].userId===userId)
@@ -163,7 +163,7 @@ module App.Base {
         }
 
         private setStageRoleId = (participant: RankIt.IStageParticipant, stage: RankIt.IStage) => {
-            participant.stageId=stage.competitionId;
+            participant.stageId=stage.compId;
         }
 
         private setEventRoleId = (participant: RankIt.IEventParticipant, event: RankIt.IEvent) => {
@@ -190,19 +190,26 @@ module App.Base {
         }
 
 
-        public seedStage = (stage: RankIt.IStage, comp?:RankIt.ICompetition) =>
+        public seedStage = (stage: RankIt.IStage, comp?:RankIt.ICompetition): ng.IPromise<RankIt.IStage> =>
         {
-            if (!comp) {
-                this.dataService.getComp(stage.competitionId).then((comp: RankIt.ICompetition) => {
+            var defered = this.$q.defer();
+            this.$timeout(() => {
+                if (!comp) {
+                    this.dataService.getComp(stage.compId).then((comp: RankIt.ICompetition) => {
+                        this.seedStageHelper(stage,comp);
+                        defered.resolve(stage);
+                    })
+                }
+                else {
                     this.seedStageHelper(stage,comp);
-                })
-            }
-            else {
-                this.seedStageHelper(stage,comp);
-            }
+                    defered.resolve(stage);
+                }
+            }, 1);
+
+            return defered.promise
         }
 
-        public seedEntity = (entity: RankIt.ISeedable, seedFrom: RankIt.IBase, setParticipantParentId: (participant: RankIt.IParticipant, parent: RankIt.IBase)=>void) =>
+        private seedEntity = (entity: RankIt.ISeedable, seedFrom: RankIt.IBase, setParticipantParentId: (participant: RankIt.IParticipant, parent: RankIt.IBase)=>void) =>
         {
             for (var i in entity.seed) {
                 var rank = entity.seed[i];
@@ -213,6 +220,7 @@ module App.Base {
                     {
                         participant = {userId: competitor.userId, permissions: {competitor:false, judge:false, admin:false}, rank:0};
                         setParticipantParentId(participant, entity);
+                        entity.participants.push(participant);
                     }
 
                     participant.rank = rank;
@@ -221,19 +229,31 @@ module App.Base {
             }
         }
 
+        public tallyScores  = (event: RankIt.IEvent) =>  {
+            var tally = {};
+            for (var i in event.scores) {
+                tally[(<any>event.scores[i].userId)+""] = tally[(<any>event.scores[i].userId)+""] || 0;
+                tally[(<any>event.scores[i].userId)+""] += event.scores[i].value;
+            }
+            return tally;
+        }
 
-        public static factory = (dataService: Data.DataService) => {
-            var fac = new BaseHelperFactory(dataService);
+
+        public static factory = ($q: ng.IQService, $timeout: ng.ITimeoutService,dataService: Data.DataService) => {
+            var fac = new BaseHelperFactory($q, $timeout, dataService);
             return {
                 userIsJudge: fac.userIsJudge,
                 userIsCompetitor: fac.userIsCompetitor,
                 userCanEdit: fac.userCanEdit,
-                getDisplayName: fac.getDisplayName
+                getDisplayName: fac.getDisplayName,
+                seedStage: fac.seedStage,
+                getParticipant: fac.getParticipant,
+                tallyScores: fac.tallyScores
             }
         }
 
     }
 
     angular.module(BaseHelperFactory.moduleId, [Data.DataService.moduleId])
-        .service(BaseHelperFactory.factoryId, [Data.DataService.serviceId ,BaseHelperFactory.factory])
+        .service(BaseHelperFactory.factoryId, ["$q", "$timeout", Data.DataService.serviceId ,BaseHelperFactory.factory])
 }
