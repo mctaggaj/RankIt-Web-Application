@@ -10,7 +10,7 @@
 	        		<div class="control-label" dynamic="msg" style="display:inline;"></div>
 			    </div>
 				<button class="btn btn-success" ng-click="changeToEditMode(true);">
-					<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>&nbsp;Edit Profile
+					<span class="fa fa-edit" aria-hidden="true"></span>&nbsp;Edit Profile
 				</button>
 			</div>
 			<div ng-show="editMode" style="padding-bottom:0.5em" style="display:inline;">
@@ -21,7 +21,7 @@
 				    </div>
 					<input type="password" class="form-control" placeholder="Current Password" ng-model="user2.password" ng-required="true">
 					<button type="submit" class="btn btn-primary" >
-						<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>&nbsp;Save
+						<span class="fa fa-edit" aria-hidden="true"></span>&nbsp;Save
 					</button>
 					<button class="btn btn-default" ng-click="changeToEditMode(false);">
 						Cancel
@@ -63,12 +63,12 @@
 		<div class="col-md-8">
 			<div id="profileStats" class="row">
 				<div class="col-md-6 col-xs-6" style="text-align: center;">
-					<span class="glyphicon glyphicon-list" aria-hidden="true" style="font-size:7em;color:green;"></span>
+					<span class="fa fa-bars" aria-hidden="true" style="font-size:7em;color:green;"></span>
 					<h1 style="padding:0;margin:0">{{compRoles}}</h1>
 					<small>Competitions In</small>
 				</div>
 				<div class="col-md-6  col-xs-6" style="text-align: center;">
-					<span class="glyphicon glyphicon-fire" aria-hidden="true" style="font-size:7em;color:crimson;"></span>
+					<span class="fa fa-bolt" aria-hidden="true" style="font-size:7em;color:crimson;"></span>
 					<h1 style="padding:0;margin:0">{{score}}</h1>
 					<small>Total Score</small>
 				</div>

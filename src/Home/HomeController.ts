@@ -18,7 +18,7 @@ module App.Home {
 
         public static $inject = ["$scope",Data.DataService.serviceId];
         constructor ($scope: IHomeControllerShell, dataService:Data.DataService) {
-            $scope.noResultsMessage="Loading Competitions";
+            $scope.noResultsMessage="Loading Competitions ..";
             $scope.competitions=[];
             $scope.subjects={};
             dataService.getAllComps().then((data: RankIt.ICompetition[]) => {

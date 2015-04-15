@@ -1,43 +1,49 @@
 <!--Andrew Welton-->
 <div class="row panel top-push">
-    <div class="col-xs-12">
-        <form id="createStageForm" ng-submit="submit()">
+    <div class="panel-group">
+        <span class="panel panel-default">
+        <div class="panel-heading">
             <h1>Create a new Stage for {{comp.name}}</h1>
-            <p>* Indicates a required field.</p>
-            <div class="form-group">
-                <label for="stageName">Stage Name *</label>
-                <input id="stageName" class="form-control" type="text" placeholder="Stage Name" ng-model="stage.name"/>
-            </div>
-            <div class="form-group">
-                <label for="stageState">Stage State</label>
-                <select id="stageState" class="form-control" ng-model="stage.state" ng-init="stage.state='Upcoming'">
-                    <option>Upcoming</option>
-                    <option>In Progress</option>
-                    <option>Finished</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="stageDescription">Stage Description</label>
-                <input id="stageDescription" class="form-control" type="text" placeholder="Describe the Stage" ng-model="stage.description"/>
-            </div>
-            <div class="form-group">
-                <label for="stageLocation">Stage Location</label>
-                <input id="stageLocation" class="form-control" type="text" placeholder="Where is it?" ng-model="stage.location"/>
-            </div>
-            <div class="form-group">
-                <p>Add Users to Stage?</p>
-                <div ng-repeat="user in stage.participants" ng-if="stage.participants">
-                    <p>{{user.username}}</p>
+        </div>
+        <div class="panel-body">
+            <form id="createStageForm" ng-submit="submit()">
+                <p>* Indicates a required field.</p>
+                <div class="form-group">
+                    <label for="stageName">Stage Name *</label>
+                    <input id="stageName" class="form-control" type="text" placeholder="Stage Name" ng-model="stage.name"/>
                 </div>
-                <input id="newUsername" typeahead="username for username in usernameList | filter:$viewValue | limitTo:8" type="text" placeholder="New Users Email" ng-model="newUsername"/>
-                <input id="newUserAdmin" type="checkbox" ng-model="newUserAdmin"/> Admin
-                <input id="newUserCompetitor" type="checkbox" ng-model="newUserCompetitor"/> Competitor
-                <input id="newUserJudge" type="checkbox" ng-model="newUserJudge"/> Judge
-                <a class="btn btn-primary" ng-click="addUser()">Add User</a>
-            </div>
-            <div class="form-group">
-                <button class="btn btn-primary" type="submit">Create Stage</button>
-            </div>
-        </form>
+                <div class="form-group">
+                    <label for="stageState">Stage State</label>
+                    <select id="stageState" class="form-control" ng-model="stage.state" ng-init="stage.state='Upcoming'">
+                        <option>Upcoming</option>
+                        <option>In Progress</option>
+                        <option>Finished</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="stageDescription">Stage Description</label>
+                    <input id="stageDescription" class="form-control" type="text" placeholder="Describe the Stage" ng-model="stage.description"/>
+                </div>
+                <div class="form-group">
+                    <label for="stageLocation">Stage Location</label>
+                    <input id="stageLocation" class="form-control" type="text" placeholder="Where is it?" ng-model="stage.location"/>
+                </div>
+                <div class="form-group">
+                    <p>Add Users to Stage?</p>
+                    <div ng-repeat="user in stage.participants" ng-if="stage.participants">
+                        <p>{{user.username}}</p>
+                    </div>
+                    <input id="newUsername" typeahead="username for username in usernameList | filter:$viewValue | limitTo:8" type="text" placeholder="New Users Email" ng-model="newUsername"/>
+                    <input id="newUserAdmin" type="checkbox" ng-model="newUserAdmin"/> Admin
+                    <input id="newUserCompetitor" type="checkbox" ng-model="newUserCompetitor"/> Competitor
+                    <input id="newUserJudge" type="checkbox" ng-model="newUserJudge"/> Judge
+                    <a class="btn btn-primary" ng-click="addUser()">Add User</a>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary" type="submit">Create Stage</button>
+                </div>
+            </form>
+        </div>
+        </span>
     </div>
 </div>

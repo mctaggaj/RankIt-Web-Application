@@ -1,13 +1,13 @@
 <!--Timothy Engel, Andrew Welton-->
 <div class="row panel top-push">
-    <div id="comp-container">
-        <div class="page-header">
-                <h1 style="margin:0">{{comp.name}}
-                    <button class="btn btn-primary pull-right" ng-if="comp&&admin" ui-sref="editComp({comp:{{comp}},compId:{{comp.competitionId}}})"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>&nbsp;Edit This Competition</button>
-                </h1>
-            </div>
-        <h1></h1>
-        <div id="comp-info" class="row">
+    <div class="panel-group">
+        <span class="panel panel-default">
+        <div class="panel-heading">
+            <h1>{{comp.name}}
+                <button class="btn btn-primary pull-right" ng-if="comp&&admin" ui-sref="editComp({comp:{{comp}},compId:{{comp.competitionId}}})"><span class="fa fa-edit" aria-hidden="true"></span>&nbsp;Edit This Competition</button>
+            </h1>
+        </div>
+        <div class="panel-body" id="comp-info" class="row">
             <div class="col-xs-8">
                 <b>Subject</b>
                 <p>{{comp.subject}}</p>
@@ -33,7 +33,7 @@
                     <div ng-repeat="user in users">
                         <a ui-sref="Profile({user:{{user.userObject}},userId:{{user.userObject.userId}}})">{{user.userObject.firstName}} {{user.userObject.lastName}} - {{user.role}}</a>
                     </div>
-                    
+
                     <h3 ng-if="comp.stages.length > 0">Stages</h3>
                     <div ng-repeat="stage in comp.stages">
                         <a ui-sref="Stage({'stage':{{stage}},'stageId':{{stage.stageId}}})">{{stage.name}}</a>
@@ -47,8 +47,6 @@
                 </comp-struct>
             </div>
         </div>
-        <div class="row">
-            
-        </div>
+        </span>
     </div>
 </div>

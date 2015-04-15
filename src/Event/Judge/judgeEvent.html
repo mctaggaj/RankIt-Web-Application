@@ -1,30 +1,36 @@
 <!--Jason McTaggart-->
 <div class="row panel top-push">
-    <div class="col-xs-12" ng-if="event">
-        <h1>Judge an Event</h1>
-        <h4 ng-repeat="competitor in competitors">{{getDisplayName(competitor)}}: {{getScoreForUser(competitor.userId)}}</h4>
-        <div ng-repeat="score in event.scores" class="container">
-            <div class="col-xs-12 col-sm-6">User: {{getDisplayName(competitors[score.userId+''])}}</div>
-            <div class="col-xs-12 col-sm-6">Score: {{score.value}}</div>
+    <div class="panel-group">
+        <span class="panel panel-default">
+        <div class="panel-heading">
+            <h1>Judge an Event</h1>
         </div>
-        <form id="reportScoreForm" ng-submit="submit()">
-            <p>* Indicates a required field.</p>
-            <div class="form-group">
-                <label for="user">User</label>
-                <select id="user" name="user" class="form-control"
-                        ng-model="newScore.userId"
-                        ng-options="competitor.userId as getDisplayName(competitor) for (id, competitor) in competitors"
-                        required>
-                    <option value="">Select a User</option>
-                </select>
+        <div class="panel-body">
+            <h4 ng-repeat="competitor in competitors">{{getDisplayName(competitor)}}: {{getScoreForUser(competitor.userId)}}</h4>
+            <div ng-repeat="score in event.scores" class="container">
+                <div class="col-xs-12 col-sm-6">User: {{getDisplayName(competitors[score.userId+''])}}</div>
+                <div class="col-xs-12 col-sm-6">Score: {{score.value}}</div>
             </div>
-            <div class="form-group">
-                <label for="value">Event State</label>
-                <input id="value" class="form-control" type="number" placeholder="Score" ng-model="newScore.value" ng-required="true"/>
-            </div>
-            <div class="form-group">
-                <button class="btn btn-primary" type="submit" ng-disabled="busy">Send Score</button>
-            </div>
-        </form>
+            <form id="reportScoreForm" ng-submit="submit()">
+                <p>* Indicates a required field.</p>
+                <div class="form-group">
+                    <label for="user">User</label>
+                    <select id="user" name="user" class="form-control"
+                            ng-model="newScore.userId"
+                            ng-options="competitor.userId as getDisplayName(competitor) for (id, competitor) in competitors"
+                            required>
+                        <option value="">Select a User</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="value">Event State</label>
+                    <input id="value" class="form-control" type="number" placeholder="Score" ng-model="newScore.value" ng-required="true"/>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary" type="submit" ng-disabled="busy">Send Score</button>
+                </div>
+            </form>
+        </div>
+        </span>
     </div>
 </div>

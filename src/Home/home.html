@@ -19,20 +19,23 @@
             </accordion>
         </span>
 
-        <p ng-hide="filteredComps.length">{{noResultsMessage}}</p>
+        <h4 ng-hide="filteredComps.length" style="color:#ffffff">{{noResultsMessage}}</h4>
 
     </div>
     <div class="col-xs-4">
-        <div class="panel" style="padding:0.5em">
-            <label for="competitionSearch">Search for a Competition:</label>
-            <input type="text" id="competitionSearch" class="form-control" placeholder="Search" ng-init="queryString=''" ng-model="queryString"/>
-            <label>Or</label>
-            <label>Filter By:</label>
-            <div class="checkbox" ng-repeat="(subject, item) in subjects">
-                <label>
-                    <input type="checkbox" ng-model="item.checked"> {{subject}}
-                </label>
+        <span class="panel-default">
+            <div class="panel-heading" style="padding:0.5em">
+                <label for="competitionSearch">Search for a Competition:</label>
+                <input type="text" id="competitionSearch" class="form-control" placeholder="Search" ng-init="queryString=''" ng-model="queryString"/>
+                <label>Or</label>
+                <label>Filter By:</label>
+                <div class="checkbox" ng-repeat="(subject, item) in subjects">
+                    <label>
+                        <input type="checkbox" ng-model="item.checked"> {{subject}}
+                    </label>
+                </div>
             </div>
-        </div>
+        </span>
+
     </div>
 </div>

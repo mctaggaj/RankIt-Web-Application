@@ -1,66 +1,72 @@
 <!--Andrew Welton -->
 <div class="row panel top-push">
-    <div class="col-xs-12">
-        <form id="editCompForm" ng-submit="submit()">
-            <h1>Edit a Competition</h1>
-            <p>* Indicates a required field.</p>
-            <div class="form-group">
-                <label for="compName">Competition Name *</label>
-                <input id="compName" class="form-control" type="text" placeholder="Competition Name" ng-model="comp.name"/>
+    <div class="panel-group">
+        <span class="panel panel-default">
+            <div class="panel-heading">
+                <h1>Edit a Competition</h1>
             </div>
-            <div class="form-group">
-                <label for="compPrivacy">Public Competition</label>
-                <select id="compPrivacy" class="form-control" ng-model="comp.public">
-                    <option value="1">Public</option>
-                    <option value="0">Private</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="compState">Competition State</label>
-                <select id="compState" class="form-control" ng-model="comp.state">
-                    <option>Upcoming</option>
-                    <option>In Progress</option>
-                    <option>Finished</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="compSubject">Competing in</label>
-                <input id="compSubject" class="form-control" type="text" placeholder="Subject of Competition" ng-model="comp.subject"/>
-            </div>
-            <div class="form-group">
-                <label for="compDescription">Competition Description</label>
-                <input id="compDescription" class="form-control" type="text" placeholder="Describe the Competition" ng-model="comp.description"/>
-            </div>
-            <div class="form-group">
-                <label for="compLocation">Competition Location</label>
-                <input id="compLocation" class="form-control" type="text" placeholder="Where is it?" ng-model="comp.location"/>
-            </div>
-            <div class="form-group">
-                <p>Stages</p>
-                <div ng-repeat="stage in stages">
-                    <a ui-sref="Stage({'stage':{{stage}},'stageId':{{stage.stageId}}})">{{stage.name}}</a>
-                </div>
-                <a class="btn btn-primary" ng-if="comp" ui-sref="createStage({'comp':{{comp}},'compId':{{comp.competitionId}}})">Add Stage</a>
-            </div>
-            <div class="form-group">
-                <p>Users</p>
-                <div ng-repeat="user in comp.participants">
-                    <a tooltip="Click to show/hide User Permissions" ng-click="isCollapsed = !isCollapsed">{{user.firstName}} {{user.lastName}}</a>
-                    <div collapse="!isCollapsed">
-                        <input type="checkbox" ng-checked="user.permissions.admin" ng-model="user.permissions.admin"/> Admin
-                        <input type="checkbox" ng-checked="user.permissions.competitor" ng-model="user.permissions.competitor"/> Competitor
-                        <input type="checkbox" ng-checked="user.permissions.judge" ng-model="user.permissions.judge"/> Judge
+            <div class="panel-body">
+                <form id="editCompForm" ng-submit="submit()">
+                    <p>* Indicates a required field.</p>
+                    <div class="form-group">
+                        <label for="compName">Competition Name *</label>
+                        <input id="compName" class="form-control" type="text" placeholder="Competition Name" ng-model="comp.name"/>
                     </div>
-                </div>
-                <input id="newUsername" type="text" typeahead="username for username in usernameList | filter:$viewValue | limitTo:8" placeholder="New Users Email" ng-model="newUsername"/>
-                <input id="newUserAdmin" type="checkbox" ng-model="newUserAdmin" /> Admin
-                <input id="newUserCompetitor" type="checkbox" ng-model="newUserCompetitor" /> Competitor
-                <input id="newUserJudge" type="checkbox" ng-model="newUserJudge" /> Judge
-                <a class="btn btn-primary" ng-click="addUser()">Add User</a>
+                    <div class="form-group">
+                        <label for="compPrivacy">Public Competition</label>
+                        <select id="compPrivacy" class="form-control" ng-model="comp.public">
+                            <option value="1">Public</option>
+                            <option value="0">Private</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="compState">Competition State</label>
+                        <select id="compState" class="form-control" ng-model="comp.state">
+                            <option>Upcoming</option>
+                            <option>In Progress</option>
+                            <option>Finished</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="compSubject">Competing in</label>
+                        <input id="compSubject" class="form-control" type="text" placeholder="Subject of Competition" ng-model="comp.subject"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="compDescription">Competition Description</label>
+                        <input id="compDescription" class="form-control" type="text" placeholder="Describe the Competition" ng-model="comp.description"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="compLocation">Competition Location</label>
+                        <input id="compLocation" class="form-control" type="text" placeholder="Where is it?" ng-model="comp.location"/>
+                    </div>
+                    <div class="form-group">
+                        <p>Stages</p>
+                        <div ng-repeat="stage in stages">
+                            <a ui-sref="Stage({'stage':{{stage}},'stageId':{{stage.stageId}}})">{{stage.name}}</a>
+                        </div>
+                        <a class="btn btn-primary" ng-if="comp" ui-sref="createStage({'comp':{{comp}},'compId':{{comp.competitionId}}})">Add Stage</a>
+                    </div>
+                    <div class="form-group">
+                        <p>Users</p>
+                        <div ng-repeat="user in comp.participants">
+                            <a tooltip="Click to show/hide User Permissions" ng-click="isCollapsed = !isCollapsed">{{user.firstName}} {{user.lastName}}</a>
+                            <div collapse="!isCollapsed">
+                                <input type="checkbox" ng-checked="user.permissions.admin" ng-model="user.permissions.admin"/> Admin
+                                <input type="checkbox" ng-checked="user.permissions.competitor" ng-model="user.permissions.competitor"/> Competitor
+                                <input type="checkbox" ng-checked="user.permissions.judge" ng-model="user.permissions.judge"/> Judge
+                            </div>
+                        </div>
+                        <input id="newUsername" type="text" typeahead="username for username in usernameList | filter:$viewValue | limitTo:8" placeholder="New Users Email" ng-model="newUsername"/>
+                        <input id="newUserAdmin" type="checkbox" ng-model="newUserAdmin" /> Admin
+                        <input id="newUserCompetitor" type="checkbox" ng-model="newUserCompetitor" /> Competitor
+                        <input id="newUserJudge" type="checkbox" ng-model="newUserJudge" /> Judge
+                        <a class="btn btn-primary" ng-click="addUser()">Add User</a>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary" type="submit">Save Competition</button>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <button class="btn btn-primary" type="submit">Save Competition</button>
-            </div>
-        </form>
+            </span>
     </div>
 </div>
