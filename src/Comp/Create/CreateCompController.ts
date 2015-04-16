@@ -16,7 +16,7 @@ module App.Comp.Create {
         newUserCompetitor: boolean;
         newUserJudge: boolean;
         usernameList: string[];
-        loading: boolean;
+        busy: boolean;
     }
 
     export class CreateCompController {
@@ -32,8 +32,8 @@ module App.Comp.Create {
             $scope.newUserAdmin=false;
             $scope.newUserCompetitor=false;
             $scope.newUserJudge=false;
-            $scope.loading=false;
             $scope.usernameList=[];
+            //Get all users for their username, then populate the list for typeahead functionality
             dataService.getAllUsers().then((data:RankIt.IUser[]) => {
                 for(var i=0;i<data.length;i++){
                     if(data[i].username){
@@ -45,9 +45,13 @@ module App.Comp.Create {
             });
         }
 
+        /**
+         * submit
+         * Submit the form and create the competition
+         */
         public submit = () => {
-            this.$scope.loading=true;
-            //Create the competition
+            this.$scope.busy=true;
+            //Create the competition using the filler
             if(this.$scope.numParticipants!=0){
                 this.compFiller.fill(this.$scope.comp,this.$scope.numParticipants,this.$scope.participantsPerEvent);
             }
@@ -55,11 +59,15 @@ module App.Comp.Create {
             this.dataService.createCompetition(this.$scope.comp).then((data: RankIt.ICompetition) => {
                 this.$state.go(Comp.state,{compId: data.competitionId,comp:data});
             }, () => {
-                this.$scope.loading=false;
+                this.$scope.busy=false;
                 // failure
             });
         }
 
+        /**
+         * addUser
+         * This function will add a user with selected permissions to a competition during creation.
+         */
         public addUser = () => {
             if(this.$scope.newUsername.length > 0){
                 if(this.newCompetitorCounter != this.$scope.numParticipants){

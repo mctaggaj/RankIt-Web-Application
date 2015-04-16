@@ -16,6 +16,7 @@ module App.Event.Edit {
         newUserCompetitor: boolean;
         newUserJudge: boolean;
         usernameList: string[];
+        busy:boolean;
     }
 
     export class EditEventController {
@@ -38,32 +39,50 @@ module App.Event.Edit {
                 this.populateUsernameList();
                 this.sanitizeBooleans();
             }else{
+                this.$scope.busy=true;
                 dataService.getEvent($stateParams['eventId']).then((data: RankIt.IEvent) => {
                     $scope.event = data;
                     this.populateUsernameList();
                     this.sanitizeBooleans();
+                    this.$scope.busy=false;
                 }, (failure: any) => {
 
                 });
             }
         }
 
+        /**
+         * Submit the form and save changes to the event.
+         */
         public submit = () => {
+            this.$scope.busy=true;
             this.dataService.editEvent(this.$scope.event.eventId,this.$scope.event).then((data: RankIt.IEvent) => {
                 this.$state.go(Event.state,{eventId: data.eventId,event:data});
+                this.$scope.busy=false;
             }, () => {
+                this.$scope.busy=false;
                 // failure
             });
         }
 
+        /**
+         * Submit request to delete the event
+         * @param eventId - id of event to be deleted
+         */
         public deleteEvent = (eventId) => {
+            this.$scope.busy=true;
             this.dataService.deleteEvent(eventId).then((data: RankIt.IResponse)=> {
                 this.$state.go(Stage.state,{stageId:this.$scope.event.stageId});
+                this.$scope.busy=false;
             }, () => {
+                this.$scope.busy=false;
                 //failure
             });
         }
 
+        /**
+         * Populates a list for typeahead functionality
+         */
         private populateUsernameList = () => {
             this.dataService.getStage(this.$scope.event.stageId).then((data:any)=>{
                 for(var i=0;i<data['participants'].length;i++){
@@ -74,7 +93,10 @@ module App.Event.Edit {
             });
         }
 
-        //Move to sanitize service of some kind
+        /**
+         * Sanitizes boolean values from the database
+         * Move to sanitize service of some kind
+         */
         private sanitizeBooleans = () => {
             for(var i=0;i<this.$scope.event.participants.length;i++){
                 if(this.$scope.event.participants[i]['permissions']){
@@ -85,6 +107,10 @@ module App.Event.Edit {
             }
         }
 
+        /**
+         * Checks to ensure the user isn't already in the event.
+         * @returns {boolean}
+         */
         private userAlreadyInEvent = () => {
             for(var i=0;i<this.$scope.event.participants.length;i++){
                 if(this.$scope.event['participants'][i].username==this.$scope.newUsername){
@@ -94,6 +120,9 @@ module App.Event.Edit {
             return false;
         }
 
+        /**
+         * Add requested user to the event
+         */
         public addUser = () => {
             if(!this.userAlreadyInEvent()){
                 if(this.$scope.newUsername.length > 0){
@@ -107,11 +136,13 @@ module App.Event.Edit {
                             'competitor':this.$scope.newUserCompetitor ? 1:0,
                             'judge':this.$scope.newUserJudge ? 1:0
                         };
+                        this.$scope.busy=true;
                         this.dataService.getUserByEmail(this.$scope.newUsername).then((data:RankIt.IUser) => {
                             data['permissions']=newUserPermissions;
                             this.$scope.event['participants'].push(data);
+                            this.$scope.busy=false;
                         }, () => {
-
+                            this.$scope.busy=false;
                         });
                         this.$scope.newUsername="";
                         this.$scope.newUserAdmin=false;

@@ -29,7 +29,6 @@ module App.Event {
                 this.populateUsers();
                 this.checkAdmin();
                 this.$scope.scores = this.baseHelper.tallyScores(this.$scope.event);
-
             }else{
                 dataService.getEvent($stateParams['eventId']).then((data: RankIt.IEvent) => {
                     $scope.event = data;
@@ -43,6 +42,9 @@ module App.Event {
 
         }
 
+        /**
+         * Checks if the user has admin privileges.
+         */
         private checkAdmin = () => {
             var userId = this.dataService.getAuthData().userId
             var userList = this.$scope.users;
@@ -53,6 +55,9 @@ module App.Event {
             }
         }
 
+        /**
+         * Displays users in the event with a string explaining their role(s)
+         */
         private populateUsers = () => {
             var userList=this.$scope.event.participants||[];
             if(userList.length>0){
@@ -94,8 +99,4 @@ module App.Event {
                 params:{'event':null}
             })
         }]);
-        /*.run([Nav.NavService.serviceId, function (navService: Nav.NavService) {
-            navService.addItem({state:CreateComp.state, name: "Create Competition", order: 0});
-
-        }]);*/
 }

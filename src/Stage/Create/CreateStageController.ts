@@ -15,6 +15,7 @@ module App.Stage.Create {
         newUserAdmin: boolean;
         newUserCompetitor: boolean;
         newUserJudge: boolean;
+        busy: boolean;
     }
 
     export class CreateStageController {
@@ -29,9 +30,11 @@ module App.Stage.Create {
                 $scope.comp = $stateParams['comp'];
                 this.populateUsernameList();
             }else{
+                this.$scope.busy=true;
                 dataService.getComp($stateParams['compId']).then((data:RankIt.ICompetition) => {
                     $scope.comp=data;
                     this.populateUsernameList();
+                    this.$scope.busy=false;
                 }, () => {
                     //failure
                 });
@@ -41,13 +44,18 @@ module App.Stage.Create {
 
         }
 
+        /**
+         * Typeahead builder
+         */
         private populateUsernameList = () => {
             for(var i=0;i<this.$scope.comp.participants.length;i++){
                 this.$scope.usernameList.push(this.$scope.comp.participants[i].username);
             }
-            console.log(this.$scope.usernameList);
         }
 
+        /**
+         * Add requested user to the stage
+         */
         public addUser = () => {
             if(this.$scope.newUsername.length > 0){
                 if(this.$scope.usernameList.indexOf(this.$scope.newUsername)!=-1) {
@@ -78,10 +86,16 @@ module App.Stage.Create {
             }
         }
 
+        /**
+         * Submit the form and create the stage
+         */
         public submit = () => {
+            this.$scope.busy=true;
             this.dataService.createStage(this.$scope.comp.competitionId,this.$scope.stage).then((data: RankIt.IStage) => {
                 this.$state.go(Stage.state,{'stageId':data.stageId,'stage':data});
+                this.$scope.busy=false;
             }, () => {
+                this.$scope.busy=false;
                 // failure
             });
         }

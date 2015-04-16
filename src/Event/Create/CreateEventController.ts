@@ -15,6 +15,7 @@ module App.Event.Create {
         newUserAdmin: boolean;
         newUserCompetitor: boolean;
         newUserJudge: boolean;
+        busy:boolean;
     }
 
     export class CreateEventController {
@@ -23,13 +24,16 @@ module App.Event.Create {
 
         public static $inject = ["$scope","$state","$stateParams",Data.DataService.serviceId];
         constructor (private $scope: ICreateEventControllerShell,private $state:ng.ui.IStateService,$stateParams:ng.ui.IStateParamsService, private dataService:Data.DataService) {
+            //If a stage was provided use this, otherwise fetch the stage by the stage id
             if($stateParams['stage']){
                 this.$scope.stage=$stateParams['stage'];
                 this.populateUsernameList();
             }else{
+                this.$scope.busy=true;
                 dataService.getStage($stateParams['stageId']).then((data:RankIt.IStage) => {
                     $scope.stage=data;
                     this.populateUsernameList();
+                    this.$scope.busy=false;
                 }, () => {
                     //failure
                 });
@@ -40,14 +44,22 @@ module App.Event.Create {
             $scope.addUser=this.addUser;
         }
 
+        /**
+         * Submit the form to create the event
+         */
         public submit = () => {
+            this.$scope.busy=true;
             this.dataService.createEvent(this.$scope.stage.stageId,this.$scope.event).then((data: RankIt.IEvent) => {
                 this.$state.go(Event.state,{eventId: data.eventId,comp:data});
+                this.$scope.busy=false;
             }, () => {
                 // failure
             });
         }
 
+        /**
+         * Populate a list of users for typeahead functionality
+         */
         private populateUsernameList = () => {
             for(var i=0;i<this.$scope.stage.participants.length;i++){
                 this.$scope.usernameList.push(this.$scope.stage.participants[i].username);
@@ -55,6 +67,9 @@ module App.Event.Create {
             console.log(this.$scope.usernameList);
         }
 
+        /**
+         * Add requested user to the event
+         */
         public addUser = () => {
         if(this.$scope.newUsername.length > 0){
             if(this.$scope.usernameList.indexOf(this.$scope.newUsername)!=-1) {

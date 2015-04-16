@@ -18,7 +18,7 @@ module App.Comp.Edit {
         newUserCompetitor: boolean;
         newUserJudge: boolean;
         usernameList: string[];
-        loading: boolean;
+        busy: boolean;
     }
 
     export class EditCompController {
@@ -36,8 +36,8 @@ module App.Comp.Edit {
             $scope.newUserAdmin=false;
             $scope.newUserCompetitor=false;
             $scope.newUserJudge=false;
-            $scope.loading=false;
             $scope.usernameList=[];
+            //Gets all users for usernames for typeahead functionality
             dataService.getAllUsers().then((data:RankIt.IUser[]) => {
                 for(var i=0;i<data.length;i++){
                     if(data[i].username){
@@ -47,42 +47,66 @@ module App.Comp.Edit {
             }, () => {
                 // failure
             });
+            //If a comp was passed to a page, use that data, otherwise fetch
             if($stateParams['comp']){
                 $scope.comp = $stateParams['comp'];
                 $scope.stages = $scope.comp.stages;
                 this.sanitizeBooleans();
             }else{
+                this.$scope.busy=true;
                 dataService.getComp($stateParams['compId']).then((data: RankIt.ICompetition) => {
                     $scope.comp=data;
                     $scope.stages=data.stages;
                     this.sanitizeBooleans();
+                    this.$scope.busy=false;
                 }, (failure: any) => {
 
                 });
             }
         }
 
+        /**
+         * submit
+         * Submit the form and save changes made to the competition
+         */
         public submit = () => {
+            this.$scope.busy=true;
             this.dataService.editCompetition(this.$scope.comp.competitionId,this.$scope.comp).then((data: RankIt.ICompetition) => {
                 this.$state.go(Comp.state,{compId: data.competitionId,comp:data});
+                this.$scope.busy=false;
             }, () => {
                 // failure
             });
         }
 
+        /**
+         * addStage
+         * Redirect to the Create Stage page.
+         * @param comp - competition to create the stage for
+         */
         public addStage = (comp) => {
             this.$state.go(Stage.Create.state,{comp:comp});
         }
 
+        /**
+         * deleteComp
+         * Make a request to delete the competition
+         * @param compId - id of competition to delete
+         */
         public deleteComp = (compId) => {
+            this.$scope.busy=true;
             this.dataService.deleteCompetition(compId).then((data: RankIt.IResponse)=> {
                 this.$state.go(Home.state);
+                this.$scope.busy=false;
             }, () => {
                 //failure
             });
         }
 
-        //Move to sanitize service of some kind
+        /**
+         * Sanitize boolean values from the database
+         * Move to sanitize service of some kind
+         */
         private sanitizeBooleans = () => {
             for(var i=0;i<this.$scope.comp.participants.length;i++){
                 if(this.$scope.comp.participants[i]['permissions']){
@@ -93,6 +117,10 @@ module App.Comp.Edit {
             }
         }
 
+        /**
+         * Check to see if the user is already in the competition
+         * @returns {boolean}
+         */
         private userAlreadyInComp = () => {
             for(var i=0;i<this.$scope.users.length;i++){
                 if(this.$scope.users[i].userObject.username==this.$scope.newUsername){
@@ -102,6 +130,9 @@ module App.Comp.Edit {
             return false;
         }
 
+        /**
+         * Add requested user to the competition
+         */
         public addUser = () => {
             if(!this.userAlreadyInComp()){
                 if(this.$scope.newUsername.length > 0){

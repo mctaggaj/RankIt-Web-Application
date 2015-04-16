@@ -39,7 +39,7 @@
                     <a class="btn btn-primary" ng-click="addUser()">Add User</a>
                 </div>
                 <div class="form-group">
-                    <button class="btn btn-primary" type="submit">Save Event</button>
+                    <button class="btn btn-primary" type="submit" ng-disabled="busy"><icon class="fa fa-spinner fa-spin" ng-show="busy"/>&nbsp;Save Event</button>
                     <a class="btn btn-danger" ng-click="deleteCollapse = !deleteCollapse">Delete Event</a>
                 </div>
                 <div class="form-group" collapse="!deleteCollapse">
