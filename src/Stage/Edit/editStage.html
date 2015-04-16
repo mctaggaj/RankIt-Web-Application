@@ -1,54 +1,68 @@
 <!--Andrew Welton-->
 <div class="row panel top-push">
-    <div class="col-xs-12">
-        <form id="editStageForm" ng-submit="submit()">
+    <div class="panel-group">
+        <span class="panel panel-default">
+        <div class="panel-heading">
             <h1>Edit Stage</h1>
-            <p>* Indicates a required field.</p>
-            <div class="form-group">
-                <label for="stageName">Stage Name *</label>
-                <input id="stageName" class="form-control" type="text" placeholder="Stage Name" ng-model="stage.name" value="{{stage.name}}"/>
-            </div>
-            <div class="form-group">
-                <label for="stageState">Stage State</label>
-                <select id="stageState" class="form-control" ng-model="stage.state" value="{{stage.state}}">
-                    <option ng-repeat="state in states">{{state}}</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="stageDescription">Stage Description</label>
-                <input id="stageDescription" class="form-control" type="text" placeholder="Describe the Stage" ng-model="stage.description" value="{{stage.description}}"/>
-            </div>
-            <div class="form-group">
-                <label for="stageLocation">Stage Location</label>
-                <input id="stageLocation" class="form-control" type="text" placeholder="Where is it?" ng-model="stage.location" value="{{stage.location}}"/>
-            </div>
-            <div class="form-group">
-                <p>Events</p>
-                <div ng-repeat="event in events">
-                    <a ui-sref="Event({'event':{{event}},'eventId':{{event.eventId}}})">{{event.name}}</a>
+        </div>
+        <div class="panel-body">
+            <form id="editStageForm" ng-submit="submit()">
+                <p>* Indicates a required field.</p>
+                <div class="form-group">
+                    <label for="stageName">Stage Name *</label>
+                    <input id="stageName" class="form-control" type="text" placeholder="Stage Name" ng-model="stage.name" value="{{stage.name}}"/>
                 </div>
-                <a class="btn btn-primary" ng-if="stage" ui-sref="createEvent({'stage':{{stage}},stageId:{{stage.stageId}}})">Add Event</a>
-            </div>
-            <div class="form-group">
-                <p>Users</p>
-                <div ng-repeat="user in stage.participants">
-                    <a tooltip="Click to show/hide User Permissions" ng-click="isCollapsed = !isCollapsed">{{user.firstName}} {{user.lastName}}</a>
-                    <div collapse="!isCollapsed">
-                        <input type="checkbox" ng-checked="user.permissions.admin" ng-model="user.permissions.admin"/> Admin
-                        <input type="checkbox" ng-checked="user.permissions.competitor" ng-model="user.permissions.competitor"/> Competitor
-                        <input type="checkbox" ng-checked="user.permissions.judge" ng-model="user.permissions.judge"/> Judge
+                <div class="form-group">
+                    <label for="stageState">Stage State</label>
+                    <select id="stageState" class="form-control" ng-model="stage.state" value="{{stage.state}}">
+                        <option ng-repeat="state in states">{{state}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="stageDescription">Stage Description</label>
+                    <input id="stageDescription" class="form-control" type="text" placeholder="Describe the Stage" ng-model="stage.description" value="{{stage.description}}"/>
+                </div>
+                <div class="form-group">
+                    <label for="stageLocation">Stage Location</label>
+                    <input id="stageLocation" class="form-control" type="text" placeholder="Where is it?" ng-model="stage.location" value="{{stage.location}}"/>
+                </div>
+                <div class="form-group">
+                    <p>Events</p>
+                    <div ng-repeat="event in events">
+                        <a ui-sref="Event({'event':{{event}},'eventId':{{event.eventId}}})">{{event.name}}</a>
                     </div>
+                    <a class="btn btn-primary" ng-if="stage" ui-sref="createEvent({'stage':{{stage}},stageId:{{stage.stageId}}})">Add Event</a>
                 </div>
-                <input id="newUsername" type="text" typeahead="username for username in usernameList | filter:$viewValue | limitTo:8" placeholder="New Users Email" ng-model="newUsername"/>
-                <input id="newUserAdmin" type="checkbox" ng-model="newUserAdmin" /> Admin
-                <input id="newUserCompetitor" type="checkbox" ng-model="newUserCompetitor" /> Competitor
-                <input id="newUserJudge" type="checkbox" ng-model="newUserJudge" /> Judge
-                <a class="btn btn-primary" ng-click="addUser()">Add User</a>
-            </div>
-            <div class="form-group">
-                <button class="btn btn-primary" type="submit" ng-disabled="busy"><icon class="fa fa-spinner fa-spin" ng-show="busy"/>&nbsp;Save Stage </button>
-                <button class="btn btn-primary" type="button" ng-disabled="busy" ng-click="start()"><icon class="fa fa-spinner fa-spin" ng-show="busy"/>&nbsp;Start Stage</button>
-            </div>
-        </form>
+                <div class="form-group">
+                    <p>Users</p>
+                    <div ng-repeat="user in stage.participants">
+                        <a tooltip="Click to show/hide User Permissions" ng-click="isCollapsed = !isCollapsed">{{user.firstName}} {{user.lastName}}</a>
+                        <div collapse="!isCollapsed">
+                            <input type="checkbox" ng-checked="user.permissions.admin" ng-model="user.permissions.admin"/> Admin
+                            <input type="checkbox" ng-checked="user.permissions.competitor" ng-model="user.permissions.competitor"/> Competitor
+                            <input type="checkbox" ng-checked="user.permissions.judge" ng-model="user.permissions.judge"/> Judge
+                        </div>
+                    </div>
+                    <input id="newUsername" type="text" typeahead="username for username in usernameList | filter:$viewValue | limitTo:8" placeholder="New Users Email" ng-model="newUsername"/>
+                    <input id="newUserAdmin" type="checkbox" ng-model="newUserAdmin" /> Admin
+                    <input id="newUserCompetitor" type="checkbox" ng-model="newUserCompetitor" /> Competitor
+                    <input id="newUserJudge" type="checkbox" ng-model="newUserJudge" /> Judge
+                    <a class="btn btn-primary" ng-click="addUser()">Add User</a>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary" type="submit" ng-disabled="busy"><icon class="fa fa-spinner fa-spin" ng-show="busy"/>&nbsp;Save Stage </button>
+                    <button class="btn btn-primary" type="button" ng-disabled="busy" ng-click="start()"><icon class="fa fa-spinner fa-spin" ng-show="busy"/>&nbsp;Start Stage</button>
+                </div>
+                <div class="form-group">
+                    <a class="btn btn-danger" ng-click="deleteCollapse = !deleteCollapse">Delete Stage</a>
+                </div>
+                <div class="form-group" collapse="!deleteCollapse">
+                    <alert class="danger">Deleting a stage will delete all associated events as well. This is irreversible.</alert>
+                    <a class="btn btn-danger" ng-click="deleteStage(stage.stageId)">Yes, delete the stage</a>
+                    <a class="btn btn-primary" ng-click="deleteCollapse = !deleteCollapse">No, don't delete</a>
+                </div>
+            </form>
+        </div>
+        </span>
     </div>
 </div>

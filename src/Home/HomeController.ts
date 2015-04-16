@@ -21,7 +21,7 @@ module App.Home {
 
         public static $inject = ["$scope",Data.DataService.serviceId];
         constructor (private $scope: IHomeControllerShell, dataService:Data.DataService) {
-            $scope.noResultsMessage="Loading Competitions";
+            $scope.noResultsMessage="Loading Competitions ..";
             $scope.competitions=[];
             $scope.subjects={};
             $scope.pageChanged=this.pageChanged;
@@ -72,6 +72,7 @@ module App.Home {
 
         }])
         //Filter out the unchecked boxes for subjects
+        //Filter based on search box entries as well
         .filter('homeFilter', function() {
             return function(input: RankIt.ICompetition[], query : {options: { [subject: string]: {name: string; checked: boolean}; }; queryString: string} ) {
                 var output: RankIt.ICompetition[] = []

@@ -1,39 +1,45 @@
 <!--Andrew Welton-->
 <div class="row panel top-push">
-    <div class="col-xs-12">
-        <form id="createCompForm" ng-submit="submit()">
+    <div class="panel-group">
+        <span class="panel panel-default">
+        <div class="panel-heading">
             <h1>Create a new Event</h1>
-            <p>* Indicates a required field.</p>
-            <div class="form-group">
-                <label for="eventName">Event Name *</label>
-                <input id="eventName" class="form-control" type="text" placeholder="Event Name" ng-model="event.name"/>
-            </div>
-            <div class="form-group">
-                <label for="compLocation">Event Location</label>
-                <input id="compLocation" class="form-control" type="text" placeholder="Where is it?" ng-model="event.location"/>
-            </div>
-            <div class="form-group">
-                <label for="eventState">Event State</label>
-                <select id="eventState" class="form-control" ng-model="event.state" ng-init="event.state='Upcoming'">
-                    <option>Upcoming</option>
-                    <option>In Progress</option>
-                    <option>Finished</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <p>Add Users to Event?</p>
-                <div ng-repeat="user in event.participants" ng-if="event.participants">
-                    <p>{{user.username}}</p>
+        </div>
+        <div class="panel-body">
+            <form id="createCompForm" ng-submit="submit()">
+                <p>* Indicates a required field.</p>
+                <div class="form-group">
+                    <label for="eventName">Event Name *</label>
+                    <input id="eventName" class="form-control" type="text" placeholder="Event Name" ng-model="event.name"/>
                 </div>
-                <input id="newUsername" typeahead="username for username in usernameList | filter:$viewValue | limitTo:8" type="text" placeholder="New Users Email" ng-model="newUsername"/>
-                <input id="newUserAdmin" type="checkbox" ng-model="newUserAdmin"/> Admin
-                <input id="newUserCompetitor" type="checkbox" ng-model="newUserCompetitor"/> Competitor
-                <input id="newUserJudge" type="checkbox" ng-model="newUserJudge"/> Judge
-                <a class="btn btn-primary" ng-click="addUser()">Add User</a>
-            </div>
-            <div class="form-group">
-                <button class="btn btn-primary" type="submit">Create Event</button>
-            </div>
-        </form>
+                <div class="form-group">
+                    <label for="compLocation">Event Location</label>
+                    <input id="compLocation" class="form-control" type="text" placeholder="Where is it?" ng-model="event.location"/>
+                </div>
+                <div class="form-group">
+                    <label for="eventState">Event State</label>
+                    <select id="eventState" class="form-control" ng-model="event.state" ng-init="event.state='Upcoming'">
+                        <option>Upcoming</option>
+                        <option>In Progress</option>
+                        <option>Finished</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <p>Add Users to Event?</p>
+                    <div ng-repeat="user in event.participants" ng-if="event.participants">
+                        <p>{{user.username}}</p>
+                    </div>
+                    <input id="newUsername" typeahead="username for username in usernameList | filter:$viewValue | limitTo:8" type="text" placeholder="New Users Email" ng-model="newUsername"/>
+                    <input id="newUserAdmin" type="checkbox" ng-model="newUserAdmin"/> Admin
+                    <input id="newUserCompetitor" type="checkbox" ng-model="newUserCompetitor"/> Competitor
+                    <input id="newUserJudge" type="checkbox" ng-model="newUserJudge"/> Judge
+                    <a class="btn btn-primary" ng-click="addUser()">Add User</a>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary" type="submit" ng-disabled="busy"><icon class="fa fa-spinner fa-spin" ng-show="busy"/>&nbsp;Create Event</button>
+                </div>
+            </form>
+        </div>
+        </span>
     </div>
 </div>

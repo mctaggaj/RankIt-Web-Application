@@ -38,6 +38,9 @@ module App.Comp {
             }
         }
 
+        /**
+         * Checks to see if a user has admin rights.
+         */
         private checkAdmin = () => {
             var userId = this.dataService.getAuthData().userId
             var userList = this.$scope.users;
@@ -48,6 +51,9 @@ module App.Comp {
             }
         }
 
+        /**
+         * Populates a user list for page use. Creates an info string about what role(s) the user has
+         */
         private populateUsers = () => {
             var userList=this.$scope.comp.participants||[];
             if(userList.length>0){

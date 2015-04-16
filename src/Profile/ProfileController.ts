@@ -143,7 +143,7 @@ module App.Profile {
                 this.$scope.msg.enabled = true;
                 this.$timeout(this.hideMessage, 2000);
             }, (response : RankIt.IResponse) => {
-                this.$scope.msg.html = 'Incorrect password specified, please try again <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>';
+                this.$scope.msg.html = 'Incorrect password specified, please try again <span class="fa fa-arrow-right" aria-hidden="true"></span>';
                 this.$scope.msg.type = "error";
                 this.$scope.msg.enabled = true;
             });

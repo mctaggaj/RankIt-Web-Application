@@ -9,6 +9,7 @@ module App.Stage.Edit {
         stage: any;
         submit: () => void;
         addUser: () => void;
+        deleteStage: (stageId) => void;
         events: any;
         states:string[];
         newUsername: string;
@@ -29,6 +30,7 @@ module App.Stage.Edit {
         constructor (private $scope: IEditStageControllerShell,private $state:ng.ui.IStateService, $stateParams:ng.ui.IStateParamsService, private dataService:Data.DataService, private baseHelper: Base.BaseHelperFactory) {
             $scope.submit = this.submit;
             $scope.addUser = this.addUser;
+            $scope.deleteStage = this.deleteStage;
             $scope.states=RankIt.state;
             $scope.newUsername="";
             $scope.newUserAdmin=false;
@@ -55,6 +57,9 @@ module App.Stage.Edit {
             }
         }
 
+        /**
+         * Typeahead builder
+         */
         private populateUsernameList = () => {
             this.dataService.getComp(this.$scope.stage.compId).then((data:any)=>{
                 for(var i=0;i<data['participants'].length;i++){
@@ -65,7 +70,10 @@ module App.Stage.Edit {
             });
         }
 
-        //Move to sanitize service of some kind
+        /**
+         * Sanitize booleans coming from the database
+         * Move to sanitize service of some kind
+         */
         private sanitizeBooleans = () => {
             for(var i=0;i<this.$scope.stage.participants.length;i++){
                 if(this.$scope.stage.participants[i]['permissions']){
@@ -76,6 +84,10 @@ module App.Stage.Edit {
             }
         }
 
+        /**
+         * Checks if user exists in the stage
+         * @returns {boolean}
+         */
         private userAlreadyInStage = () => {
             for(var i=0;i<this.$scope.stage.participants.length;i++){
                 if(this.$scope.stage.participants[i].username==this.$scope.newUsername){
@@ -85,6 +97,9 @@ module App.Stage.Edit {
             return false;
         }
 
+        /**
+         * Start seeding the stage
+         */
         private start = () => {
             this.$scope.busy = true;
             this.baseHelper.seedStage(this.$scope.stage).then(() => {
@@ -96,6 +111,9 @@ module App.Stage.Edit {
             });
         }
 
+        /**
+         * Add requested user to the stage
+         */
         public addUser = () => {
             if(!this.userAlreadyInStage()){
                 if(this.$scope.newUsername.length > 0){
@@ -130,6 +148,9 @@ module App.Stage.Edit {
             }
         }
 
+        /**
+         * Submit the form and save all changes to the stage
+         */
         public submit = () => {
             this.$scope.busy = true;
             this.dataService.editStage(this.$scope.stage.stageId,this.$scope.stage).then((data: RankIt.IStage) => {
@@ -138,6 +159,18 @@ module App.Stage.Edit {
             }, () => {
                 this.$scope.busy = false;
                 // failure
+            });
+        }
+
+        /**
+         * Delete the stage
+         * @param stageId - Id of stage to be deleted
+         */
+        public deleteStage = (stageId) => {
+            this.dataService.deleteStage(stageId).then((data: RankIt.IResponse)=> {
+                this.$state.go(Comp.state,{compId:this.$scope.stage.compId});
+            }, () => {
+                //failure
             });
         }
     }

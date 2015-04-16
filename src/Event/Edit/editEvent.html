@@ -1,42 +1,54 @@
 <!--Andrew Welton-->
 <div class="row panel top-push">
-    <div class="col-xs-12">
-        <form id="editCompForm" ng-submit="submit()">
+    <div class="panel-group">
+        <span class="panel panel-default">
+        <div class="panel-heading">
             <h1>Edit an Event</h1>
-            <p>* Indicates a required field.</p>
-            <div class="form-group">
-                <label for="eventName">Event Name *</label>
-                <input id="eventName" class="form-control" type="text" placeholder="Event Name" ng-model="event.name" value="{{event.name}}"/>
-            </div>
-            <div class="form-group">
-                <label for="eventState">Event State</label>
-                <select id="eventState" class="form-control" ng-model="event.state" value="{{event.state}}">
-                    <option ng-repeat="state in states">{{state}}</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="eventLocation">Event Location</label>
-                <input id="eventLocation" class="form-control" type="text" placeholder="Where is it?" ng-model="event.location" value="{{event.location}}"/>
-            </div>
-            <div class="form-group">
-                <p>Users</p>
-                <div ng-repeat="user in event.participants">
-                    <a tooltip="Click to show/hide User Permissions" ng-click="isCollapsed = !isCollapsed">{{user.firstName}} {{user.lastName}}</a>
-                    <div collapse="!isCollapsed">
-                        <input type="checkbox" ng-checked="user.permissions.admin" ng-model="user.permissions.admin"/> Admin
-                        <input type="checkbox" ng-checked="user.permissions.competitor" ng-model="user.permissions.competitor"/> Competitor
-                        <input type="checkbox" ng-checked="user.permissions.judge" ng-model="user.permissions.judge"/> Judge
-                    </div>
+        </div>
+        <div class="panel-body">
+            <form id="editCompForm" ng-submit="submit()">
+                <p>* Indicates a required field.</p>
+                <div class="form-group">
+                    <label for="eventName">Event Name *</label>
+                    <input id="eventName" class="form-control" type="text" placeholder="Event Name" ng-model="event.name" value="{{event.name}}"/>
                 </div>
-                <input id="newUsername" type="text" typeahead="username for username in usernameList | filter:$viewValue | limitTo:8" placeholder="New Users Email" ng-model="newUsername"/>
-                <input id="newUserAdmin" type="checkbox" ng-model="newUserAdmin" /> Admin
-                <input id="newUserCompetitor" type="checkbox" ng-model="newUserCompetitor" /> Competitor
-                <input id="newUserJudge" type="checkbox" ng-model="newUserJudge" /> Judge
-                <a class="btn btn-primary" ng-click="addUser()">Add User</a>
-            </div>
-            <div class="form-group">
-                <button class="btn btn-primary" type="submit">Save Event</button>
-            </div>
-        </form>
+                <div class="form-group">
+                    <label for="eventState">Event State</label>
+                    <select id="eventState" class="form-control" ng-model="event.state" value="{{event.state}}">
+                        <option ng-repeat="state in states">{{state}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="eventLocation">Event Location</label>
+                    <input id="eventLocation" class="form-control" type="text" placeholder="Where is it?" ng-model="event.location" value="{{event.location}}"/>
+                </div>
+                <div class="form-group">
+                    <p>Users</p>
+                    <div ng-repeat="user in event.participants">
+                        <a tooltip="Click to show/hide User Permissions" ng-click="isCollapsed = !isCollapsed">{{user.firstName}} {{user.lastName}}</a>
+                        <div collapse="!isCollapsed">
+                            <input type="checkbox" ng-checked="user.permissions.admin" ng-model="user.permissions.admin"/> Admin
+                            <input type="checkbox" ng-checked="user.permissions.competitor" ng-model="user.permissions.competitor"/> Competitor
+                            <input type="checkbox" ng-checked="user.permissions.judge" ng-model="user.permissions.judge"/> Judge
+                        </div>
+                    </div>
+                    <input id="newUsername" type="text" typeahead="username for username in usernameList | filter:$viewValue | limitTo:8" placeholder="New Users Email" ng-model="newUsername"/>
+                    <input id="newUserAdmin" type="checkbox" ng-model="newUserAdmin" /> Admin
+                    <input id="newUserCompetitor" type="checkbox" ng-model="newUserCompetitor" /> Competitor
+                    <input id="newUserJudge" type="checkbox" ng-model="newUserJudge" /> Judge
+                    <a class="btn btn-primary" ng-click="addUser()">Add User</a>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary" type="submit" ng-disabled="busy"><icon class="fa fa-spinner fa-spin" ng-show="busy"/>&nbsp;Save Event</button>
+                    <a class="btn btn-danger" ng-click="deleteCollapse = !deleteCollapse">Delete Event</a>
+                </div>
+                <div class="form-group" collapse="!deleteCollapse">
+                    <alert class="danger">Deleting an event is an irreversible operation. Are you sure you want to delete it?</alert>
+                    <a class="btn btn-danger" ng-click="deleteEvent(event.eventId)">Yes, delete the event</a>
+                    <a class="btn btn-primary" ng-click="deleteCollapse = !deleteCollapse">No, don't delete</a>
+                </div>
+            </form>
+        </div>
+        </span>
     </div>
 </div>
