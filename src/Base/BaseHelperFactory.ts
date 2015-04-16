@@ -106,7 +106,7 @@ module App.Base {
          * @param entity the comp, stage or event
          * @returns {boolean|boolean}
          */
-        public userCanEdit = (userId: RankIt.IId, entity: RankIt.IBase) => {
+        public userCanEdit = (userId: RankIt.IId, entity: RankIt.IBase): boolean => {
             return this.userHas(userId, entity, this.hasAdmin);
         }
 
@@ -116,7 +116,7 @@ module App.Base {
          * @param entity the comp, stage or event
          * @returns {boolean|boolean}
          */
-        public userIsCompetitor = (userId: RankIt.IId, entity: RankIt.IBase) => {
+        public userIsCompetitor = (userId: RankIt.IId, entity: RankIt.IBase): boolean => {
             return this.userHas(userId, entity, this.hasCompetitor);
         }
 
@@ -126,7 +126,7 @@ module App.Base {
          * @param entity the comp, stage or event
          * @returns {boolean|boolean}
          */
-        public userIsJudge = (userId: RankIt.IId, entity: RankIt.IBase) => {
+        public userIsJudge = (userId: RankIt.IId, entity: RankIt.IBase): boolean => {
             return this.userHas(userId, entity, this.hasJudge);
         }
 
@@ -135,7 +135,7 @@ module App.Base {
          * @param user the user object
          * @returns {string} the display name
          */
-        public getDisplayName = (user:RankIt.IUser) => {
+        public getDisplayName = (user:RankIt.IUser): string => {
             var displayName="";
             if (!user)
             {

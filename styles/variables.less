@@ -12,22 +12,24 @@
 @secondaryTextColor: #727272;
 @dividerColor:       #B6B6B6;
 
-@textPrimaryColor:   @white;
+@primaryTextColor:   @white;
 
 @btn-primary-bg: @accentColor;
-@btn-primary-color: @textPrimaryColor;
+@btn-primary-color: @primaryTextColor;
 
-@panel-bg:rgba(255,255,255,0.95);
+@panel-bg:fade(@white,95%);
 @panel-default-heading-bg:@primaryColor;
 @panel-shadow: 2px 2px 2px 1px #333;
-@panel-default-text: @textPrimaryColor;
-@panel-body-text: #000000;
+@panel-default-text: @primaryTextColor;
+@panel-body-text: @primaryTextColor;
 @panel-default-border: rgba(0,0,0,0);
+@panel-border-radius: 0px;
 
 @pagination-active-color:@white;
 @pagination-active-bg:@darkPrimaryColor;
 @pagination-bg:@primaryColor;
 @pagination-border:@lightPrimaryColor;
+@pagination-active-border: @primaryColor;
 @pagination-color:@white;
 @pagination-disabled-bg:@primaryColor;
 @pagination-disabled-color:@secondaryTextColor;
@@ -37,9 +39,9 @@
 @text-color: @secondaryTextColor;
 
 @navbar-default-bg: @darkPrimaryColor;
-@navbar-default-color: @textPrimaryColor;
-@navbar-default-link-color: @textPrimaryColor;
+@navbar-default-color: @primaryTextColor;
+@navbar-default-link-color: @primaryTextColor;
 @navbar-default-link-hover-color: @textPrimaryColorHover;
-@navbar-default-toggle-icon-bar-bg: @textPrimaryColor;
+@navbar-default-toggle-icon-bar-bg: @primaryTextColor;
 @navbar-default-toggle-hover-bg: @primaryColor;
 //@navbar-default

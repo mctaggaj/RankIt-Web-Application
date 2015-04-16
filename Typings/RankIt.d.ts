@@ -133,10 +133,27 @@ declare module RankIt {
         participants: IStageParticipant[];
     }
 
+    /**
+     * Score
+     * Is a score from a event
+     */
     export interface IScore {
+        /**
+         * The Id of the event the score belongs to
+         */
         eventId: IId;
+        /**
+         * The value of the score
+         */
         value:number;
+        /**
+         * The user that the score is for (must be competitor)
+         */
         userId:IId;
+        /**
+         * The type of the score
+         * only suports 0
+         */
         scoreType: number;
     }
 
